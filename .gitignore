@@ -1,0 +1,45 @@
+# Pycharm thing
+.idea
+
+# Build folders
+build/
+
+# Ignore all rust build directories
+debug/
+target/
+Cargo.lock
+**/*.rs.bk
+
+# Python compiled folders and files (.pyc .pyo .pyd)
+__pycache__/
+*.py[cod]
+
+
+# Project Euler for some reason
+/ProjectEulerProblems/Problem243/build/
+/ProjectEulerProblems/Problem243/dist/
+/ProjectEulerProblems/Problem243/nbproject/private/
+/ProjectEulerProblems/Problem103/build/
+/ProjectEulerProblems/Problem103/nbproject/private/
+/ProjectEulerProblems/Problem105/build/
+/ProjectEulerProblems/Problem105/nbproject/private/
+/ProjectEulerProblems/Problem106/build/
+/ProjectEulerProblems/Problem106/nbproject/private/
+/ProjectEulerProblems/Problem114/build/
+/ProjectEulerProblems/Problem114/dist/
+/ProjectEulerProblems/Problem114/nbproject/private/
+/ProjectEulerProblems/Problem115/build/
+/ProjectEulerProblems/Problem115/nbproject/private/
+/ProjectEulerProblems/Problem116/build/
+/ProjectEulerProblems/Problem116/nbproject/private/
+/ProjectEulerProblems/Problem117/build/
+/ProjectEulerProblems/Problem117/nbproject/private/
+/ProjectEulerProblems/Problem233/nbproject/private/
+/ProjectEulerProblems/Problem204/build/
+/ProjectEulerProblems/Problem204/dist/
+/ProjectEulerProblems/Problem204/nbproject/private/
+/ProjectEulerProblems/MathTools/nbproject/private/
+/ProjectEulerProblems/MathTools/dist/
+/ProjectEulerProblems/MathTools/build/
+/ProjectEulerProblems/Problem233/build/
+/ProjectEulerProblems/Problem233/dist/

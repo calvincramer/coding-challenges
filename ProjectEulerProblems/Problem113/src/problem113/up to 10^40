@@ -1,0 +1,230 @@
+run:
+not bouncy:	474
+increasing:	219
+decreasing:	282
+inc and dec:	27
+digits: 4	10^(3)
+
+not bouncy:	1674
+increasing:	714
+decreasing:	996
+inc and dec:	36
+digits: 5	10^(4)
+
+not bouncy:	4953
+increasing:	2001
+decreasing:	2997
+inc and dec:	45
+digits: 6	10^(5)
+
+not bouncy:	12951
+increasing:	5004
+decreasing:	8001
+inc and dec:	54
+digits: 7	10^(6)
+
+not bouncy:	30816
+increasing:	11439
+decreasing:	19440
+inc and dec:	63
+digits: 8	10^(7)
+
+not bouncy:	67986
+increasing:	24309
+decreasing:	43749
+inc and dec:	72
+digits: 9	10^(8)
+
+not bouncy:	140906
+increasing:	48619
+decreasing:	92368
+inc and dec:	81
+digits: 10	10^(9)
+
+not bouncy:	277032
+increasing:	92377
+decreasing:	184745
+inc and dec:	90
+digits: 11	10^(10)
+
+not bouncy:	520564
+increasing:	167959
+decreasing:	352704
+inc and dec:	99
+digits: 12	10^(11)
+
+not bouncy:	940454
+increasing:	293929
+decreasing:	646633
+inc and dec:	108
+digits: 13	10^(12)
+
+not bouncy:	1641354
+increasing:	497419
+decreasing:	1144052
+inc and dec:	117
+digits: 14	10^(13)
+
+not bouncy:	2778304
+increasing:	817189
+decreasing:	1961241
+inc and dec:	126
+digits: 15	10^(14)
+
+not bouncy:	4576112
+increasing:	1307503
+decreasing:	3268744
+inc and dec:	135
+digits: 16	10^(15)
+
+not bouncy:	7354548
+increasing:	2042974
+decreasing:	5311718
+inc and dec:	144
+digits: 17	10^(16)
+
+not bouncy:	11560663
+increasing:	3124549
+decreasing:	8436267
+inc and dec:	153
+digits: 18	10^(17)
+
+not bouncy:	17809753
+increasing:	4686824
+decreasing:	13123091
+inc and dec:	162
+digits: 19	10^(18)
+
+not bouncy:	26936718
+increasing:	6906899
+decreasing:	20029990
+inc and dec:	171
+digits: 20	10^(19)
+
+not bouncy:	40059818
+increasing:	10015004
+decreasing:	30044994
+inc and dec:	180
+digits: 21	10^(20)
+
+not bouncy:	58659103
+increasing:	14307149
+decreasing:	44352143
+inc and dec:	189
+digits: 22	10^(21)
+
+not bouncy:	84672093
+increasing:	20160074
+decreasing:	64512217
+inc and dec:	198
+digits: 23	10^(22)
+
+not bouncy:	120609608
+increasing:	28048799
+decreasing:	92561016
+inc and dec:	207
+digits: 24	10^(23)
+
+not bouncy:	169694998
+increasing:	38567099
+decreasing:	131128115
+inc and dec:	216
+digits: 25	10^(24)
+
+not bouncy:	236030400
+increasing:	52451255
+decreasing:	183579370
+inc and dec:	225
+digits: 26	10^(25)
+
+not bouncy:	324794054
+increasing:	70607459
+decreasing:	254186829
+inc and dec:	234
+digits: 27	10^(26)
+
+not bouncy:	442473144
+increasing:	94143279
+decreasing:	348330108
+inc and dec:	243
+digits: 28	10^(27)
+
+not bouncy:	597137094
+increasing:	124403619
+decreasing:	472733727
+inc and dec:	252
+digits: 29	10^(28)
+
+not bouncy:	798756744
+increasing:	163011639
+decreasing:	635745366
+inc and dec:	261
+digits: 30	10^(29)
+
+not bouncy:	1059575358
+increasing:	211915131
+decreasing:	847660497
+inc and dec:	270
+digits: 31	10^(30)
+
+not bouncy:	1394537976
+increasing:	273438879
+decreasing:	1121099376
+inc and dec:	279
+digits: 32	10^(31)
+
+not bouncy:	1821786216
+increasing:	350343564
+decreasing:	1471442940
+inc and dec:	288
+digits: 33	10^(32)
+
+not bouncy:	2363226261
+increasing:	445891809
+decreasing:	1917334749
+inc and dec:	297
+digits: 34	10^(33)
+
+not bouncy:	3045178431
+increasing:	563921994
+decreasing:	2481256743
+inc and dec:	306
+digits: 35	10^(34)
+
+not bouncy:	3899117442
+increasing:	708930507
+decreasing:	3190187250
+inc and dec:	315
+digits: 36	10^(35)
+
+not bouncy:	4962513194
+increasing:	886163134
+decreasing:	4076350384
+inc and dec:	324
+digits: 37	10^(36)
+
+not bouncy:	6279782709
+increasing:	1101716329
+decreasing:	5178066713
+inc and dec:	333
+digits: 38	10^(37)
+
+not bouncy:	7903364659
+increasing:	1362649144
+decreasing:	6540715857
+inc and dec:	342
+digits: 39	10^(38)
+
+not bouncy:	9894928784
+increasing:	1677106639
+decreasing:	8217822496
+inc and dec:	351
+digits: 40	10^(39)
+
+not bouncy:	12326733402
+increasing:	2054455633
+decreasing:	10272278129
+inc and dec:	360
+digits: 41	10^(40)
+
+BUILD STOPPED (total time: 9 minutes 45 seconds)
