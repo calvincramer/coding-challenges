@@ -1,0 +1,15 @@
+# Pycharm thing
+.idea
+
+# Build folders
+build/
+
+# Ignore all rust build directories
+debug/
+target/
+Cargo.lock
+**/*.rs.bk
+
+# Python compiled folders and files (.pyc .pyo .pyd)
+__pycache__/
+*.py[cod]
