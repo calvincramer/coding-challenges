@@ -5,6 +5,9 @@ from termcolor import colored
 
 
 class UTest:
+    """
+    Small unit test class for each problem to run a few test cases. Not a replacement for unittest package.
+    """
     def __init__(self):
         self.test_num = 0
 
@@ -46,7 +49,7 @@ def main():
     # Run a specific problem
     start = time.time()
     # Run problem by importing it
-    import p0022.python.p022
+    import problems.p0861.python.p0681
     elapsed = datetime.timedelta(seconds=time.time() - start)
     print('Elapsed: {}'.format(elapsed))
 
