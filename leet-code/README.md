@@ -7,17 +7,17 @@
 ########################################################  
 
 
-Number of problems completed (in at least one language): `257`
+Number of problems completed (in at least one language): `258`
 
 Total problems available: `1719`
 
-Percent complete: `14.95%`
+Percent complete: `15.01%`
 
 
 | Language | Total LoC |
 |   ---:   |  :---     |
 | Rust | `25` |
-| Python | `8074` |
+| Python | `8102` |
 | Java | `960` |
 
 
@@ -124,7 +124,7 @@ Percent complete: `14.95%`
  | 160 |  - | `43` |  - | 
  | 162 | NULL | `17` |  - | 
  | 165 |  - | `18` |  - | 
- | 167 |  - | *IN PROGRESS* |  - | 
+ | 167 |  - | `45` |  - | 
  | 168 |  - | *IN PROGRESS* |  - | 
  | 169 |  - | `19` |  - | 
  | 171 | NULL |  - |  - | 
@@ -341,4 +341,4 @@ Percent complete: `14.95%`
 
 A NULL value means the source code was lost, but the problem is still complete on leet code
 
-Generated on: 2021-01-09 15:13:10.198802
+Generated on: 2021-01-10 11:08:30.560407
