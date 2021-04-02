@@ -1,39 +1,28 @@
-# Table of Contents:
-
-* General
-* Structs
-* Vectors
-* Hashmap
-* Printing
-* Numbers
-* Strings
-* Matching
-* Todo
-
-
 # Rust Cheatsheet
 
 ## General
-
 ```rust
 //Type aliases
 type NewTypeName = OldAndLongTypeNameThatIsTooLongToTypeBecauseProgrammersWantToTypeAsLittleAsPossible;
 
 // Implement copy trait
 #[derive(Copy, Clone)]
-struct or enum 
+struct or enum
 
 // use statements for clean code
 //		Can use inside of function do don't need to type out the whole name of a struct or an enum
 //		use Enum;
 //		let x = A;		// Where Enum::A exists
+```
+
+## Control Flow
+```rust
+while <condition> { ... }
 
 
 ```
 
-
 ## Structs
-
 ```rust
 struct Name {
 	...
@@ -47,8 +36,7 @@ impl Name {
 Name::function1();
 ```
 
-## Enums 
-
+## Enums
 ```rust
 enum A {
 	A, B, C
@@ -60,7 +48,6 @@ enum B {
 ```
 
 ## Vectors
-
 ```rust
 use std::vec::Vec;
 
@@ -81,7 +68,6 @@ for (i, n) in x.iter().enumerate() {
 ```
 
 ## Hashmap
-
 ```rust
 use std::collections::HashMap;
 
@@ -101,7 +87,6 @@ table.insert(key, value);
 
 
 ## Printing
-
 ```rust
 println!("string");
 println!("var = {}", var);
@@ -109,20 +94,18 @@ println!("vec = {:?}", vec);
 ```
 
 ## Numbers
-
 ```rust
 let x = 1;
 x.to_string()
 // Literal numbers:
 let x = 1; 		// x is i32 by default
-let x = 1u8;	// place type at end of number literal 
+let x = 1u8;	// place type at end of number literal
 
 ```
 
 ## Strings
-
 ```rust
-// String is a growable, heap-allocated string, UTF-8 chars 
+// String is a growable, heap-allocated string, UTF-8 chars
 let s: String = "asdf"
 s.chars()		// To character array
 let s2: String = s.chars().rev().collect()	// Reverse string into another string
@@ -143,7 +126,6 @@ let otherString: String = string[0..5].to_string();
 ```
 
 ## Matching
-
 ```rust
 let x = 5;
 match x {
@@ -156,6 +138,6 @@ match x {
 
 # Todo:
 
-* match guards 
+* match guards
 * pub, no pub functions, other options?
 * ? operator
