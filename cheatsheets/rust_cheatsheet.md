@@ -15,11 +15,24 @@ struct or enum
 //		let x = A;		// Where Enum::A exists
 ```
 
+## Types
+```sh
+# Integer
+u8 u16 u32 u64 u128
+
+i8 i16 i32 i64 i128
+
+# Boolean
+false true
+
+```
+
 ## Control Flow
 ```rust
 while <condition> { ... }
 
-
+for i in 0..1000 { ... }
+for i in (0..1000).step_by(2) { ... }
 ```
 
 ## Structs
@@ -100,7 +113,6 @@ x.to_string()
 // Literal numbers:
 let x = 1; 		// x is i32 by default
 let x = 1u8;	// place type at end of number literal
-
 ```
 
 ## Strings
