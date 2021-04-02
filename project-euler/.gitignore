@@ -3,3 +3,9 @@ build.xml
 dist/
 manifest.mf
 nbproject
+out/
+*.iml
+Cargo.lock
+target/
+.idea
+
