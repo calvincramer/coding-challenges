@@ -31,8 +31,14 @@ false true
 ```rust
 while <condition> { ... }
 
+// Inclusive - exclusive range
 for i in 0..1000 { ... }
+// With step
 for i in (0..1000).step_by(2) { ... }
+// Inclusive - inclusive range
+for i in 0..=1000 { ... }
+// Specify  type of number (i32 by default)
+for i in 0u64..=1000u64 { ... }
 ```
 
 ## Structs
@@ -147,6 +153,21 @@ match x {
 }
 // ref and ref mut cases
 ```
+
+## Using crates
+```rust
+// usingarchive.rs
+extern crate myothercrate;
+use myothercrate::somepublicfunction;
+
+// usingarchive Cargo.toml
+[dependencies]
+myothercrate = { path = "../relative/path/to/myothercrate" }
+
+// myothercrate.rs
+pub fn somepublicfunction(...) -> ... { ... }
+```
+
 
 # Todo:
 
