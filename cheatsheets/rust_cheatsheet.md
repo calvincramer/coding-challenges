@@ -38,7 +38,10 @@ for i in (0..1000).step_by(2) { ... }
 // Inclusive - inclusive range
 for i in 0..=1000 { ... }
 // Specify  type of number (i32 by default)
-for i in 0u64..=1000u64 { ... }
+for i in 0u64..=1000u64 { ... }\
+
+// Infinite loop
+loop { ... }
 ```
 
 ## Structs
