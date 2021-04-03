@@ -171,6 +171,16 @@ myothercrate = { path = "../relative/path/to/myothercrate" }
 pub fn somepublicfunction(...) -> ... { ... }
 ```
 
+## Functional stuff
+```rust
+// Sum of 1 to 100, squared
+let x : i64 = (1..=100).sum::<i64>().pow(2);
+// Sum of squares, 1 to 100
+let x : i64 = (1..=100).map(|x:i64| x.pow(2)).sum();
+```
+
+
+
 
 # Todo:
 
