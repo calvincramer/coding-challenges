@@ -190,6 +190,12 @@ myothercrate = { path = "../relative/path/to/myothercrate" }
 pub fn somepublicfunction(...) -> ... { ... }
 ```
 
+## Useful crates
+* integer-sqrt
+* num-bigint
+* num-traits
+
+
 ## Closures
 ```rust
 // Closures are like anonymous functions, and can capture variables from outside scope
