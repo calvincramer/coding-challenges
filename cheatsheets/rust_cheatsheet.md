@@ -126,19 +126,27 @@ let x = 1u8;	// place type at end of number literal
 
 ## Strings
 ```rust
-// String is a growable, heap-allocated string, UTF-8 chars
-let s: String = "asdf"
+// <String> is a growable, heap-allocated string, UTF-8 chars
+let s: String = "asdf";
 s.chars()		// To character array
 let s2: String = s.chars().rev().collect()	// Reverse string into another string
 s.len()			// Length
 s.chars()		// Returns Chars iterator
-// str is an immutable fixed-length string somewhere in memory
 
-// Chars type has many useful features for ascii characters
+// <str> is an immutable fixed-length string somewhere in memory
+let s : &'static str = "asdf";
+
+// <Chars> type has many useful features for ascii characters
+// Chars contains UNICODE characters, and are 4 bytes each.
 chs = s.char()
 s.rev()
 s.collect()
 s.eq(other)
+
+// 1 byte ascii characters:
+let chars : &[u8] = "asdf".as_bytes();
+println!("{}", std::str::from_utf8(s).unwrap());	// u8 -> String for printing
+
 
 // Substrings - use slices
 let slice = &str[0..5];
@@ -188,6 +196,12 @@ cargo build		# Just build, no run
 cargo run		# Build (if not built) and run (will no rebuild it already built)
 cargo clean		# Delete build artifacts
 
+```
+
+## Casting
+```rust
+// Number types
+let x : u64 = u8var as u64;
 ```
 
 
