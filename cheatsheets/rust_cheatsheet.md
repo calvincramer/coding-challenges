@@ -122,6 +122,9 @@ x.to_string()
 // Literal numbers:
 let x = 1; 		// x is i32 by default
 let x = 1u8;	// place type at end of number literal
+
+// Big numbers easier to read:
+let x : u64 = 123_452_624;
 ```
 
 ## Strings
