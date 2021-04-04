@@ -152,6 +152,10 @@ println!("{}", std::str::from_utf8(s).unwrap());	// u8 -> String for printing
 let slice = &str[0..5];
 let otherString: String = string[0..5].to_string();
 
+// Multiline strings:
+let s : &'static str = "asdf1\
+                        asdf2\
+                        asdf3";	// Equivalent to "asdf1asdf2asdf3"
 ```
 
 ## Matching
