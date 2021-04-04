@@ -3,9 +3,9 @@ package problem011;
 public class Problem011 {
 
    public static void main(String[] args) {
-        
+
         long start = System.currentTimeMillis();
-        
+
         int[][] grid = new int[][] {
             { 8, 02, 22, 97, 38, 15, 00, 40, 00, 75, 04, 05, 07, 78, 52, 12, 50, 77, 91,  8},
             {49, 49, 99, 40, 17, 81, 18, 57, 60, 87, 17, 40, 98, 43, 69, 48, 04, 56, 62, 00},
@@ -41,16 +41,15 @@ public class Problem011 {
         Direction dir = Direction.HORIZONTAL;
         int gpx = 0;
         int gpy = 0;
-        
+
         //check vertically
-        
         for (int col = 0; col < grid[0].length; col++) {
             for (int row = 0; row < grid.length - 3; row++) {
                 int n0 = grid[row][col];
                 int n1 = grid[row+1][col];
                 int n2 = grid[row+2][col];
                 int n3 = grid[row+3][col];
-                
+
                 long temp = n0*n1*n2*n3;
                 if (temp > greatestProduct) {
                     greatestProduct = temp;
@@ -58,12 +57,12 @@ public class Problem011 {
                     gpx = col;
                     gpy = row;
                 }
-                
+
                 //System.out.println(n0 + " " + n1 + " " + n2 + " " + n3);
             }
             //System.out.println();
-        }     
-        
+        }
+
         //check horizontally
         for (int row = 0; row < grid.length; row++) {
             for (int col = 0; col < grid[0].length - 3; col++) {
@@ -71,7 +70,7 @@ public class Problem011 {
                 int n1 = grid[row][col+1];
                 int n2 = grid[row][col+2];
                 int n3 = grid[row][col+3];
-                
+
                 long temp = n0*n1*n2*n3;
                 if (temp > greatestProduct) {
                     greatestProduct = temp;
@@ -81,8 +80,8 @@ public class Problem011 {
                 }
             }
         }
-        
-                
+
+
         //check diagonally down
         //does not get bottom left or top right corners!
         for (int col = 0; col < grid[0].length - 3; col++) {
@@ -91,7 +90,7 @@ public class Problem011 {
                 int n1 = grid[row+1][col+1];
                 int n2 = grid[row+2][col+2];
                 int n3 = grid[row+3][col+3];
-                
+
                 long temp = n0*n1*n2*n3;
                 if (temp > greatestProduct) {
                     greatestProduct = temp;
@@ -101,7 +100,7 @@ public class Problem011 {
                 }
             }
         }
-        
+
         //check diagonally up
         for (int col = 0; col < grid[0].length - 3; col++) {
             for (int row = 3; row < grid.length; row++) {
@@ -109,7 +108,7 @@ public class Problem011 {
                 int n1 = grid[row-1][col+1];
                 int n2 = grid[row-2][col+2];
                 int n3 = grid[row-3][col+3];
-                
+
                 long temp = n0*n1*n2*n3;
                 if (temp > greatestProduct) {
                     greatestProduct = temp;
@@ -119,17 +118,17 @@ public class Problem011 {
                 }
             }
         }
-        
-        
+
+
         System.out.println("Greatest prod: " + greatestProduct);
         System.out.println("Direction: " + dir + " at y=" + gpy + " , x=" + gpx);
-        
+
         long end = System.currentTimeMillis();
         System.out.println("Took: " + (end - start) + "ms");
     }
     //Greatest prod: 70600674
     //Direction: DIAGONAL_UP at y=15 , x=3   (87,97,94,89)
-    
+
     private enum Direction {
         HORIZONTAL, VERTICAL, DIAGONAL_UP, DIAGONAL_DOWN
     }

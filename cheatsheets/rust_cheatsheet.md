@@ -186,6 +186,18 @@ myothercrate = { path = "../relative/path/to/myothercrate" }
 pub fn somepublicfunction(...) -> ... { ... }
 ```
 
+## Closures
+```rust
+// Closures are like anonymous functions, and can capture variables from outside scope
+// Normal function can NEVER access outside scope
+let mut max : u32  = 0;
+let mut work = |n1, n2, n3, n4| {
+    max = std::cmp::max(max, n1 * n2 * n3 * n4)
+};
+work(1,2,3,4);
+work(2,3,4,5);
+```
+
 ## Functional stuff
 ```rust
 // Sum of 1 to 100, squared
