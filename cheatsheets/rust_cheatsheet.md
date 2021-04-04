@@ -87,6 +87,10 @@ for (i, n) in x.iter().enumerate() {
 	...
 }
 
+// Concatenate
+// .append() TODO
+// .concat() TODO
+[vec1, vec2].concat();	// Produces a new vector? Consumes both?
 ```
 
 ## Hashmap
