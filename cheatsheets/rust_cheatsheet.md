@@ -208,6 +208,12 @@ let mut work = |n1, n2, n3, n4| {
 };
 work(1,2,3,4);
 work(2,3,4,5);
+
+// Capturing things as references:
+"asdf".to_string().as_bytes().iter().map(|c| c - 0x30);	// c is a &u8
+"asdf".to_string().as_bytes().iter().map(|&c| c - 0x30);	// c is a u8
+// This allows us to take the sum:
+"asdf".to_string().as_bytes().iter().map(|&c| (c as u64) - 0x30).sum::<u64>();
 ```
 
 ## Functional stuff
