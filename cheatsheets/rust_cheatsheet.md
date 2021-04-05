@@ -174,6 +174,8 @@ match x {
 	_ => println!("x is not one two or three"),
 }
 // ref and ref mut cases
+
+
 ```
 
 ## Using crates
@@ -214,6 +216,11 @@ work(2,3,4,5);
 let x : i64 = (1..=100).sum::<i64>().pow(2);
 // Sum of squares, 1 to 100
 let x : i64 = (1..=100).map(|x:i64| x.pow(2)).sum();
+
+// Collectors:
+max()
+max_by()
+max_by_key()
 ```
 
 ## Cargo

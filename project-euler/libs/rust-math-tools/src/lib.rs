@@ -74,6 +74,20 @@ pub fn num_divisors(num: u64) -> u64 {
     total
 }
 
+/// Collatz sequence: if n is even divide number by 2, else if odd multiply by 3 and add 1, repeat until reach 1.
+pub fn collatz_steps(mut num: u64) -> u64 {
+    let mut steps = 1;
+    while num != 1 {
+        steps += 1;
+        num = match num {
+            n if num % 2 == 0 => n / 2,
+            _ => (num * 3) + 1,
+        };
+    }
+    steps
+}
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -161,4 +175,12 @@ mod tests {
         assert_eq!(num_divisors(16), 5);
         assert_eq!(num_divisors(28), 6);
     }
+
+    #[test]
+    fn test_collatz_steps() {
+        assert_eq!(collatz_steps(1), 1);
+        assert_eq!(collatz_steps(13), 10);
+        assert_eq!(collatz_steps(837799), 525);
+    }
+
 }
