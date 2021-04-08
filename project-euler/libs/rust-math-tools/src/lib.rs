@@ -88,6 +88,7 @@ pub fn collatz_steps(mut num: u64) -> u64 {
 }
 
 /// Number to english string representation
+/// I know it looks ugly. Still getting used to strings in Rust.
 pub fn num_to_string(num: i64) -> String {
     if num == 0 {
         return "zero".to_string();
@@ -106,9 +107,17 @@ pub fn num_to_string(num: i64) -> String {
         }
 
         let rest = match digit_10 {
-            0 => table[digit_10 as usize].to_string(),
-            1 => table_special[digit_10 as usize].to_string(),
-            2..=9 => table_tens[digit_10 as usize].to_string() + &"-".to_string() + &table[digit_1 as usize].to_string(),
+            // If tens digit is 0, just do less than 10 numbers:
+            0 => table[digit_1 as usize].to_string(),
+            // Special English words for eleven, twelve...:
+            1 => table_special[digit_1 as usize].to_string(),
+            2..=9 => {
+                if digit_1 != 0 {
+                    table_tens[digit_10 as usize].to_string() + &"-".to_string() + &table[digit_1 as usize].to_string()
+                } else {
+                    table_tens[digit_10 as usize].to_string() + &table[digit_1 as usize].to_string()
+                }
+            },
             _ => panic!("bad"),
         };
         hundreds + &rest
@@ -238,6 +247,10 @@ mod tests {
     #[test]
     fn test_num_to_string() {
         assert_eq!(num_to_string(0), "zero");
+        assert_eq!(num_to_string(5), "five");
+        assert_eq!(num_to_string(14), "fourteen");
+        assert_eq!(num_to_string(-14), "negative fourteen");
+        assert_eq!(num_to_string(30), "thirty");
         assert_eq!(num_to_string(-511), "negative five hundred and eleven");
         assert_eq!(num_to_string(123456), "one hundred and twenty-three thousand four hundred and fifty-six");
     }
