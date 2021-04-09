@@ -1,6 +1,21 @@
 extern crate integer_sqrt;
 use integer_sqrt::IntegerSquareRoot;
 
+extern crate num_bigint;
+use num_bigint::BigUint;
+
+extern crate num_traits;
+use num_traits::One;
+
+/// Factorial
+pub fn factorial(num: u64) -> BigUint {
+    let mut result = BigUint::one();
+    for mult in 2..=num {
+        result = result * mult;
+    }
+    result
+}
+
 /// Is prime?
 pub fn is_prime(num: u64) -> bool {
     if num < 2 {
@@ -253,5 +268,14 @@ mod tests {
         assert_eq!(num_to_string(30), "thirty");
         assert_eq!(num_to_string(-511), "negative five hundred and eleven");
         assert_eq!(num_to_string(123456), "one hundred and twenty-three thousand four hundred and fifty-six");
+    }
+
+    #[test]
+    fn test_factorial() {
+        assert_eq!(factorial(0), BigUint::one());
+        assert_eq!(factorial(1), BigUint::one());
+        assert_eq!(factorial(2), BigUint::parse_bytes(b"2", 10).unwrap());
+        assert_eq!(factorial(6), BigUint::parse_bytes(b"720", 10).unwrap());
+        assert_eq!(factorial(20), BigUint::parse_bytes(b"2432902008176640000", 10).unwrap());
     }
 }

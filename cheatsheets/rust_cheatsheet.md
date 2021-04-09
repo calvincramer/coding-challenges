@@ -5,10 +5,6 @@
 //Type aliases
 type NewTypeName = OldAndLongTypeNameThatIsTooLongToTypeBecauseProgrammersWantToTypeAsLittleAsPossible;
 
-// Implement copy trait
-#[derive(Copy, Clone)]
-struct or enum
-
 // use statements for clean code
 //		Can use inside of function do don't need to type out the whole name of a struct or an enum
 //		use Enum;
@@ -47,11 +43,13 @@ loop { ... }
 ## Structs
 ```rust
 struct Name {
+	num_arms: u32,
+	num_toes: u32,
 	...
 }
 impl Name {
-	function1() ...
-	function2() ...
+	pub fn function1(...) { ... }
+	fn function2(&mut self, ...) { ... }
 	...
 }
 // Call function:
@@ -256,6 +254,17 @@ fn f(...) -> (u64, i64) {
 let (a, b) = f(...);
 ```
 
+## Derive
+```rust
+// Implement copy trait
+#[derive(Copy, Clone)]
+
+// Implement {:?} printing
+#[derive(Debug)]
+
+// Implement comparison of enums with == (else you are forced to use a match statement)
+#[derive(PartialEq, Eq)]
+```
 
 
 # Todo:
