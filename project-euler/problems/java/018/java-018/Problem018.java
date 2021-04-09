@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class Problem018 {
 
     /*
-    
+
     By starting at the top of the triangle below and moving to adjacent numbers on the row below, the maximum total from top to bottom is 23.
         3
        7 4
@@ -30,7 +30,7 @@ public class Problem018 {
   63 66 04 68 89 53 67 30 73 16 69 87 40 31
 04 62 98 27 23 09 70 98 73 93 38 53 60 04 23
     */
-    
+
     public static ArrayList<ArrayList<Integer>> triangle;
     public static int greatestPath = 0;
     public static ArrayList<Integer> gPath;
@@ -55,10 +55,10 @@ public class Problem018 {
         triangle.add(new ArrayList<Integer>(Arrays.asList(91,71,52,38,17,14,91,43,58,50,27,29,48)));
         triangle.add(new ArrayList<Integer>(Arrays.asList(63,66,04,68,89,53,67,30,73,16,69,87,40,31)));
         triangle.add(new ArrayList<Integer>(Arrays.asList(04,62,98,27,23, 9,70,98,73,93,38,53,60,04,23)));
-        
+
         gPath = new ArrayList<>();
         cPath = new ArrayList<>();
-        
+
         for (int row = 0; row < triangle.size(); row++) {
             for (int col = 0; col < triangle.get(row).size(); col++) {
                 System.out.printf("%2d", triangle.get(row).get(col));
@@ -72,22 +72,22 @@ public class Problem018 {
         System.out.println("Greatest path: " + greatestPath);
         for (int i = 0; i < gPath.size(); i++)
             System.out.print(gPath.get(i) + "  ");
-        
+
     }
-    
+
     private static void traverseTriangle(int y, int x) {
-        
-        
+
+
         if (y >= triangle.size()) return;
         if (x >= triangle.get(y).size()) return;
-        
-        
+
+
         numberOfPaths++;
         int current = triangle.get(y).get(x);   //visit current location
         cPath.add(current);
         currentPath += current;
 
-        
+
         if (cPath.size() >= triangle.size() ) {  //if path is maximum length
         for (int i = 0; i < cPath.size(); i++)
             System.out.print(cPath.get(i) + "  ");
@@ -103,17 +103,17 @@ public class Problem018 {
             ArrayList<Integer> copiedPath = new ArrayList<>(cPath);     //copy the data of current path
             gPath = copiedPath;
         }
-        
+
         //if current path is on bottom row, pop this off, return
         if (y == triangle.size() - 1) {
             cPath.remove(cPath.size() - 1);
             currentPath -= current;
             return;
         }
-        
+
         traverseTriangle(y+1, x);
         traverseTriangle(y+1, x+1);
-        
+
         //now we've traverse as much as we can on this path, so we're going up one level
         cPath.remove(cPath.size() - 1);
         currentPath -= current;
@@ -122,5 +122,5 @@ public class Problem018 {
 
     //answer: 1074
     //path: 75  64  82  87  82  75  73  28  83  32  91  78  58  73  93
-    //for some reason the number of paths was calculated to be 32767 (about twich as much as reported on the problem)
+    //for some reason the number of paths was calculated to be 32767 (about twice as much as reported on the problem)
 }

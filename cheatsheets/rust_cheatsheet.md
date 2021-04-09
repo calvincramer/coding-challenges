@@ -246,6 +246,16 @@ cargo clean		# Delete build artifacts
 let x : u64 = u8var as u64;
 ```
 
+## Tuples and unpacking
+```rust
+fn f(...) -> (u64, i64) {
+	...
+	(1, 2)	// Return
+}
+
+let (a, b) = f(...);
+```
+
 
 
 # Todo:
