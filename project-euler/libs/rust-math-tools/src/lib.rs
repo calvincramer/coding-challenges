@@ -7,6 +7,10 @@ use num_bigint::BigUint;
 extern crate num_traits;
 use num_traits::One;
 
+use std::fs::File;
+use std::io::BufReader;
+use std::io::BufRead;
+
 /// Factorial
 pub fn factorial(num: u64) -> BigUint {
     let mut result = BigUint::one();
@@ -63,7 +67,7 @@ pub fn is_square(num: u64) -> bool {
     num == num.integer_sqrt().pow(2)
 }
 
-/// Get all divisors of a number
+/// Get all divisors of a number (divisors from 1 to num inclusive)
 pub fn divisors(num: u64) -> Vec<u64> {
     if num == 0 { return vec![]; }
     let sqrt = num.integer_sqrt();
@@ -73,7 +77,16 @@ pub fn divisors(num: u64) -> Vec<u64> {
     [first_half, second_half].concat()
 }
 
-/// Get the number of divisors
+/// Get all proper divisors of a number (divisors strictly less than num)
+pub fn divisors_proper(num: u64) -> Vec<u64> {
+    let mut divs = divisors(num);
+    if divs.len() > 0 && divs[divs.len() - 1] == num {
+        divs.pop();  // Remove num from list of divisors
+    }
+    divs
+}
+
+/// Get the number of divisors (divisors from 1 to num inclusive)
 pub fn num_divisors(num: u64) -> u64 {
     if num == 0 { return 0; }
     let sqrt = num.integer_sqrt();
@@ -162,6 +175,15 @@ pub fn num_to_string(num: i64) -> String {
         s = format!("negative {}", s);
     }
     s.trim_end().to_string()
+}
+
+/// Opens and reads a file specified by path. Panics if file doesn't exist
+pub fn read_all_lines(path: String) -> Vec<String> {
+    let f = File::open(path);
+    match f {
+        Err(e) => panic!("File doesn't exist"),
+        Ok(file) =>  BufReader::new(file).lines().map(Result::unwrap).collect(),
+    }
 }
 
 #[cfg(test)]
