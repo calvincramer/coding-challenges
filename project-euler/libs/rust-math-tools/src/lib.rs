@@ -181,7 +181,7 @@ pub fn num_to_string(num: i64) -> String {
 pub fn read_all_lines(path: String) -> Vec<String> {
     let f = File::open(path);
     match f {
-        Err(e) => panic!("File doesn't exist"),
+        Err(e) => panic!("File doesn't exist: {}", e),
         Ok(file) =>  BufReader::new(file).lines().map(Result::unwrap).collect(),
     }
 }
