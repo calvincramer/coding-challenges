@@ -11,6 +11,56 @@ use std::fs::File;
 use std::io::BufReader;
 use std::io::BufRead;
 
+/// Collatz sequence: if n is even divide number by 2, else if odd multiply by 3 and add 1, repeat until reach 1.
+pub fn collatz_steps(mut num: u64) -> u64 {
+    let mut steps = 1;
+    while num != 1 {
+        steps += 1;
+        num = match num {
+            n if num % 2 == 0 => n / 2,
+            _ => (num * 3) + 1,
+        };
+    }
+    steps
+}
+
+/// Get all divisors of a number (divisors from 1 to num inclusive)
+pub fn divisors(num: u64) -> Vec<u64> {
+    if num == 0 { return vec![]; }
+    let sqrt = num.integer_sqrt();
+    let first_half : Vec<u64> = (1..=sqrt).filter(|div| num % div == 0).collect();
+    let end = if sqrt.pow(2) == num { first_half.len() - 1 } else { first_half.len() };
+    let second_half : Vec<u64> = (0..end).rev().map(|i| num / first_half[i]).collect();
+    [first_half, second_half].concat()
+}
+
+/// Get all proper divisors of a number (divisors strictly less than num)
+pub fn divisors_proper(num: u64) -> Vec<u64> {
+    let mut divs = divisors(num);
+    if divs.len() > 0 && divs[divs.len() - 1] == num {
+        divs.pop();  // Remove num from list of divisors
+    }
+    divs
+}
+
+/// Type comparing sum of proper divisors to number
+#[derive(Debug)]
+#[derive(PartialEq, Eq)]
+pub enum DivSum {
+    Deficient = -1,     // Sum of proper divisors is less than the number
+    Perfect = 0,        // "" equal to the number
+    Abundant = 1,       // "" greater than the number
+}
+
+/// Compare the sum of proper divisors of num to the num
+pub fn divisors_sum_type(num: u64) -> DivSum {
+    match divisors_proper(num).iter().sum::<u64>() {
+        s if s < num => DivSum::Deficient,
+        s if s > num => DivSum::Abundant,
+        _ => DivSum::Perfect,
+    }
+}
+
 /// Factorial
 pub fn factorial(num: u64) -> BigUint {
     let mut result = BigUint::one();
@@ -18,25 +68,6 @@ pub fn factorial(num: u64) -> BigUint {
         result = result * mult;
     }
     result
-}
-
-/// Is prime?
-pub fn is_prime(num: u64) -> bool {
-    if num < 2 {
-        return false;
-    }
-    if num == 2 {
-        return true;
-    }
-    if num % 2 == 0 {
-        return false;
-    }
-    for div in (3..=num.integer_sqrt() + 1).step_by(2) {
-        if num % div == 0 {
-            return false;
-        }
-    }
-    true
 }
 
 /// Numbers like 12321
@@ -62,28 +93,28 @@ pub fn is_palindrome(num: u64) -> bool {
     false
 }
 
+/// Is prime?
+pub fn is_prime(num: u64) -> bool {
+    if num < 2 {
+        return false;
+    }
+    if num == 2 {
+        return true;
+    }
+    if num % 2 == 0 {
+        return false;
+    }
+    for div in (3..=num.integer_sqrt() + 1).step_by(2) {
+        if num % div == 0 {
+            return false;
+        }
+    }
+    true
+}
+
 /// Is a number a square of an integer?
 pub fn is_square(num: u64) -> bool {
     num == num.integer_sqrt().pow(2)
-}
-
-/// Get all divisors of a number (divisors from 1 to num inclusive)
-pub fn divisors(num: u64) -> Vec<u64> {
-    if num == 0 { return vec![]; }
-    let sqrt = num.integer_sqrt();
-    let first_half : Vec<u64> = (1..=sqrt).filter(|div| num % div == 0).collect();
-    let end = if sqrt.pow(2) == num { first_half.len() - 1 } else { first_half.len() };
-    let second_half : Vec<u64> = (0..end).rev().map(|i| num / first_half[i]).collect();
-    [first_half, second_half].concat()
-}
-
-/// Get all proper divisors of a number (divisors strictly less than num)
-pub fn divisors_proper(num: u64) -> Vec<u64> {
-    let mut divs = divisors(num);
-    if divs.len() > 0 && divs[divs.len() - 1] == num {
-        divs.pop();  // Remove num from list of divisors
-    }
-    divs
 }
 
 /// Get the number of divisors (divisors from 1 to num inclusive)
@@ -100,19 +131,6 @@ pub fn num_divisors(num: u64) -> u64 {
         total -= 1;     // Square numbers on count sqrt once (ex: 25)
     }
     total
-}
-
-/// Collatz sequence: if n is even divide number by 2, else if odd multiply by 3 and add 1, repeat until reach 1.
-pub fn collatz_steps(mut num: u64) -> u64 {
-    let mut steps = 1;
-    while num != 1 {
-        steps += 1;
-        num = match num {
-            n if num % 2 == 0 => n / 2,
-            _ => (num * 3) + 1,
-        };
-    }
-    steps
 }
 
 /// Number to english string representation
@@ -299,5 +317,13 @@ mod tests {
         assert_eq!(factorial(2), BigUint::parse_bytes(b"2", 10).unwrap());
         assert_eq!(factorial(6), BigUint::parse_bytes(b"720", 10).unwrap());
         assert_eq!(factorial(20), BigUint::parse_bytes(b"2432902008176640000", 10).unwrap());
+    }
+
+    #[test]
+    fn test_divisors_sum_type() {
+        use DivSum::{Deficient, Perfect, Abundant};
+        assert_eq!(divisors_sum_type(12), Abundant);
+        assert_eq!(divisors_sum_type(28), Perfect);
+        assert_eq!(divisors_sum_type(31), Deficient);
     }
 }
