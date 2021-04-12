@@ -195,6 +195,53 @@ pub fn num_to_string(num: i64) -> String {
     s.trim_end().to_string()
 }
 
+/// Permutes an array of numbers from 0 to N once. Returns false if no more permutations (numbers are descending)
+/// WARNING: this function should only be used with numbers increasing from 0, like [0, 1, 2, 3]. No other numbers are tested.
+/// WARNING: this function may be inefficient.
+pub fn permute_once(arr: &mut [u64]) -> bool {
+    // Find first ascending index:
+    let mut fd = arr.len();     // First decrease(?)
+    for i in (1..arr.len()).rev() {
+        if arr[i] > arr[i-1] {
+            fd = i-1;
+            break;
+        }
+    }
+    // All numbers descending === no more permutations
+    if fd == arr.len() {
+        return false;
+    }
+
+    let mut inc_uniq = false;
+    while !inc_uniq {
+        arr[fd] += 1;
+        inc_uniq = true;    // Assume we incremented to a unique number (to the left) first
+        for i in 0..fd {
+            if arr[i] == arr[fd] {
+                inc_uniq = false;
+            }
+        }
+    }
+
+    // Fill in numbers to the right of fd
+    for i in fd+1..arr.len() {  // For each index from right of decrease to end
+        for num_try in 0..arr.len() {
+            let mut found_good = true;
+            for index in 0..i {
+                if arr[index] == num_try as u64 {
+                    found_good = false;
+                    break;
+                }
+            }
+            if found_good {
+                arr[i] = num_try as u64;
+                break;
+            }
+        }
+    }
+    true
+}
+
 /// Opens and reads a file specified by path. Panics if file doesn't exist
 pub fn read_all_lines(path: String) -> Vec<String> {
     let f = File::open(path);
