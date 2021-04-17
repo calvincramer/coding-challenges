@@ -8,3 +8,4 @@ edition = "2018"
 
 [dependencies]
 bigdecimal = "0.2.0"
+num-traits = "0.2.14"

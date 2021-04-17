@@ -149,6 +149,7 @@ s.chars()		// Returns Chars iterator
 
 // <str> is an immutable fixed-length string somewhere in memory
 let s : &'static str = "asdf";
+s.to_string()	// str to String
 
 // <Chars> type has many useful features for ascii characters
 // Chars contains UNICODE characters, and are 4 bytes each.
@@ -159,7 +160,7 @@ s.eq(other)
 
 // 1 byte ascii characters:
 let chars : &[u8] = "asdf".as_bytes();
-println!("{}", std::str::from_utf8(s).unwrap());	// u8 -> String for printing
+println!("{}", std::str::from_utf8(s).unwrap());	// [u8]-> String for printing
 
 
 // Substrings - use slices
@@ -183,6 +184,13 @@ match x {
 // ref and ref mut cases
 
 
+// Chose to do nothing:
+match something {
+	1 => ...,
+	2 => (),	// DO NOTHING CASE
+	_ => ...,
+}
+
 ```
 
 ## Using crates
@@ -203,6 +211,7 @@ pub fn somepublicfunction(...) -> ... { ... }
 * integer-sqrt
 * num-bigint
 * num-traits
+* bigdecimal
 
 
 ## Closures
