@@ -284,6 +284,19 @@ let (a, b) = f(...);
 #[derive(PartialEq, Eq)]
 ```
 
+## Traits - interfaces
+```rust
+trait MyTrait {
+	fn foo(self) -> something;
+}
+
+impl MyTrait for MyStruct {
+	fn foo(self) -> something {
+		...
+	}
+}
+```
+
 
 # Todo:
 

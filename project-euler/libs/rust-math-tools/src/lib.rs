@@ -93,8 +93,10 @@ pub fn is_palindrome(num: u64) -> bool {
     false
 }
 
+
+
 /// Is prime?
-pub fn is_prime(num: u64) -> bool {
+fn _is_prime_sqrt_simple(num: u64) -> bool {
     if num < 2 {
         return false;
     }
@@ -111,6 +113,27 @@ pub fn is_prime(num: u64) -> bool {
     }
     true
 }
+
+pub trait PrimeTest {
+    fn is_prime(self) -> bool;
+}
+
+impl PrimeTest for u64 {
+    fn is_prime(self) -> bool {
+        return _is_prime_sqrt_simple(self);
+    }
+}
+
+impl PrimeTest for i64 {
+    fn is_prime(self) -> bool {
+        match self {
+            _ if self < 0i64 => false,
+            _ => _is_prime_sqrt_simple(self as u64),
+        }
+    }
+}
+
+
 
 /// Is a number a square of an integer?
 pub fn is_square(num: u64) -> bool {
@@ -257,25 +280,25 @@ mod tests {
 
     #[test]
     fn test_is_prime() {
-        assert!(is_prime(2));
-        assert!(is_prime(3));
-        assert!(is_prime(5));
-        assert!(is_prime(7));
-        assert!(is_prime(11));
-        assert!(is_prime(13));
-        assert!(is_prime(17));
-        assert!(is_prime(19));
+        assert!(2_u64.is_prime());
+        assert!(3_u64.is_prime());
+        assert!(5_u64.is_prime());
+        assert!(7_u64.is_prime());
+        assert!(11_u64.is_prime());
+        assert!(13_u64.is_prime());
+        assert!(17_u64.is_prime());
+        assert!(19_u64.is_prime());
 
-        assert!(!is_prime(0));
-        assert!(!is_prime(1));
-        assert!(!is_prime(4));
-        assert!(!is_prime(6));
-        assert!(!is_prime(8));
-        assert!(!is_prime(9));
-        assert!(!is_prime(10));
-        assert!(!is_prime(12));
-        assert!(!is_prime(14));
-        assert!(!is_prime(15));
+        assert!(!0_u64.is_prime());
+        assert!(!1_u64.is_prime());
+        assert!(!4_u64.is_prime());
+        assert!(!6_u64.is_prime());
+        assert!(!8_u64.is_prime());
+        assert!(!9_u64.is_prime());
+        assert!(!10_u64.is_prime());
+        assert!(!12_u64.is_prime());
+        assert!(!14_u64.is_prime());
+        assert!(!15_u64.is_prime());
     }
 
     #[test]
