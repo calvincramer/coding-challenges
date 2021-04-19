@@ -11,6 +11,9 @@ use std::fs::File;
 use std::io::BufReader;
 use std::io::BufRead;
 
+use std::collections::HashSet;
+use std::iter::FromIterator;
+
 /// Collatz sequence: if n is even divide number by 2, else if odd multiply by 3 and add 1, repeat until reach 1.
 pub fn collatz_steps(mut num: u64) -> u64 {
     let mut steps = 1;
@@ -93,7 +96,28 @@ pub fn is_palindrome(num: u64) -> bool {
     false
 }
 
+/// num has all digits from from_digit to to_digit inclusive?
+pub fn is_pandigital(mut num: u64, from_digit: u8, to_digit: u8) -> bool {
+    // let already_found_num = 10;
+    // if to_digit >= 10 {
+    //     return false;
+    // }
+    // let mut digits = vec![];
+    // for d in from_digit..=to_digit {
+    //     digits.push(d);
+    // }
 
+    let mut found: HashSet<u8> = HashSet::new();
+    while num > 0 {
+        let d: u8 = (num % 10) as u8;
+        match found.contains(&d) {
+            true => return false,
+            false => found.insert(d),
+        };
+        num /= 10;
+    }
+    return found == HashSet::from_iter(from_digit..=to_digit);
+}
 
 /// Is prime?
 fn _is_prime_sqrt_simple(num: u64) -> bool {
@@ -395,5 +419,15 @@ mod tests {
         assert_eq!(divisors_sum_type(12), Abundant);
         assert_eq!(divisors_sum_type(28), Perfect);
         assert_eq!(divisors_sum_type(31), Deficient);
+    }
+
+    #[test]
+    fn test_is_pandigital() {
+        assert_eq!(is_pandigital(123456789, 1, 9), true);
+        assert_eq!(is_pandigital(987654321, 1, 9), true);
+        assert_eq!(is_pandigital(87654321, 1, 9), false);
+        assert_eq!(is_pandigital(1, 1, 9), false);
+        assert_eq!(is_pandigital(111111111, 1, 9), false);
+        assert_eq!(is_pandigital(102345678, 1, 9), false);
     }
 }

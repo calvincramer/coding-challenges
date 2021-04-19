@@ -118,6 +118,15 @@ table.insert(key, value);
 
 ```
 
+## Hashset - set
+```rust
+use std::collections::HashSet;
+use std::iter::FromIterator;	// from_iter
+
+// Convert iterable containers to a set
+let my_set = HashSet::from_iter(some_iterable);
+```
+
 
 ## Printing
 ```rust
