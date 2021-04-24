@@ -281,7 +281,11 @@ fn f(...) -> (u64, i64) {
 let (a, b) = f(...);
 ```
 
-## Derive
+## Attributes
+
+Attributes look like `#[...]`
+
+### Derive attribute
 ```rust
 // Implement copy trait
 #[derive(Copy, Clone)]
@@ -292,6 +296,21 @@ let (a, b) = f(...);
 // Implement comparison of enums with == (else you are forced to use a match statement)
 #[derive(PartialEq, Eq)]
 ```
+### Rust format
+```rust
+fn f() {
+	#[rustfmt::skip]
+	one statement wont be formatted
+	next statement will be formatted
+}
+
+#[rustfmt::skip]
+fn f() {
+	do not format whole function
+}
+```
+
+
 
 ## Traits - interfaces
 ```rust
