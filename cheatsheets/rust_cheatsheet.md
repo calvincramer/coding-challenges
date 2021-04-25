@@ -123,8 +123,11 @@ table.insert(key, value);
 use std::collections::HashSet;
 use std::iter::FromIterator;	// from_iter
 
+let my_set = HashSet::new();	// New set
 // Convert iterable containers to a set
 let my_set = HashSet::from_iter(some_iterable);
+
+my_set.insert(5);
 ```
 
 
@@ -308,6 +311,14 @@ fn f() {
 fn f() {
 	do not format whole function
 }
+```
+### Others
+```rust
+// Don't have warning for unused variables
+#[allow(unused_variables)]
+
+// For functions that aren't called / used
+#[allow(dead_code)]
 ```
 
 
