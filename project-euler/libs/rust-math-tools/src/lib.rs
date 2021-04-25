@@ -73,16 +73,49 @@ pub fn factorial(num: u64) -> BigUint {
     result
 }
 
+pub struct Fraction {
+    pub numerator: i64,
+    pub denominator: i64,
+}
+impl Fraction {
+    pub fn val(&self) -> f64 {
+        self.numerator as f64 / self.denominator as f64
+    }
+
+    pub fn reduce(&mut self) {
+        let gcf = gcf(self.numerator as u64, self.denominator as u64) as i64;
+        self.numerator /= gcf;
+        self.denominator /= gcf;
+    }
+}
+impl std::fmt::Display for Fraction {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{} / {}", self.numerator, self.denominator)
+    }
+}
+
+/// Returns the greatest common factor between two numbers
+pub fn gcf(mut n1: u64, mut n2: u64) -> u64 {
+    if n1 == 0 {
+        return n2;
+    }
+    while n2 != 0 {
+        let r = n1 % n2;
+        n1 = n2;
+        n2 = r;
+    }
+    return n1;
+}
+
+
 /// Numbers like 12321
 pub fn is_palindrome(num: u64) -> bool {
     let s: String = num.to_string();
     let _len = s.len();
-    let bytes = s.as_bytes();
-
     if _len <= 1 {
         return true;
     }
-
+    let bytes = s.as_bytes();
     let mut left: usize = 0;
     let mut right: usize = _len - 1;
 
@@ -162,6 +195,19 @@ impl PrimeTest for i64 {
 /// Is a number a square of an integer?
 pub fn is_square(num: u64) -> bool {
     num == num.integer_sqrt().pow(2)
+}
+
+/// Gets the number of digits in a number
+pub fn num_digits(mut num: u64) -> u64 {
+    if num == 0 {
+        return 1;
+    }
+    let mut count = 0;
+    while num > 0 {
+        num /= 10;
+        count += 1;
+    }
+    count
 }
 
 /// Get the number of divisors (divisors from 1 to num inclusive)
@@ -429,5 +475,25 @@ mod tests {
         assert_eq!(is_pandigital(1, 1, 9), false);
         assert_eq!(is_pandigital(111111111, 1, 9), false);
         assert_eq!(is_pandigital(102345678, 1, 9), false);
+    }
+
+    #[test]
+    fn test_gcf() {
+        assert_eq!(gcf(124, 234), 2);
+        assert_eq!(gcf(852, 67344), 12);
+        assert_eq!(gcf(52, 512345), 1);
+    }
+
+    #[test]
+    fn test_num_digits() {
+        assert_eq!(num_digits(0), 1);
+        assert_eq!(num_digits(4), 1);
+        assert_eq!(num_digits(46), 2);
+        assert_eq!(num_digits(423), 3);
+        assert_eq!(num_digits(4267), 4);
+        assert_eq!(num_digits(45247), 5);
+        assert_eq!(num_digits(465731), 6);
+        assert_eq!(num_digits(4888886), 7);
+        assert_eq!(num_digits(42345224), 8);
     }
 }

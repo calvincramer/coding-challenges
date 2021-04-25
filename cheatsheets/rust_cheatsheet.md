@@ -75,7 +75,7 @@ enum B {
 use std::vec::Vec;
 
 // Create
-let x = vec![1, 2, 3];
+let x = vec![1, 2, 3];	// Creates a vector that has elements 1, 2, and 3
 let x = Vec::new();
 
 // Iterate
