@@ -1,8 +1,9 @@
-pub mod p022 {
-    use rust_math_tools::read_all_lines;
+use rust_math_tools::read_all_lines;
 
-    pub fn run() {
-        println!("Problem 22");
+pub struct P022 {}
+impl crate::Problem for P022 {
+    #[allow(unused_variables)]
+    fn run(&self, verbose: bool) -> (i32, String, String) {
         let x = read_all_lines(String::from("src/p022/names.txt"));
         let names: Vec<&str> = (&x[0]).split(',').collect();
         let mut names: Vec<String> = names.iter().map(|s| s.to_string()).collect();
@@ -26,7 +27,7 @@ pub mod p022 {
         let final_score = (0u64..scores.len() as u64)
             .map(|i: u64| scores[i as usize] * (i + 1))
             .sum::<u64>();
-        println!("{}", final_score);
+        (22, "Score".to_string(), final_score.to_string())
+        // Answer: 871198282
     }
-    // Answer: 871198282
 }

@@ -1,6 +1,7 @@
-pub mod p011 {
-    pub fn run() {
-        println!("Problem 11");
+pub struct P011 {}
+impl crate::Problem for P011 {
+    #[allow(unused_variables)]
+    fn run(&self, verbose: bool) -> (i32, String, String) {
         let len = 20;
         #[rustfmt::skip]
         let g: [[u32; 20]; 20] = [
@@ -55,7 +56,7 @@ pub mod p011 {
             }
         }
 
-        println!("{}", max);
+        (11, "Max".to_string(), max.to_string())
+        // Answer: 70600674
     }
-    // Answer: 70600674
 }

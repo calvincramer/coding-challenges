@@ -1,27 +1,26 @@
-pub mod p018 {
-    // Returns maximum path sum, left right bool path vector
-    fn traverse(tri: &Vec<Vec<u64>>, y: usize, x: usize) -> (u64, Vec<bool>) {
-        if y >= tri.len() { return (0, vec![]); }
-        if x >= tri[y].len() { return (0, vec![]); }
+/// Returns maximum path sum, left right bool path vector
+fn traverse(tri: &Vec<Vec<u64>>, y: usize, x: usize) -> (u64, Vec<bool>) {
+    if y >= tri.len() { return (0, vec![]); }
+    if x >= tri[y].len() { return (0, vec![]); }
 
-        let (max_l, mut path_l) = traverse(tri, y + 1, x);
-        let (max_r, mut path_r) = traverse(tri, y + 1, x + 1);
+    let (max_l, mut path_l) = traverse(tri, y + 1, x);
+    let (max_r, mut path_r) = traverse(tri, y + 1, x + 1);
 
-        match max_l > max_r {
-            true => {
-                path_l.push(false);
-                (tri[y][x] + max_l, path_l)
-            },
-            false => {
-                path_r.push(true);
-                return (tri[y][x] + max_r, path_r)
-            },
-        }
+    match max_l > max_r {
+        true => {
+            path_l.push(false);
+            (tri[y][x] + max_l, path_l)
+        },
+        false => {
+            path_r.push(true);
+            return (tri[y][x] + max_r, path_r)
+        },
     }
+}
 
-
-    pub fn run() {
-        println!("Problem 18");
+pub struct P018 {}
+impl crate::Problem for P018 {
+    fn run(&self, verbose: bool) -> (i32, String, String) {
         let mut triangle: Vec<Vec<u64>> = vec![];
         triangle.push(vec![75]);
         triangle.push(vec![95, 64]);
@@ -40,23 +39,27 @@ pub mod p018 {
         triangle.push(vec![04, 62, 98, 27, 23, 09, 70, 98, 73, 93, 38, 53, 60, 04, 23]);
 
         let (max, mut max_path) = traverse(&triangle, 0, 0);
-        println!("{} -> {:?}", max, max_path);
-        let mut max_i = 0;  // Track the max path
-        let mut add_to_start = triangle.len() * 3 - 3;
 
-        for row in triangle {
-            print!("{:x$}", "", x = add_to_start);
-            if add_to_start >= 3 { add_to_start -= 3; }
-            for i in 0..row.len() {
-                if i == max_i {
-                    print!("|{:2}|  ", row[i]);
-                } else {
-                    print!(" {:2}   ", row[i]);
+        // Print max path
+        if verbose {
+            let mut max_i = 0;  // Track the max path
+            let mut add_to_start = triangle.len() * 3 - 3;
+
+            for row in triangle {
+                print!("{:x$}", "", x = add_to_start);
+                if add_to_start >= 3 { add_to_start -= 3; }
+                for i in 0..row.len() {
+                    if i == max_i {
+                        print!("|{:2}|  ", row[i]);
+                    } else {
+                        print!(" {:2}   ", row[i]);
+                    }
                 }
+                println!();
+                max_i += max_path.pop().unwrap() as usize;
             }
-            println!();
-            max_i += max_path.pop().unwrap() as usize;
         }
+        (18, "Max path".to_string(), max.to_string())
+        // Answer: 1074
     }
-    // Answer: 1074
 }

@@ -1,10 +1,10 @@
-pub mod p032 {
-    use rust_math_tools::is_pandigital;
-    use std::collections::HashSet;
-    use std::iter::FromIterator;
+use rust_math_tools::is_pandigital;
+use std::collections::HashSet;
+use std::iter::FromIterator;
 
-    pub fn run() {
-        println!("Problem 32");
+pub struct P032 {}
+impl crate::Problem for P032 {
+    fn run(&self, verbose: bool) -> (i32, String, String) {
         let mut results = vec![];
         for m1 in 1u64..=9999 {
             for m2 in m1 + 1..=9999 {
@@ -24,16 +24,18 @@ pub mod p032 {
         }
 
         let set: HashSet<u64> = HashSet::from_iter(results.iter().map(|x| x.2));
-        println!("Results:");
-        for res in &results {
-            println!("\t{:?}", res);
+        if verbose {
+            println!("Results:");
+            for res in &results {
+                println!("\t{:?}", res);
+            }
+            println!("Uniq products: {:?}", set);
+            println!(
+                "Sum all products: {}",
+                results.iter().map(|x| x.2).sum::<u64>()
+            );
         }
-        println!("Uniq products: {:?}", set);
-        println!(
-            "Sum all products: {}",
-            results.iter().map(|x| x.2).sum::<u64>()
-        );
-        println!("Sum unique products: {}", set.iter().sum::<u64>());
+        (32, "Sum unique products".to_string(), set.iter().sum::<u64>().to_string())
+        // Answer: 45228
     }
-    // Answer: 45228
 }

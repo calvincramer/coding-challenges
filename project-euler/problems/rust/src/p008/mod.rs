@@ -1,6 +1,7 @@
-pub mod p008 {
-    pub fn run() {
-        println!("Problem 8");
+pub struct P008 {}
+impl crate::Problem for P008 {
+    #[allow(unused_variables)]
+    fn run(&self, verbose: bool) -> (i32, String, String) {
         let mut largest: u64 = 0;
         let s: &[u8] = "73167176531330624919225119674426574742355349194934\
                      96983520312774506326239578318016984801869478851843\
@@ -29,7 +30,7 @@ pub mod p008 {
             }
             largest = std::cmp::max(largest, temp_prod);
         }
-        println!("{}", largest);
+        (8, "Largest".to_string(), largest.to_string())
+        // Answer: 23514624000
     }
-    // Answer: 23514624000
 }

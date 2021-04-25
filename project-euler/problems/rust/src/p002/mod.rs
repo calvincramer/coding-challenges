@@ -1,6 +1,7 @@
-pub mod p002 {
-    pub fn run() {
-        println!("Problem 2");
+pub struct P002 {}
+impl crate::Problem for P002 {
+    #[allow(unused_variables)]
+    fn run(&self, verbose: bool) -> (i32, String, String) {
         let mut num1: u64 = 1;
         let mut num2: u64 = 2;
         let mut sum: u64 = 0;
@@ -13,7 +14,7 @@ pub mod p002 {
             num1 = num2;
             num2 = next;
         }
-        println!("{}", sum)
+        (2, "Sum".to_string(), sum.to_string())
+        // Answer: 4613732
     }
-    // Answer: 4613732
 }

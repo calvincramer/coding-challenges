@@ -1,11 +1,12 @@
-pub mod p013 {
-    use num_bigint::BigUint;
-    use num_traits::Zero;
-    use std::fs::File;
-    use std::io::{BufRead, BufReader};
+use num_bigint::BigUint;
+use num_traits::Zero;
+use std::fs::File;
+use std::io::{BufRead, BufReader};
 
-    pub fn run() {
-        println!("Problem 13");
+pub struct P013 {}
+impl crate::Problem for P013 {
+    #[allow(unused_variables)]
+    fn run(&self, verbose: bool) -> (i32, String, String) {
         // Big int sum:
         let mut sum: BigUint = Zero::zero();
 
@@ -26,7 +27,8 @@ pub mod p013 {
                 Err(e) => println!("error! {}", e),
             }
         }
-        println!("{}", sum);
+        (13, "Answer".to_string(), String::from(&sum.to_string().as_str()[0..10]))
+        // Answer: 5537376230
     }
-    // Answer: 5537376230
+
 }

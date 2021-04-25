@@ -1,12 +1,13 @@
-pub mod p020 {
-    use rust_math_tools::factorial;
-    use num_bigint::BigUint;
+use rust_math_tools::factorial;
 
-    pub fn run() {
-        println!("Problem 20");
+pub struct P020 {}
+impl crate::Problem for P020 {
+    fn run(&self, verbose: bool) -> (i32, String, String) {
         let fac100 = factorial(100);
-        println!("{}", fac100);
-        println!("{}", fac100.to_string().chars().map(|c| c.to_digit(10).unwrap()).sum::<u32>());
+        if verbose {
+            println!("{}", fac100);
+        }
+        (20, "Answer".to_string(), fac100.to_string().chars().map(|c| c.to_digit(10).unwrap()).sum::<u32>().to_string())
+        // Answer: 648
     }
-    // Answer: 648
 }

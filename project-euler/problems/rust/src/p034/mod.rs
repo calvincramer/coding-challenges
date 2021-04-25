@@ -1,7 +1,8 @@
-pub mod p034 {
-    static FAC_LKUP: [u64; 10] = [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880];
-    pub fn run() {
-        println!("Problem 34");
+static FAC_LKUP: [u64; 10] = [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880];
+
+pub struct P034 {}
+impl crate::Problem for P034 {
+    fn run(&self, verbose: bool) -> (i32, String, String) {
         // Sum of factorial of each digit for 9,999,999 = 2,540,160, and 9! is 362,880, so this a max bound.
         let max = 9_999_999;
 
@@ -19,9 +20,12 @@ pub mod p034 {
         for n in 3..=max {
             if is_curious(n) {
                 sum += n;
-                println!("{}", n);
+                if verbose {
+                    println!("{}", n);
+                }
             }
         }
-        println!("Total: {}", sum);
+        (34, "Total".to_string(), sum.to_string())
+        // Answer: 40730
     }
 }

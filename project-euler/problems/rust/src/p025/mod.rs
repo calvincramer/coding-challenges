@@ -1,8 +1,8 @@
-pub mod p025 {
-    use num_bigint::BigUint;
+use num_bigint::BigUint;
 
-    pub fn run() {
-        println!("Problem 25");
+pub struct P025 {}
+impl crate::Problem for P025 {
+    fn run(&self, verbose: bool) -> (i32, String, String) {
         let mut n1 = BigUint::from(1u64);
         let mut n2 = BigUint::from(1u64);
         let mut i = 2u64;
@@ -13,8 +13,10 @@ pub mod p025 {
             n1 = n2;
             n2 = temp;
         }
-        println!("{}", n2.to_string());
-        println!("fib_i = {}", i);
+        if verbose {
+            println!("{}", n2.to_string());
+        }
+        (25, "fib_i".to_string(), i.to_string())
+        // Answer: 4782
     }
-    // Answer: 4782
 }

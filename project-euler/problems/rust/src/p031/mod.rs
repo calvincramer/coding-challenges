@@ -1,7 +1,7 @@
-pub mod p031 {
+pub struct P031 {}
+impl crate::Problem for P031 {
     #[rustfmt::skip]
-    pub fn run() {
-        println!("Problem 31");
+    fn run(&self, verbose: bool) -> (i32, String, String) {
         let mut ways = 0;
         for tp1 in (0..=200).step_by(1) {       //one pence coin
         for tp2 in (0..=200).step_by(2) {       //two pence coin
@@ -18,15 +18,16 @@ pub mod p031 {
             if tp1 + tp2 + tp5 + tp10 + tp20 + tp50 + tp100 > 200 { break; }
         for tp200 in (0..=200).step_by(200) {   //two pound coin
             if tp1 + tp2 + tp5 + tp10 + tp20 + tp50 + tp100 + tp200 == 200 {
-                println!(
-                    "{} {} {} {} {} {} {} {}",
-                    tp1, tp2, tp5, tp10, tp20, tp50, tp100, tp200
-                );
+                if verbose {
+                    println!(
+                        "{} {} {} {} {} {} {} {}",
+                        tp1, tp2, tp5, tp10, tp20, tp50, tp100, tp200
+                    );
+                }
                 ways += 1;
             }
         }}}}}}}}
-
-        println!("Total ways: {}", ways);
+        (31, "Total ways".to_string(), ways.to_string())
+        // Answer: 73682
     }
-    // Answer: 73682
 }

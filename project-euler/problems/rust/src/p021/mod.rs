@@ -1,8 +1,9 @@
-pub mod p021 {
-    use rust_math_tools::divisors_proper;
+use rust_math_tools::divisors_proper;
 
-    pub fn run() {
-        println!("Problem 21");
+pub struct P021 {}
+impl crate::Problem for P021 {
+    #[allow(unused_variables)]
+    fn run(&self, verbose: bool) -> (i32, String, String) {
         let divisors: Vec<u64> = (0..10000)
             .map(|n| divisors_proper(n).iter().sum())
             .collect();
@@ -19,7 +20,7 @@ pub mod p021 {
                 amicables.push(n as u64);
             }
         }
-        println!("{:?}", amicables.iter().sum::<u64>());
+        (21, "Answer".to_string(), amicables.iter().sum::<u64>().to_string())
+        // Answer: 31626
     }
-    // Answer: 31626
 }
