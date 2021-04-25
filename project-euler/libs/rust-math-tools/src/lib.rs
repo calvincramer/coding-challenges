@@ -107,10 +107,7 @@ pub fn gcf(mut n1: u64, mut n2: u64) -> u64 {
     return n1;
 }
 
-
-/// Numbers like 12321
-pub fn is_palindrome(num: u64) -> bool {
-    let s: String = num.to_string();
+fn _is_palindrome_string(s: String) -> bool {
     let _len = s.len();
     if _len <= 1 {
         return true;
@@ -127,6 +124,29 @@ pub fn is_palindrome(num: u64) -> bool {
         }
     }
     false
+}
+
+/// Is a palindrome? (like "12321")
+pub trait Palindrome {
+    fn is_palindrome(self) -> bool;
+}
+impl Palindrome for u64 {
+    fn is_palindrome(self) -> bool {
+        _is_palindrome_string(self.to_string())
+    }
+}
+impl Palindrome for i32 {
+    fn is_palindrome(self) -> bool {
+        match self {
+            _ if self < 0 => panic!("Have not implement palindrome for negative numbers!"),
+            _ => _is_palindrome_string(self.to_string()),
+        }
+    }
+}
+impl Palindrome for String {
+    fn is_palindrome(self) -> bool {
+        _is_palindrome_string(self)
+    }
 }
 
 /// num has all digits from from_digit to to_digit inclusive?
@@ -171,26 +191,56 @@ fn _is_prime_sqrt_simple(num: u64) -> bool {
     true
 }
 
+/// Is prime?
+/// Credit: http://stackoverflow.com/questions/1801391/what-is-the-best-algorithm-for-checking-if-a-number-is-prime
+fn _is_prime_faster(num: u64) -> bool {
+    match num {
+        _ if num < 2 => false,
+        2 => true,
+        3 => true,
+        _ if num % 2 == 0 => false,
+        _ if num % 3 == 0 => false,
+        _ => {
+            let mut i = 5;
+            let mut w = 2;
+            while i*i <= num {
+                if num % i == 0 {
+                    return false;
+                }
+                i += w;
+                w = 6 - w;
+            }
+            true
+        },
+    }
+}
+
+/// Trait for types that can be tested for primality
 pub trait PrimeTest {
     fn is_prime(self) -> bool;
 }
 
 impl PrimeTest for u64 {
     fn is_prime(self) -> bool {
-        return _is_prime_sqrt_simple(self);
+        return _is_prime_faster(self);
     }
 }
-
 impl PrimeTest for i64 {
     fn is_prime(self) -> bool {
         match self {
             _ if self < 0i64 => false,
-            _ => _is_prime_sqrt_simple(self as u64),
+            _ => _is_prime_faster(self as u64),
         }
     }
 }
-
-
+impl PrimeTest for i32 {
+    fn is_prime(self) -> bool {
+        match self {
+            _ if self < 0i32 => false,
+            _ => _is_prime_faster(self as u64),
+        }
+    }
+}
 
 /// Is a number a square of an integer?
 pub fn is_square(num: u64) -> bool {
@@ -350,40 +400,46 @@ mod tests {
 
     #[test]
     fn test_is_prime() {
-        assert!(2_u64.is_prime());
-        assert!(3_u64.is_prime());
-        assert!(5_u64.is_prime());
-        assert!(7_u64.is_prime());
-        assert!(11_u64.is_prime());
-        assert!(13_u64.is_prime());
-        assert!(17_u64.is_prime());
-        assert!(19_u64.is_prime());
+        // Are primes:
+        assert!(2.is_prime());
+        assert!(3.is_prime());
+        assert!(5.is_prime());
+        assert!(7.is_prime());
+        assert!(11.is_prime());
+        assert!(13.is_prime());
+        assert!(17.is_prime());
+        assert!(19.is_prime());
 
-        assert!(!0_u64.is_prime());
-        assert!(!1_u64.is_prime());
-        assert!(!4_u64.is_prime());
-        assert!(!6_u64.is_prime());
-        assert!(!8_u64.is_prime());
-        assert!(!9_u64.is_prime());
-        assert!(!10_u64.is_prime());
-        assert!(!12_u64.is_prime());
-        assert!(!14_u64.is_prime());
-        assert!(!15_u64.is_prime());
+        // Are not primes:
+        assert!(!(-19).is_prime());
+        assert!(!(-1).is_prime());
+        assert!(!0.is_prime());
+        assert!(!1.is_prime());
+        assert!(!4.is_prime());
+        assert!(!6.is_prime());
+        assert!(!8.is_prime());
+        assert!(!9.is_prime());
+        assert!(!10.is_prime());
+        assert!(!12.is_prime());
+        assert!(!14.is_prime());
+        assert!(!15.is_prime());
     }
 
     #[test]
     fn test_is_palindrome() {
-        assert!(is_palindrome(1));
-        assert!(is_palindrome(11));
-        assert!(is_palindrome(121));
-        assert!(is_palindrome(12321));
-        assert!(is_palindrome(100001));
-        assert!(is_palindrome(1000001));
-        assert!(is_palindrome(10000001));
+        assert!(1.is_palindrome());
+        assert!(11.is_palindrome());
+        assert!(121.is_palindrome());
+        assert!(12321.is_palindrome());
+        assert!(100001.is_palindrome());
+        assert!(1000001.is_palindrome());
+        assert!(10000001.is_palindrome());
 
-        assert!(!is_palindrome(10));
-        assert!(!is_palindrome(123));
-        assert!(!is_palindrome(1234));
+        assert!(!(10).is_palindrome());
+        assert!(!(123).is_palindrome());
+        assert!(!(1234).is_palindrome());
+
+        assert!("abcdedcba".to_string().is_palindrome())
     }
 
     #[test]
