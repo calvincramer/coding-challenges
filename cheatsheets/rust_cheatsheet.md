@@ -158,10 +158,12 @@ s.chars()		// To character array
 let s2: String = s.chars().rev().collect()	// Reverse string into another string
 s.len()			// Length
 s.chars()		// Returns Chars iterator
+&s[start..stop]	// recommended way to do substring
 
 // <str> is an immutable fixed-length string somewhere in memory
 let s : &'static str = "asdf";
-s.to_string()	// str to String
+s.to_string()		// str to String
+s.parse::<u64>()	// str to number
 
 // <Chars> type has many useful features for ascii characters
 // Chars contains UNICODE characters, and are 4 bytes each.
