@@ -37,6 +37,8 @@ mod p034;
 mod p035;
 mod p036;
 mod p037;
+mod p038;
+mod p039;
 
 // Each problem should implement this
 trait Problem {
@@ -100,5 +102,7 @@ fn main() {
     // timed_run(&p034::P034{}, false);
     // timed_run(&p035::P035{}, false);
     // timed_run(&p036::P036{}, false);
-    timed_run(&p037::P037{}, false);
+    // timed_run(&p037::P037{}, false);
+    // timed_run(&p038::P038{}, false);
+    timed_run(&p039::P039{}, false);
 }

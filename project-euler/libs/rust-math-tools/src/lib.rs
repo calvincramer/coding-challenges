@@ -11,9 +11,6 @@ use std::fs::File;
 use std::io::BufReader;
 use std::io::BufRead;
 
-use std::collections::HashSet;
-use std::iter::FromIterator;
-
 /// Collatz sequence: if n is even divide number by 2, else if odd multiply by 3 and add 1, repeat until reach 1.
 pub fn collatz_steps(mut num: u64) -> u64 {
     let mut steps = 1;
@@ -150,26 +147,48 @@ impl Palindrome for String {
 }
 
 /// num has all digits from from_digit to to_digit inclusive?
+// pub fn is_pandigital_SLOW(mut num: u64, from_digit: u8, to_digit: u8) -> bool {
+//     let mut found: HashSet<u8> = HashSet::new();
+//     while num > 0 {
+//         let d: u8 = (num % 10) as u8;
+//         match found.contains(&d) {
+//             true => return false,
+//             false => found.insert(d),
+//         };
+//         num /= 10;
+//     }
+//     return found == HashSet::from_iter(from_digit..=to_digit);
+// }
+/// num has all digits from from_digit to to_digit inclusive? (faster than implementation with HashSet)
 pub fn is_pandigital(mut num: u64, from_digit: u8, to_digit: u8) -> bool {
-    // let already_found_num = 10;
-    // if to_digit >= 10 {
-    //     return false;
-    // }
-    // let mut digits = vec![];
-    // for d in from_digit..=to_digit {
-    //     digits.push(d);
-    // }
-
-    let mut found: HashSet<u8> = HashSet::new();
+    let mut found = [false; 10];
+    let mut num_found = 0;
     while num > 0 {
-        let d: u8 = (num % 10) as u8;
-        match found.contains(&d) {
-            true => return false,
-            false => found.insert(d),
-        };
+        let d = (num % 10) as usize;
+        if d < from_digit as usize || d > to_digit as usize || found[d] == true {
+            return false
+        }
+        found[d] = true;
+        num_found += 1;
         num /= 10;
     }
-    return found == HashSet::from_iter(from_digit..=to_digit);
+    return num_found == to_digit - from_digit + 1;
+}
+/// Specialized version even faster than above
+pub fn is_pandigital_1_to_9(mut num: u64) -> bool {
+    if num < 123_456_789 || num > 987_654_321 {
+        return false
+    }
+    let mut found = [false; 10];
+    while num > 0 {
+        let d = (num % 10) as usize;
+        if d == 0 || found[d] == true {
+            return false
+        }
+        found[d] = true;
+        num /= 10;
+    }
+    true
 }
 
 /// Is prime?
@@ -531,6 +550,16 @@ mod tests {
         assert_eq!(is_pandigital(1, 1, 9), false);
         assert_eq!(is_pandigital(111111111, 1, 9), false);
         assert_eq!(is_pandigital(102345678, 1, 9), false);
+    }
+
+    #[test]
+    fn test_is_pandigital_1_to_9() {
+        assert_eq!(is_pandigital_1_to_9(123456789), true);
+        assert_eq!(is_pandigital_1_to_9(987654321), true);
+        assert_eq!(is_pandigital_1_to_9(87654321), false);
+        assert_eq!(is_pandigital_1_to_9(1), false);
+        assert_eq!(is_pandigital_1_to_9(111111111), false);
+        assert_eq!(is_pandigital_1_to_9(102345678), false);
     }
 
     #[test]

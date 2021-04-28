@@ -98,6 +98,8 @@ for (i, n) in x.iter().enumerate() {
 ```rust
 let arr = [0, 1, 2, 3, 4];	// defaults to i32
 let arr = [0u64, 1, 2, 3, 4];
+
+
 ```
 
 ## Hashmap
@@ -141,7 +143,9 @@ println!("vec = {:?}", vec);
 ## Numbers
 ```rust
 let x = 1;
-x.to_string()
+x.to_string()	// Number to String
+s.parse::<u32>()	// String to number (optional)
+
 // Literal numbers:
 let x = 1; 		// x is i32 by default
 let x = 1u8;	// place type at end of number literal
@@ -212,6 +216,7 @@ match something {
 // usingarchive.rs
 extern crate myothercrate;
 use myothercrate::somepublicfunction;
+use myothercreate::{thing1, thing2};	// multiple
 
 // usingarchive Cargo.toml
 [dependencies]
@@ -226,6 +231,7 @@ pub fn somepublicfunction(...) -> ... { ... }
 * num-bigint
 * num-traits
 * bigdecimal
+* rand
 
 
 ## Closures

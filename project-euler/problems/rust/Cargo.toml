@@ -12,3 +12,4 @@ num-bigint = "0.4.0"
 num-traits = "0.2.14"
 bigdecimal = "0.2.0"
 rust-math-tools = { path = "../../libs/rust-math-tools" }
+rand = "0.8.3"
