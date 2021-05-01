@@ -7,9 +7,10 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+bigdecimal = "0.2.0"
 integer-sqrt = "0.1.5"
+itertools = "0.10.0"
 num-bigint = "0.4.0"
 num-traits = "0.2.14"
-bigdecimal = "0.2.0"
-rust-math-tools = { path = "../../libs/rust-math-tools" }
 rand = "0.8.3"
+rust-math-tools = { path = "../../libs/rust-math-tools" }

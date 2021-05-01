@@ -1,6 +1,7 @@
 pub struct P039 {}
 
 #[rustfmt::skip]
+#[allow(dead_code)]
 fn try1(verbose: bool) -> i64 {
     let mut max_num_triples = 0;
     let mut max_p = 0;
@@ -35,7 +36,8 @@ fn try2(verbose: bool) -> i64 {
             if top % bottom != 0 {
                 continue;   // y side is not an integer
             }
-            let b = top / bottom; // Have integer a, b such that a + b + c == p
+            // let b = top / bottom;
+            // Have integer a, b such that a + b + c == p
             // Since p, a, and b are integers, c is an integer and we have a solution
             num_triples += 1;
         }

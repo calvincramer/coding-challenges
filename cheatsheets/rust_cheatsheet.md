@@ -232,6 +232,7 @@ pub fn somepublicfunction(...) -> ... { ... }
 * num-traits
 * bigdecimal
 * rand
+* itertools
 
 
 ## Closures
@@ -322,7 +323,7 @@ fn f() {
 ```
 ### Others
 ```rust
-// Don't have warning for unused variables
+// Don't have warning for unused variables or parameters
 #[allow(unused_variables)]
 
 // For functions that aren't called / used

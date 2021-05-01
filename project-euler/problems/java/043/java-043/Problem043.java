@@ -20,22 +20,22 @@ public class Problem043 {
     */
 
     public static void main(String[] args) {
-        
+
         BigInteger sum = BigInteger.ZERO;
         int[] primes = {2,3,5,7,11,13,17};
-        
+
         for (long i = 1000000000; i < 9999999999L; i++) {
             if (isPandigital("" + i, 0, 9)) {
-                
+
                 String s = "" + i;
                 int[] digits = new int[10];
                 for (int d = 0; d < digits.length; d ++)
                     digits[d] = Character.getNumericValue(s.charAt(d));
-                
+
                 int primeIndex = 0;
                 boolean isDivisible = true;
                 for (int d = 1; d <= 7; d++) {
-                    
+
                     int subNumber = Integer.parseInt(s.substring(d, d+3));
                     if (subNumber % primes[primeIndex] != 0) {
                         isDivisible = false;
@@ -43,26 +43,26 @@ public class Problem043 {
                     }
                     primeIndex++;
                 }
-                
+
                 if (isDivisible) {
                     System.out.println(i + "\tQualifies");
                     sum = sum.add(new BigInteger(i + ""));
                 }
-                
+
             }
         }
-        
+
         System.out.println("Total: " + sum);
     }
 
     public static boolean isPandigital(String str, int lowNum, int highNum) {
-        if (str.length() != highNum - lowNum + 1) 
+        if (str.length() != highNum - lowNum + 1)
             return false;
         for (int i = 0; i < str.length(); i++)  //no zeroes allowed
             if (Character.getNumericValue(str.charAt(i)) < lowNum
                     || Character.getNumericValue(str.charAt(i)) > highNum)
                 return false;
-        
+
         boolean[] numOccur = new boolean[10];   //index of 1 = number 1 occurred
         for (int i = 0; i < str.length(); i++) {
             int num = Character.getNumericValue(str.charAt(i));
@@ -71,8 +71,8 @@ public class Problem043 {
             else
                 numOccur[num] = true;
         }
-        
+
         return true;
     }
-    
+
 }

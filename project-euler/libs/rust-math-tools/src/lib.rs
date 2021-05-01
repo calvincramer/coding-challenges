@@ -11,6 +11,9 @@ use std::fs::File;
 use std::io::BufReader;
 use std::io::BufRead;
 
+use itertools::Itertools;
+
+
 /// Collatz sequence: if n is even divide number by 2, else if odd multiply by 3 and add 1, repeat until reach 1.
 pub fn collatz_steps(mut num: u64) -> u64 {
     let mut steps = 1;
@@ -104,6 +107,22 @@ pub fn gcf(mut n1: u64, mut n2: u64) -> u64 {
     return n1;
 }
 
+/// Returns all pandigitals of digits made of of 'from' to 'to'
+/// Example: get_pandigitals(2, 4) -> [2,3,4], [2,4,3], [3,2,4], [3,4,2], [4,2,3], [4,3,2]
+pub fn get_pandigitals(from: u8, to: u8) -> Vec<u64>  {
+    if from > 9 || to > 9 {
+        panic!("from and to cannot be greater than 9");
+    }
+    (from..=to).permutations((to - from + 1) as usize)
+        .map(|v| v.iter()
+            .map(|n| n.to_string())
+            .join("")
+            .parse::<u64>()
+            .unwrap())
+        .collect()
+}
+
+/// Main implementation for Palindrome trait
 fn _is_palindrome_string(s: String) -> bool {
     let _len = s.len();
     if _len <= 1 {
@@ -580,5 +599,10 @@ mod tests {
         assert_eq!(num_digits(465731), 6);
         assert_eq!(num_digits(4888886), 7);
         assert_eq!(num_digits(42345224), 8);
+    }
+
+    #[test]
+    fn test_get_pandigitals() {
+        assert_eq!(get_pandigitals(5,7), vec![567, 576, 657, 675, 756, 765]);
     }
 }
