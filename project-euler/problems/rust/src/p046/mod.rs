@@ -32,5 +32,6 @@ impl crate::Problem for P046 {
             }
         }
         (46, "Smallest".to_string(), "Error".to_string())
+        // Answer: 5777
     }
 }
