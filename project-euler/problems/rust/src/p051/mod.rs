@@ -49,7 +49,7 @@ impl crate::Problem for P051 {
         let mut number = 1;
         loop {
             number += 2;    // Only odd numbers can have enough primes (even if mask is on ones digit)
-            println!("{}", number);
+            if verbose { println!("{}", number); }
             // Binary digits of mask represent wildcards
             for mask in 1u64..(2u64.pow(number.to_string().len() as u32)) {
                 if search(number, mask) {
@@ -58,8 +58,6 @@ impl crate::Problem for P051 {
                 }
             }
         }
-
-        (51, "8 prime family start".to_string(), "error".to_string())
         // Answer: 121313
     }
 }

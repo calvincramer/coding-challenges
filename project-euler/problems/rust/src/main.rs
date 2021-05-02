@@ -84,5 +84,5 @@ fn main() {
 //    timed_run(&p048::P048{}, false);
 //    timed_run(&p049::P049{}, false);
 //    timed_run(&p050::P050{}, false);  // Slow
-    timed_run(&p051::P051{}, false);
+    timed_run(&p051::P051{}, false);    // Slow
 }
