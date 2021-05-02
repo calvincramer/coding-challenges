@@ -264,6 +264,9 @@ let x : i64 = (1..=100).map(|x:i64| x.pow(2)).sum();
 max()
 max_by()
 max_by_key()
+
+// All elements are true according to a predicate
+(1..100).all(|n| n < 1_000)
 ```
 
 ## Cargo

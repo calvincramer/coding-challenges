@@ -4,7 +4,7 @@ use std::time::Instant;
 mod p010; mod p011; mod p012; mod p013; mod p014; mod p015; mod p016; mod p017; mod p018; mod p019;
 mod p020; mod p021; mod p022; mod p023; mod p024; mod p025; mod p026; mod p027; mod p028; mod p029;
 mod p030; mod p031; mod p032; mod p033; mod p034; mod p035; mod p036; mod p037; mod p038; mod p039;
-mod p040; mod p041; mod p042; mod p043; mod p044; mod p045; mod p046;
+mod p040; mod p041; mod p042; mod p043; mod p044; mod p045; mod p046; mod p047;
 
 // Each problem should implement this
 trait Problem {
@@ -78,5 +78,6 @@ fn main() {
 //    timed_run(&p043::P043{}, false);
 //    timed_run(&p044::P044{}, false);
 //    timed_run(&p045::P045{}, false);
-    timed_run(&p046::P046{}, true);
+//    timed_run(&p046::P046{}, false);
+    timed_run(&p047::P047{}, true);
 }
