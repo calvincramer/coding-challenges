@@ -12,7 +12,7 @@ use std::io::BufReader;
 use std::io::BufRead;
 
 use itertools::Itertools;
-use num_traits::real::Real;
+// use num_traits::real::Real;
 
 
 /// Collatz sequence: if n is even divide number by 2, else if odd multiply by 3 and add 1, repeat until reach 1.

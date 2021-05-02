@@ -189,6 +189,9 @@ let otherString: String = string[0..5].to_string();
 let s : &'static str = "asdf1\
                         asdf2\
                         asdf3";	// Equivalent to "asdf1asdf2asdf3"
+
+// char type
+'a'
 ```
 
 ## Matching
@@ -294,6 +297,11 @@ fn f(...) -> (u64, i64) {
 }
 
 let (a, b) = f(...);
+
+// Index tuple elements
+let t = ("a", "b");
+t.1
+t.2
 ```
 
 ## Attributes

@@ -8,4 +8,4 @@ out/
 Cargo.lock
 target/
 .idea
-
+*.class
