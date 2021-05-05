@@ -6,6 +6,7 @@ use num_bigint::BigUint;
 
 extern crate num_traits;
 use num_traits::One;
+use num_traits::Zero;
 
 use std::fs::File;
 use std::io::BufReader;
@@ -65,8 +66,29 @@ pub fn divisors_sum_type(num: u64) -> DivSum {
     }
 }
 
-/// Factorial
+/// Factorial but faster
+/// Credit: http://www.luschny.de/math/factorial/FastFactorialFunctions.htm
+/// This function seems to work by keeping most of the multiplication in smaller chunks (at the
+/// leaf of recursion) and then multiply all chunks together. Multiplying smaller bigints will be
+/// faster bigger bigints.
 pub fn factorial(num: u64) -> BigUint {
+    recurse_fact(1, num)
+}
+fn recurse_fact(start: u64, n: u64) -> BigUint {
+    if n <= 16 {
+        let mut r = BigUint::from(start);
+        for i in (start+1)..(start+n) {
+            r = r * i;
+        }
+        return r;
+    }
+    let h = n / 2;  // half
+    recurse_fact(start, h) * recurse_fact(start + h, n - h)
+}
+/// TODO: Faster factorial: http://www.luschny.de/math/factorial/csharp/FactorialSplit.cs.html
+
+/// Factorial - simple implementation
+pub fn factorial_slow(num: u64) -> BigUint {
     let mut result = BigUint::one();
     for mult in 2..=num {
         result = result * mult;
@@ -308,6 +330,17 @@ impl PrimeTest for i32 {
 /// Is a number a square of an integer?
 pub fn is_square(num: u64) -> bool {
     num == num.integer_sqrt().pow(2)
+}
+
+/// nCr - number of combinations
+pub fn ncr(n: u64, r: u64) -> BigUint {
+    if r > n {
+        return BigUint::zero()
+    }
+    let n_fact = factorial(n);
+    let r_fact = factorial(r);
+    let n_minus_r_fact = factorial(n - r);
+    n_fact / (r_fact * n_minus_r_fact)
 }
 
 /// Gets the number of digits in a number
@@ -569,13 +602,24 @@ mod tests {
         assert_eq!(num_to_string(123456), "one hundred and twenty-three thousand four hundred and fifty-six");
     }
 
+    fn test_factorial_common(f: fn(u64) -> BigUint) {
+        assert_eq!(f(0), BigUint::one());
+        assert_eq!(f(1), BigUint::one());
+        assert_eq!(f(2), BigUint::parse_bytes(b"2", 10).unwrap());
+        assert_eq!(f(6), BigUint::parse_bytes(b"720", 10).unwrap());
+        assert_eq!(f(20), BigUint::parse_bytes(b"2432902008176640000", 10).unwrap());
+        assert_eq!(f(20), BigUint::parse_bytes(b"2432902008176640000", 10).unwrap());
+        assert_eq!(f(100), BigUint::parse_bytes(b"93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000", 10).unwrap());
+    }
+
     #[test]
     fn test_factorial() {
-        assert_eq!(factorial(0), BigUint::one());
-        assert_eq!(factorial(1), BigUint::one());
-        assert_eq!(factorial(2), BigUint::parse_bytes(b"2", 10).unwrap());
-        assert_eq!(factorial(6), BigUint::parse_bytes(b"720", 10).unwrap());
-        assert_eq!(factorial(20), BigUint::parse_bytes(b"2432902008176640000", 10).unwrap());
+        test_factorial_common(factorial);
+    }
+
+    #[test]
+    fn test_factorial_slow() {
+        test_factorial_common(factorial_slow);
     }
 
     #[test]
@@ -584,6 +628,13 @@ mod tests {
         assert_eq!(divisors_sum_type(12), Abundant);
         assert_eq!(divisors_sum_type(28), Perfect);
         assert_eq!(divisors_sum_type(31), Deficient);
+    }
+
+    #[test]
+    fn test_ncr() {
+        assert_eq!(ncr(12, 6), BigUint::from(924u64));
+        assert_eq!(ncr(15, 2), BigUint::from(105u64));
+        assert_eq!(ncr(34, 14), BigUint::from(1391975640u64));
     }
 
     #[test]

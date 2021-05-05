@@ -357,6 +357,14 @@ impl MyTrait for MyStruct {
 ```
 
 
+## Const
+```rust
+fn f() {
+	const MY_CONST: i32 = 123;	// NEED TO SPECIFY TYPE EXPLICITLY.
+}
+```
+
+
 # Todo:
 
 * match guards
