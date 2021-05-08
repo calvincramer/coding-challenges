@@ -318,6 +318,8 @@ Attributes look like `#[...]`
 
 // Implement comparison of enums with == (else you are forced to use a match statement)
 #[derive(PartialEq, Eq)]
+// Implement total comparison of enums with cmp (==, <, >, etc)
+#[derive(PartialEq, Eq, PartialOrd, Ord)]
 ```
 ### Rust format
 ```rust
