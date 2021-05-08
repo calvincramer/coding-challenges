@@ -81,14 +81,16 @@ fn run_problems() {
     // timed_run(&p047::P047{}, false);
     // timed_run(&p048::P048{}, false);
     // timed_run(&p049::P049{}, false);
-    // // timed_run(&p050::P050{}, false);  // Slow
-    // // timed_run(&p051::P051{}, false);  // Slow
+    // timed_run(&p050::P050{}, false);  // Slow (in debug only)
+    // timed_run(&p051::P051{}, false);  // Slow (in debug only)
     // timed_run(&p052::P052{}, false);
     // timed_run(&p053::P053{}, false);
     timed_run(&p054::P054{}, false);
 }
 
 fn main() {
+    let start = Instant::now();
     timed_run_header();
     run_problems();
+    println!("\nTotal time: {:.5}s", start.elapsed().as_secs_f64());
 }
