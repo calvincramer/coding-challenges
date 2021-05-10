@@ -13,6 +13,7 @@ use std::io::BufReader;
 use std::io::BufRead;
 
 use itertools::Itertools;
+use std::ops::{AddAssign};
 // use num_traits::real::Real;
 
 
@@ -170,7 +171,7 @@ pub fn get_uniq_prime_factors(num: u64) -> Vec<u64> {
 }
 
 /// Main implementation for Palindrome trait
-fn _is_palindrome_string(s: String) -> bool {
+fn _is_palindrome_string(s: &String) -> bool {
     let _len = s.len();
     if _len <= 1 {
         return true;
@@ -191,23 +192,23 @@ fn _is_palindrome_string(s: String) -> bool {
 
 /// Is a palindrome? (like "12321")
 pub trait Palindrome {
-    fn is_palindrome(self) -> bool;
+    fn is_palindrome(&self) -> bool;
 }
 impl Palindrome for u64 {
-    fn is_palindrome(self) -> bool {
-        _is_palindrome_string(self.to_string())
+    fn is_palindrome(&self) -> bool {
+        _is_palindrome_string(&self.to_string())
     }
 }
 impl Palindrome for i32 {
-    fn is_palindrome(self) -> bool {
+    fn is_palindrome(&self) -> bool {
         match self {
-            _ if self < 0 => panic!("Have not implement palindrome for negative numbers!"),
-            _ => _is_palindrome_string(self.to_string()),
+            _ if *self < 0 => panic!("Have not implement palindrome for negative numbers!"),
+            _ => _is_palindrome_string(&self.to_string()),
         }
     }
 }
 impl Palindrome for String {
-    fn is_palindrome(self) -> bool {
+    fn is_palindrome(&self) -> bool {
         _is_palindrome_string(self)
     }
 }
@@ -302,29 +303,42 @@ fn _is_prime_faster(num: u64) -> bool {
 
 /// Trait for types that can be tested for primality
 pub trait PrimeTest {
-    fn is_prime(self) -> bool;
+    fn is_prime(&self) -> bool;
 }
 
 impl PrimeTest for u64 {
-    fn is_prime(self) -> bool {
-        return _is_prime_faster(self);
+    fn is_prime(&self) -> bool {
+        return _is_prime_faster(*self);
     }
 }
 impl PrimeTest for i64 {
-    fn is_prime(self) -> bool {
+    fn is_prime(&self) -> bool {
         match self {
-            _ if self < 0i64 => false,
-            _ => _is_prime_faster(self as u64),
+            _ if *self < 0i64 => false,
+            _ => _is_prime_faster(*self as u64),
         }
     }
 }
 impl PrimeTest for i32 {
-    fn is_prime(self) -> bool {
+    fn is_prime(&self) -> bool {
         match self {
-            _ if self < 0i32 => false,
-            _ => _is_prime_faster(self as u64),
+            _ if *self < 0i32 => false,
+            _ => _is_prime_faster(*self as u64),
         }
     }
+}
+
+/// Lychrel numbers are numbers that never produce palindromes by reversing and adding itself
+pub fn is_lychrel(num: u64) -> bool {
+    const MAX_TESTS: i32 = 50;   // Stop after this number of iterations
+    let mut n = BigUint::from(num);
+    for _ in 0..=MAX_TESTS {
+        n.add_assign(&n.reverse());
+        if n.to_string().is_palindrome() {
+            return false;
+        }
+    }
+    true
 }
 
 /// Is a number a square of an integer?
@@ -487,6 +501,33 @@ pub fn read_all_lines(path: String) -> Vec<String> {
     match f {
         Err(e) => panic!("File doesn't exist: {}", e),
         Ok(file) =>  BufReader::new(file).lines().map(Result::unwrap).collect(),
+    }
+}
+
+/// Reverse a number
+pub trait ReversibleNumber<T> {
+    fn reverse(&self) -> T;
+}
+
+impl ReversibleNumber<u64> for u64 {
+    fn reverse(&self) -> u64 {
+        self.to_string().chars().rev().collect::<String>().parse::<u64>().unwrap()
+    }
+}
+
+impl ReversibleNumber<BigUint> for BigUint {
+    fn reverse(&self) -> BigUint {
+        self.to_string().chars().rev().collect::<String>().parse::<BigUint>().unwrap()
+    }
+}
+
+pub trait SumDigits {
+    fn sum_digits(&self) -> u64;
+}
+
+impl SumDigits for BigUint {
+    fn sum_digits(&self) -> u64 {
+        self.to_string().chars().map(|c| (c as u64)-0x30).sum()
     }
 }
 
@@ -702,5 +743,22 @@ mod tests {
         assert_eq!(get_uniq_prime_factors(134044), vec![2, 23, 31, 47]);
         assert_eq!(get_uniq_prime_factors(134045), vec![5, 17, 19, 83]);
         assert_eq!(get_uniq_prime_factors(134046), vec![2, 3, 11, 677]);
+    }
+
+    #[test]
+    fn test_reversible_number() {
+        // u64
+        assert_eq!(1234u64.reverse(), 4321u64);
+        // BigUInt
+        assert_eq!(BigUint::from(97531u64).reverse(), BigUint::from(13579u64));
+    }
+
+    #[test]
+    fn test_is_lychrel() {
+        assert_eq!(is_lychrel(47), false);
+        assert_eq!(is_lychrel(1234321), false);
+        assert_eq!(is_lychrel(349), false);
+        assert_eq!(is_lychrel(196), true);
+        assert_eq!(is_lychrel(4994), true);     // palindromes are not necessarily lychrel
     }
 }
