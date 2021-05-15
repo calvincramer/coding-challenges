@@ -50,11 +50,23 @@ struct Name {
 	num_toes: u32,
 	...
 }
+
+// Implementing structs
 impl Name {
-	pub fn function1(...) { ... }
-	fn function2(&mut self, ...) { ... }
+	pub fn function1(...) { ... }			// "Static" function of Name
+	pub fn function2(&self) { ... }			// Read only members
+	fn function3(&mut self, ...) { ... }	// Allowed to mutate members in Name (also private)
 	...
 }
+
+struct MyStruct<T> {...}
+
+// Generic implementation for generic struct
+impl<T> MyStruct<T> { ... }
+
+// Implement types that have certain characteristics (that implement certain traits)
+impl<T: Debug> MyStruct<T> { ... }
+
 // Call function:
 Name::function1();
 ```

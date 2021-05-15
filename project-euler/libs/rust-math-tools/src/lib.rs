@@ -2,7 +2,7 @@ extern crate integer_sqrt;
 use integer_sqrt::IntegerSquareRoot;
 
 extern crate num_bigint;
-use num_bigint::BigUint;
+use num_bigint::{BigUint, BigInt};
 
 extern crate num_traits;
 use num_traits::One;
@@ -15,6 +15,7 @@ use std::io::BufRead;
 use itertools::Itertools;
 use std::ops::{AddAssign};
 // use num_traits::real::Real;
+use std::fmt::Debug;
 
 
 /// Collatz sequence: if n is even divide number by 2, else if odd multiply by 3 and add 1, repeat until reach 1.
@@ -97,26 +98,51 @@ pub fn factorial_slow(num: u64) -> BigUint {
     result
 }
 
-pub struct Fraction {
-    pub numerator: i64,
-    pub denominator: i64,
+pub struct Fraction<T> {
+    pub numerator: T,
+    pub denominator: T,
 }
-impl Fraction {
+
+impl<T> Fraction<T> {
+    pub fn new(top: T, bottom: T) -> Fraction<T> {
+        Fraction{numerator: top, denominator: bottom}
+    }
+}
+
+impl<T: Debug> std::fmt::Display for Fraction<T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:?} / {:?}", self.numerator, self.denominator)
+    }
+}
+
+impl Fraction<i64> {
     pub fn val(&self) -> f64 {
         self.numerator as f64 / self.denominator as f64
     }
-
     pub fn reduce(&mut self) {
         let gcf = gcf(self.numerator as u64, self.denominator as u64) as i64;
         self.numerator /= gcf;
         self.denominator /= gcf;
     }
 }
-impl std::fmt::Display for Fraction {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{} / {}", self.numerator, self.denominator)
+
+impl Fraction<BigInt> {
+    pub fn reduce(&mut self) {
+        let gcf = gcf_big(&self.numerator, &self.denominator);
+        self.numerator /= &gcf;
+        self.denominator /= &gcf;
     }
 }
+
+
+
+// impl Fraction<BigInt> {
+//     pub fn reduce(&mut self) {
+//         let gcf = gcf(self.numerator as u64, self.denominator as u64) as i64;
+//         self.numerator /= gcf;
+//         self.denominator /= gcf;
+//     }
+// }
 
 /// Returns the greatest common factor between two numbers
 pub fn gcf(mut n1: u64, mut n2: u64) -> u64 {
@@ -129,6 +155,19 @@ pub fn gcf(mut n1: u64, mut n2: u64) -> u64 {
         n2 = r;
     }
     return n1;
+}
+pub fn gcf_big(n1: &BigInt, n2: &BigInt) -> BigInt {
+    let mut n1_temp = n1.clone();
+    let mut n2_temp = n2.clone();
+    if n1_temp == BigInt::zero() {
+        return n2_temp;
+    }
+    while n2_temp != BigInt::zero() {
+        let r = &n1_temp % &n2_temp;
+        n1_temp = n2_temp;
+        n2_temp = r;
+    }
+    return n1_temp;
 }
 
 /// Returns all pandigitals of digits made of of 'from' to 'to'
