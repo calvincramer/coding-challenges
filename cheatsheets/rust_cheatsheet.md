@@ -378,6 +378,10 @@ fn f() {
 }
 ```
 
+## Debug vs Optimized
+
+Running in debug will include a lot of runtime checks, and will panic if over/underflow occurs on numbers. In optimized, these checks won't happen. (AFAIK)
+
 
 # Todo:
 
