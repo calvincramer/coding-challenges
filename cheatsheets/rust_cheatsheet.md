@@ -383,6 +383,13 @@ fn f() {
 
 Running in debug will include a lot of runtime checks, and will panic if over/underflow occurs on numbers. In optimized, these checks won't happen. (AFAIK)
 
+## Functions
+```rust
+// Pass function as arguments
+fn my_func(f: fn(i32) -> i32) -> ... {...}
+```
+
+
 
 # Todo:
 
