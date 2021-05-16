@@ -5,7 +5,8 @@ mod p010; mod p011; mod p012; mod p013; mod p014; mod p015; mod p016; mod p017; 
 mod p020; mod p021; mod p022; mod p023; mod p024; mod p025; mod p026; mod p027; mod p028; mod p029;
 mod p030; mod p031; mod p032; mod p033; mod p034; mod p035; mod p036; mod p037; mod p038; mod p039;
 mod p040; mod p041; mod p042; mod p043; mod p044; mod p045; mod p046; mod p047; mod p048; mod p049;
-mod p050; mod p051; mod p052; mod p053; mod p054; mod p055; mod p056; mod p057;
+mod p050; mod p051; mod p052; mod p053; mod p054; mod p055; mod p056; mod p057; mod p058; mod p059;
+mod p060;
 
 // Each problem module should implement this
 trait Problem {
@@ -88,7 +89,10 @@ fn run_problems() {
     // timed_run(&p054::P054{}, false);
     // timed_run(&p055::P055{}, false);
     // timed_run(&p056::P056{}, false);
-    timed_run(&p057::P057{}, false);
+    // timed_run(&p057::P057{}, false);
+    // timed_run(&p058::P058{}, false);
+    // timed_run(&p059::P059{}, false);
+    timed_run(&p060::P060{}, false);
 }
 
 fn main() {

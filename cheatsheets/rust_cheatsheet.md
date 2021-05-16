@@ -175,6 +175,7 @@ let s2: String = s.chars().rev().collect()	// Reverse string into another string
 s.len()			// Length
 s.chars()		// Returns Chars iterator
 &s[start..stop]	// recommended way to do substring
+s.contains("something")	// substring in s?
 
 // <str> is an immutable fixed-length string somewhere in memory
 let s : &'static str = "asdf";
