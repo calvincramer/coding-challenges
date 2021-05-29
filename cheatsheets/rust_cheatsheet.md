@@ -67,6 +67,9 @@ impl<T> MyStruct<T> { ... }
 // Implement types that have certain characteristics (that implement certain traits)
 impl<T: Debug> MyStruct<T> { ... }
 
+// Instantiate struct:
+let a = Name { num_arms: 5, num_toes: 2, ... };
+
 // Call function:
 Name::function1();
 ```
@@ -249,6 +252,7 @@ pub fn somepublicfunction(...) -> ... { ... }
 * bigdecimal
 * rand
 * itertools
+* num-integer -> nth root
 
 
 ## Closures
