@@ -420,6 +420,23 @@ pub fn num_digits(mut num: u64) -> u64 {
     count
 }
 
+/// Gets the number of digits in a number
+pub fn num_digits_128(mut num: u128) -> u128 {
+    if num == 0 {
+        return 1;
+    }
+    let mut count = 0;
+    while num > 0 {
+        num /= 10;
+        count += 1;
+    }
+    count
+}
+
+
+
+
+
 /// Get the number of divisors (divisors from 1 to num inclusive)
 pub fn num_divisors(num: u64) -> u64 {
     if num == 0 { return 0; }
