@@ -109,6 +109,22 @@ impl<T> Fraction<T> {
     }
 }
 
+impl<T: Copy> Fraction<T> {
+    pub fn invert(&mut self) {
+        let temp = self.numerator;
+        self.numerator = self.denominator;
+        self.denominator = temp;
+    }
+}
+
+impl<T: Clone> Fraction<T> {
+    pub fn invert_clone(&mut self) {
+        let temp = self.numerator.clone();
+        self.numerator = self.denominator.clone();
+        self.denominator = temp;
+    }
+}
+
 impl<T: Debug> std::fmt::Display for Fraction<T> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{:?} / {:?}", self.numerator, self.denominator)
