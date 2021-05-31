@@ -43,6 +43,6 @@ impl crate::Problem for P059 {
         }}}
 
         (59, "Sum ASCII".to_string(), "ERROR NO MATCH".to_string())
-        // 129448
+        // Answer: 129448
     }
 }

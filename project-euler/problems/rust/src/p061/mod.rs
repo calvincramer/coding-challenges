@@ -144,6 +144,6 @@ impl crate::Problem for P061 {
             return (61, "Sum".to_string(), nums.iter().sum::<u64>().to_string());
         }
         (61, "Sum".to_string(), "Not found".to_string())
-        // 28684
+        // Answer: 28684
     }
 }

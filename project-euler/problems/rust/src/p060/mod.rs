@@ -41,6 +41,6 @@ impl crate::Problem for P060 {
         }}}}}
 
         (60, "Sum 5 primes".to_string(), "ERROR".to_string())
-        // 26033
+        // Answer: 26033
     }
 }

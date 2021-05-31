@@ -1,5 +1,7 @@
 use integer_sqrt::IntegerSquareRoot;
 
+// TODO: parallelize
+
 fn get_pn(n: u64) -> u64 {
     (n * (3*n - 1)) / 2
 }
@@ -33,5 +35,6 @@ impl crate::Problem for P044 {
         }
 
         (44, "Min difference".to_string(), min_diff.to_string())
+        // Answer: 5482660
     }
 }

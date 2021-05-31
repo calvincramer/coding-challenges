@@ -1,3 +1,4 @@
+use rayon::prelude::*;
 use rust_math_tools::PrimeTest;
 
 /// Gets the size of the longest number of consecutive elements sum together to equal target
@@ -39,17 +40,10 @@ pub struct P050 {}
 impl crate::Problem for P050 {
     #[allow(unused_variables)]
     fn run(&self, verbose: bool) -> (i32, String, String) {
-        let primes: Vec<u64> = (0u64..1_000_000).filter(|n| n.is_prime()).collect();
-        let mut largest_consecutive = 0;
-        let mut largest_prime = 0;
-        for p in &primes {
-            let consecutive = longest_prime_sum(*p, &primes);
-            if consecutive > largest_consecutive {
-                largest_consecutive = consecutive;
-                largest_prime = *p;
-            }
-        }
-        (50, "Prime".to_string(), largest_prime.to_string())
+        let primes: Vec<u64> = (0u64..1_000_000).into_par_iter().filter(|n| n.is_prime()).collect();
+        let max = primes.par_iter().map(|p| (longest_prime_sum(*p, &primes), p)).max_by_key(|x| x.0);
+        let max_prime = max.unwrap().1;
+        (50, "Prime".to_string(), max_prime.to_string())
         // Answer: 997651
     }
 }

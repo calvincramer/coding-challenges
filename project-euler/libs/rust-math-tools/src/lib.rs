@@ -392,8 +392,8 @@ pub fn is_lychrel(num: u64) -> bool {
 }
 
 /// Is a number a square of an integer?
-pub fn is_square(num: u64) -> bool {
-    num == num.integer_sqrt().pow(2)
+pub fn is_square(num: &u64) -> bool {
+    *num == (*num).integer_sqrt().pow(2)
 }
 
 /// nCr - number of combinations
@@ -648,20 +648,20 @@ mod tests {
 
     #[test]
     fn test_is_square() {
-        assert!(is_square(0));
-        assert!(is_square(1));
-        assert!(is_square(4));
-        assert!(is_square(9));
-        assert!(is_square(16));
-        assert!(is_square(25));
-        assert!(is_square(36));
-        assert!(is_square(49));
+        assert!(is_square(&0));
+        assert!(is_square(&1));
+        assert!(is_square(&4));
+        assert!(is_square(&9));
+        assert!(is_square(&16));
+        assert!(is_square(&25));
+        assert!(is_square(&36));
+        assert!(is_square(&49));
 
-        assert!(!is_square(2));
-        assert!(!is_square(3));
-        assert!(!is_square(5));
-        assert!(!is_square(6));
-        assert!(!is_square(101));
+        assert!(!is_square(&2));
+        assert!(!is_square(&3));
+        assert!(!is_square(&5));
+        assert!(!is_square(&6));
+        assert!(!is_square(&101));
     }
 
     #[test]

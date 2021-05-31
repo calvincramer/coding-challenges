@@ -253,6 +253,7 @@ pub fn somepublicfunction(...) -> ... { ... }
 * rand
 * itertools
 * num-integer -> nth root
+* rayon -> easy parallelism, parallel iterator
 
 
 ## Closures
@@ -392,6 +393,17 @@ Running in debug will include a lot of runtime checks, and will panic if over/un
 // Pass function as arguments
 fn my_func(f: fn(i32) -> i32) -> ... {...}
 ```
+
+## rayon crate
+Rayon makes parallel programming easier
+```rust
+use rayon::prelude::*;
+
+// Use these functions to replace using iter()
+par_iter_mut()		// Vectors and arrays
+into_par_iter()		// Good for ranges
+```
+
 
 
 

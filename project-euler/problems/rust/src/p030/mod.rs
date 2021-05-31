@@ -1,3 +1,5 @@
+use rayon::prelude::*;
+
 pub struct P030 {}
 impl crate::Problem for P030 {
     fn run(&self, verbose: bool) -> (i32, String, String) {
@@ -10,7 +12,7 @@ impl crate::Problem for P030 {
             }
             return sum;
         };
-        let results: Vec<u64> = (2u64..10_000_000).filter(|n: &u64| *n == sum_digits_pow_5(n)).collect();
+        let results: Vec<u64> = (2u64..10_000_000).into_par_iter().filter(|n: &u64| *n == sum_digits_pow_5(n)).collect();
         if verbose {
             println!("{:?}", results);
         }

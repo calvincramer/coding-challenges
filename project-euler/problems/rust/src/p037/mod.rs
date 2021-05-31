@@ -32,3 +32,4 @@ impl crate::Problem for P037 {
         // Answer: 748317
     }
 }
+// 0.37792

@@ -1,3 +1,7 @@
+use num_integer::Roots;
+use rust_math_tools::is_square;
+use rayon::prelude::*;
+
 #[derive(Copy, Clone, Debug)]
 struct Term {
     front: u64,
@@ -9,7 +13,22 @@ struct Term {
 
 impl Term {
     fn new(a: u64, n: u64, b: u64, s: u64, sqrt_floor: u64) -> Term {
-        Term { front: a, numerator: n, bottom: b, s: s, sqrt_floor: sqrt_floor }
+        Term {
+            front: a,
+            numerator: n,
+            bottom: b,
+            s: s,
+            sqrt_floor: sqrt_floor,
+        }
+    }
+    fn new_start(num: u64) -> Term {
+        Term {
+            front: num.sqrt(),
+            numerator: 1,
+            bottom: num.sqrt(),
+            s: num,
+            sqrt_floor: num.sqrt(),
+        }
     }
 }
 
@@ -18,69 +37,104 @@ fn iter_term(term: Term) -> Term {
     let a_next = (term.sqrt_floor + term.bottom) / n_next;
     let b_next = (a_next * n_next) - term.bottom;
     Term::new(a_next, n_next, b_next, term.s, term.sqrt_floor)
-
-    // let mut a_next = 0;
-    // let mut n_next = term.numerator + 1;
-    // if n_next > 10 {
-    //     a_next = 1;
-    //     n_next = 0;
-    // }
-    //
-    // Term::new(a_next, n_next, term.bottom, term.s, term.sqrt_floor)
 }
 
-/// Credit: https://rosettacode.org/wiki/Cycle_detection#Python
-/// Brent's cycle detection algorithm
-/// Returns (a,b) where _a_ is the cycle length, and _b_ is the cycle start index (0-indexed)
-/// This says the sequence 4,1,3,1,8,1,3,1,8,[1,3,1,8] repeats [1,3]
-fn cycle_detection(f: fn(Term) -> Term, x0: Term) -> (u64, u64) {
-    // main phase: search successive powers of two
-    let mut power = 1;
-    let mut lam = 1;
-    let mut tortoise = x0;
-    let mut hare = f(x0);   // f(x0) is the element/node next to x0.
-
-    while tortoise.front != hare.front {
-        if power == lam {   // time to start a new power of two?
-            tortoise = hare;
-            power *= 2;
-            lam = 0
+fn term_repeats_n_times(
+    start: &Term,
+    cycle_len: usize,
+    mut repeat_times: usize,
+    f: fn(Term) -> Term,
+) -> bool {
+    if repeat_times <= 1 {
+        return true;
+    }
+    let mut iter = start.clone();
+    let mut cycle = Vec::new();
+    // Get first cycle
+    for _ in 0..cycle_len {
+        cycle.push(iter);
+        iter = f(iter);
+    }
+    // Check repeats
+    let mut i = 0;
+    repeat_times -= 1;
+    while repeat_times > 0 {
+        if iter.front != cycle[i].front {
+            return false;
         }
-        hare = f(hare);
-        lam += 1
+        i += 1;
+        if i >= cycle.len() {
+            i = 0;
+            repeat_times -= 1;
+        }
+        iter = f(iter);
     }
+    true
+}
 
-    // Find the position of the first repetition of length lam
-    let mut mu = 0;
-    tortoise = x0;
-    hare = x0;
-    for _ in 0..lam {
-        // range(lam) produces a list with the values 0, 1, ... , lam-1
-        hare = f(hare);
-    }
-    // The distance between the hare and tortoise is now lam.
+/// Detect cycles in sequence of numbers
+/// Based on Brent's cycle detection algorithm
+/// Credit: https://rosettacode.org/wiki/Cycle_detection#Python
+///
+/// Cycle is considered a cycle if it repeats TIMES_MUST_REPEAT times, over at least
+/// MIN_CYCLE_LEN_CHECK numbers minimum.
+///
+/// Returns (a,b) where _a_ is the cycle length, and _b_ is the cycle start index (0-indexed), or
+/// None if no cycle is detected.
+fn sequence_cycle_length(f: fn(Term) -> Term, x0: Term) -> Option<usize> {
+    let mut length_max = 1usize;  // limit to check length
+    let mut start = x0;
+    let mut start_i = 0usize; // used to update length_max occasionally
+    const TIMES_MUST_REPEAT: usize = 5;  // must repeat this many times to be considered a cycle
+    const MIN_CYCLE_LEN_CHECK: usize = 20;   // must check the cycle out this many terms
+    const INDEX_LIMIT: usize = 1000;
 
-    // Next, the hare and tortoise move at same speed until they agree
-    while tortoise.front != hare.front {
-        tortoise = f(tortoise);
-        hare = f(hare);
-        mu += 1;
+    let get_cycles_check = |cycle_length: usize| -> usize {
+        std::cmp::max(cycle_length * TIMES_MUST_REPEAT, MIN_CYCLE_LEN_CHECK / cycle_length)
+    };
+
+    while start_i < INDEX_LIMIT {
+        // Increase max search for length after a while
+        if start_i == length_max {
+            length_max *= 2;
+        }
+        // Loop through length 1 to length_max check for cycle
+        for length in 1..=length_max {
+            if term_repeats_n_times(&start, length, get_cycles_check(length), f) {
+                // Found repeating pattern. Move back until no longer repeats to find start:
+                // let mut raeal_start = x0;
+                // for real_start_i in 0..=start_i {
+                //     if term_repeats_n_times(&real_start, length, get_cycles_check(length), f) {
+                //         return Some((length, real_start_i));
+                //     }
+                //     real_start = f(real_start);
+                // }
+
+                // Don't care about start being the real start, just care about cycle length:
+                return Some(length);
+            }
+        }
+        // Increment start
+        start = f(start);
+        start_i += 1;
     }
-    (lam, mu)
+    None
 }
 
 pub struct P064 {}
 impl crate::Problem for P064 {
+    #[allow(unused_variables)]
     fn run(&self, verbose: bool) -> (i32, String, String) {
-        let mut t = Term::new(4, 1, 4, 23, 4);
-        println!("{:?}", cycle_detection(iter_term, t));
+        let mut nums = (2u64..=10_000).filter(|n| !is_square(n)).collect::<Vec<u64>>();
+        nums.par_iter_mut().for_each(|n| {
+            match sequence_cycle_length(iter_term, Term::new_start(*n)) {
+                Some(len) => *n = len as u64,
+                None => *n = 0u64,
+            };
+        });
+        let count = nums.iter().filter(|len| *len % 2 == 1).count();
 
-        for _ in 0..32 {
-            println!("{:?}", t);
-            t = iter_term(t);
-        }
-
-        (64, "Odd periods".to_string(), "ERROR".to_string())
-        // ???
+        (64, "Odd periods".to_string(), count.to_string())
+        // Answer: 1322
     }
 }

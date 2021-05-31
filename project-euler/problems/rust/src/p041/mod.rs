@@ -1,13 +1,16 @@
+use rayon::prelude::*;
 use rust_math_tools::PrimeTest;
 use itertools::Itertools;
+
+// TODO: parallelize
 
 pub struct P041 {}
 impl crate::Problem for P041 {
     #[allow(unused_variables)]
     fn run(&self, verbose: bool) -> (i32, String, String) {
-        let mut largest = 0;
-        // Generate all pandigital combinations
+        // Generate all pandigital combinations (slowest part of this problem)
         let mut digit_vec = vec![];
+        let mut pandigitals = vec![];
 
         for digit in 1..=9 {
             digit_vec.push(digit);
@@ -18,11 +21,11 @@ impl crate::Problem for P041 {
                     _ => (),
                 }
                 // vector of digits to number
-                let n = pandigital_vec.iter().map(|n| n.to_string()).join("").parse::<u64>().unwrap();
-                if ! n.is_prime() { continue; }
-                largest = std::cmp::max(largest, n);
+                pandigitals.push(pandigital_vec.iter().map(|n| n.to_string()).join("").parse::<u64>().unwrap());
             }
         }
+
+        let largest = pandigitals.par_iter().filter(|n| n.is_prime()).max().unwrap();
 
         (41, "Largest".to_string(), largest.to_string())
         // Answer: 7652413

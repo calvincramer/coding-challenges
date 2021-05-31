@@ -44,6 +44,6 @@ impl crate::Problem for P062 {
                 return (62, "Smallest cube".to_string(), obj.cubes[0].to_string())
             }
         }
-        // 127035954683
+        // Answer: 127035954683
     }
 }

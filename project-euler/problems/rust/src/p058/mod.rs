@@ -29,6 +29,6 @@ impl crate::Problem for P058 {
         }
 
         (58, "Side length".to_string(), (n*2 + 1).to_string())
-        // 26241
+        // Answer: 26241
     }
 }

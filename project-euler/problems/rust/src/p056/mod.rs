@@ -17,6 +17,6 @@ impl crate::Problem for P056 {
             }
         }
         (56, "Max digital sum".to_string(), max.to_string())
-        // 972
+        // Answer: 972
     }
 }
