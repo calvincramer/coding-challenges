@@ -1,3 +1,6 @@
+/// TODO
+/// * pre computing primes, prime factorizations, totients, etc (make generalized)
+
 extern crate integer_sqrt;
 use integer_sqrt::IntegerSquareRoot;
 
@@ -161,6 +164,7 @@ impl Fraction<BigInt> {
 // }
 
 /// Returns the greatest common factor between two numbers
+/// AKA gcd
 pub fn gcf(mut n1: u64, mut n2: u64) -> u64 {
     if n1 == 0 {
         return n2;
@@ -205,22 +209,17 @@ pub fn get_pandigitals(from: u8, to: u8) -> Vec<u64>  {
 pub fn get_uniq_prime_factors(num: u64) -> Vec<u64> {
     if num.is_prime() { return vec![num]; }
     if num < 2 { return vec![]; }
-    if num == 4 { return vec![2]; }
-    if num == 6 { return vec![2, 3]; }
     let mut pfs = vec![];
     let sqrt = num.integer_sqrt();
-    for div in 2..sqrt {
+    for div in 2..=sqrt {
         if num % div == 0 {
             if div.is_prime() {
                 pfs.push(div);
             }
-            if (num / div).is_prime() {
+            if (num / div).is_prime() && (num / div) != div {
                 pfs.push(num / div);
             }
         }
-    }
-    if sqrt * sqrt == num && sqrt.is_prime() {
-        pfs.push(sqrt);
     }
     pfs
 }
@@ -614,6 +613,25 @@ impl SumDigits for BigUint {
     }
 }
 
+/// Euler's totient function. AKA "phi" function
+/// Counts the number of numbers less than n which are relatively prime to n
+pub fn totient(n: u64) -> u64 {
+    let factors = get_uniq_prime_factors(n);
+    if factors.len() == 0 {
+        return n;
+    }
+    let mut top = 1;
+    let mut bottom = 1;
+    for n in factors {
+        top *= n-1;
+        bottom *= n;
+    }
+    n * top / bottom
+}
+pub fn totient_slow(n: u64) -> u64 {
+    (1..n).filter(|x| gcf(*x, n) == 1).count() as u64
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -815,8 +833,10 @@ mod tests {
         assert_eq!(get_uniq_prime_factors(4), vec![2]);
         assert_eq!(get_uniq_prime_factors(5), vec![5]);
         assert_eq!(get_uniq_prime_factors(6), vec![2, 3]);
+        assert_eq!(get_uniq_prime_factors(8), vec![2]);
         assert_eq!(get_uniq_prime_factors(9), vec![3]);
         assert_eq!(get_uniq_prime_factors(14), vec![2, 7]);
+        assert_eq!(get_uniq_prime_factors(15), vec![3, 5]);
         assert_eq!(get_uniq_prime_factors(25), vec![5]);
         assert_eq!(get_uniq_prime_factors(644), vec![2, 7, 23]);
         assert_eq!(get_uniq_prime_factors(645), vec![3, 5, 43]);
@@ -843,5 +863,18 @@ mod tests {
         assert_eq!(is_lychrel(349), false);
         assert_eq!(is_lychrel(196), true);
         assert_eq!(is_lychrel(4994), true);     // palindromes are not necessarily lychrel
+    }
+
+    #[test]
+    fn test_totient() {
+        assert_eq!(totient(2), 1);
+        assert_eq!(totient(3), 2);
+        assert_eq!(totient(4), 2);
+        assert_eq!(totient(5), 4);
+        assert_eq!(totient(6), 2);
+        assert_eq!(totient(7), 6);
+        assert_eq!(totient(8), 4);
+        assert_eq!(totient(9), 6);
+        assert_eq!(totient(10), 4);
     }
 }

@@ -21,6 +21,11 @@ i8 i16 i32 i64 i128
 # Boolean
 false true
 
+# Limits
+u16::MIN
+u16::MAX
+...
+
 ```
 
 ## Control Flow
@@ -245,7 +250,7 @@ myothercrate = { path = "../relative/path/to/myothercrate" }
 pub fn somepublicfunction(...) -> ... { ... }
 ```
 
-## Useful crates
+## Useful crates, modules
 * integer-sqrt
 * num-bigint
 * num-traits
@@ -254,6 +259,7 @@ pub fn somepublicfunction(...) -> ... { ... }
 * itertools
 * num-integer -> nth root
 * rayon -> easy parallelism, parallel iterator
+* itertools::Itertools
 
 
 ## Closures
@@ -285,6 +291,8 @@ let x : i64 = (1..=100).map(|x:i64| x.pow(2)).sum();
 max()
 max_by()
 max_by_key()
+
+max_by_key(|x| x.0)		// Example for tuples
 
 // All elements are true according to a predicate
 (1..100).all(|n| n < 1_000)
@@ -402,6 +410,8 @@ use rayon::prelude::*;
 // Use these functions to replace using iter()
 par_iter_mut()		// Vectors and arrays
 into_par_iter()		// Good for ranges
+
+// Better to use Vec instead of array. May overflow stack with array
 ```
 
 

@@ -23,7 +23,7 @@ impl crate::Problem for P066 {
             if d.sqrt().pow(2) == d {
                 continue;
             }
-            println!("{} -> {}", d, find_min_x(d));
+            if verbose { println!("{} -> {}", d, find_min_x(d)); }
         }
         (66, "Max min x".to_string(), "???".to_string())
         // Answer: ???
