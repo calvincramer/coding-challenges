@@ -385,6 +385,7 @@ impl PrimeTest for i32 {
 pub fn get_primes_under(max: u64) -> Vec<u64> {
     let mut primes = vec![];
     if max < 2 { return primes; }
+    primes.push(2);
     for n in (3..=max).step_by(2) {
         if n.is_prime() {
             primes.push(n)
