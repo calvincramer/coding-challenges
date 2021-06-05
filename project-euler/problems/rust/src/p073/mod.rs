@@ -25,7 +25,7 @@ impl crate::Problem for P073 {
             let start = (d / 3) - 1;
             let end = d / 2;
             for n in start..=end {
-                if gcf(n, d) == 1 && (n as f64) / (d as f64) > third && (n as f64) / (d as f64) < half {
+                if gcf(&n, &d) == 1 && (n as f64) / (d as f64) > third && (n as f64) / (d as f64) < half {
                     temp_total += 1;
                 }
             }

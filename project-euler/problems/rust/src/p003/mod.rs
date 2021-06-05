@@ -1,7 +1,7 @@
 use integer_sqrt::IntegerSquareRoot;
 use rust_math_tools;
 use std::cmp;
-use self::rust_math_tools::PrimeTest;
+use rust_math_tools::PrimeTest;
 
 pub struct P003 {}
 impl crate::Problem for P003 {
