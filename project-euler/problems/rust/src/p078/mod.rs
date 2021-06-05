@@ -1,5 +1,6 @@
 /// Credit: http://www.programminglogic.com/integer-partition-algorithm/
 /// I have similar solution in problem 76, but a little weirder
+#[allow(dead_code)]
 fn try1() -> (i32, String, String) {
     const TARGET: usize = 60_000;
     let mut table = vec![vec![0u32; TARGET+1]; TARGET+1];
@@ -50,6 +51,7 @@ fn try2() -> (i32, String, String) {
 
 pub struct P078 {}
 impl crate::Problem for P078 {
+    #[allow(unused_variables)]
     fn run(&self, verbose: bool) -> (i32, String, String) {
         // try1()
         try2()
