@@ -1,6 +1,4 @@
-# Rust Cheatsheet
-
-## General
+# General
 ```rust
 //Type aliases
 type NewTypeName = OldAndLongTypeNameThatIsTooLongToTypeBecauseProgrammersWantToTypeAsLittleAsPossible;
@@ -11,7 +9,7 @@ type NewTypeName = OldAndLongTypeNameThatIsTooLongToTypeBecauseProgrammersWantTo
 //		let x = A;		// Where Enum::A exists
 ```
 
-## Types
+# Types
 ```sh
 # Integer
 u8 u16 u32 u64 u128
@@ -28,7 +26,20 @@ u16::MAX
 
 ```
 
-## Control Flow
+# Numbers
+```rust
+let x = 1;
+
+// Literal numbers:
+let x = 1; 		// x is i32 by default
+let x = 1u8;	// place type at end of number literal
+
+// Big numbers easier to read:
+let x : u64 = 123_452_624;
+```
+
+
+# Control Flow
 ```rust
 while <condition> { ... }
 
@@ -43,12 +54,17 @@ for i in 0u64..=1000u64 { ... }
 // Loop in reverse
 for i in (0..1000).rev() { ... }
 
-
 // Infinite loop
 loop { ... }
+
+// Get values from break (only applies to loop, not while or for)
+let thing = loop {
+	...
+	break "asdf";
+};
 ```
 
-## Structs
+# Structs
 ```rust
 struct Name {
 	num_arms: u32,
@@ -64,13 +80,17 @@ impl Name {
 	...
 }
 
-struct MyStruct<T> {...}
+// Generic struct
+struct MyStruct<T> {field1: T, ... }
 
 // Generic implementation for generic struct
 impl<T> MyStruct<T> { ... }
 
 // Implement types that have certain characteristics (that implement certain traits)
 impl<T: Debug> MyStruct<T> { ... }
+
+// Implement specific type for generic struct
+impl MyStruct<u32> { ... }
 
 // Instantiate struct:
 let a = Name { num_arms: 5, num_toes: 2, ... };
@@ -79,7 +99,7 @@ let a = Name { num_arms: 5, num_toes: 2, ... };
 Name::function1();
 ```
 
-## Enums
+# Enums
 ```rust
 enum A {
 	A, B, C
@@ -90,7 +110,16 @@ enum B {
 
 ```
 
-## Vectors
+# Functions
+```rust
+// Pass function as arguments
+fn my_func(f: fn(i32) -> i32) -> ... {...}
+
+// Generic functions
+fn my_func<T>(var: T) -> T {...}
+```
+
+# Vectors
 ```rust
 use std::vec::Vec;
 
@@ -114,7 +143,7 @@ for (i, n) in x.iter().enumerate() {
 [vec1, vec2].concat();	// Produces a new vector? Consumes both?
 ```
 
-## Arrays
+# Arrays
 ```rust
 let arr = [0, 1, 2, 3, 4];	// defaults to i32
 let arr = [0u64, 1, 2, 3, 4];
@@ -122,7 +151,7 @@ let arr = [0u64, 1, 2, 3, 4];
 
 ```
 
-## Hashmap
+# Hashmap - dictionary
 ```rust
 use std::collections::HashMap;
 
@@ -140,7 +169,7 @@ table.insert(key, value);
 
 ```
 
-## Hashset - set
+# Hashset - set
 ```rust
 use std::collections::HashSet;
 use std::iter::FromIterator;	// from_iter
@@ -153,28 +182,15 @@ my_set.insert(5);
 ```
 
 
-## Printing
+# Printing
 ```rust
 println!("string");
 println!("var = {}", var);
-println!("vec = {:?}", vec);
+println!("vec = {:?}", vec);	// for more complex types
 ```
 
-## Numbers
-```rust
-let x = 1;
-x.to_string()	// Number to String
-s.parse::<u32>()	// String to number (optional)
 
-// Literal numbers:
-let x = 1; 		// x is i32 by default
-let x = 1u8;	// place type at end of number literal
-
-// Big numbers easier to read:
-let x : u64 = 123_452_624;
-```
-
-## Strings
+# Strings
 ```rust
 // <String> is a growable, heap-allocated string, UTF-8 chars
 let s: String = "asdf";
@@ -213,9 +229,13 @@ let s : &'static str = "asdf1\
 
 // char type
 'a'
+
+// Convert to and from numbers
+x.to_string()		// Number to String
+s.parse::<u32>()	// String to number (optional)
 ```
 
-## Matching
+# Matching
 ```rust
 let x = 5;
 match x {
@@ -233,9 +253,17 @@ match something {
 	_ => ...,
 }
 
+// if let
+// use this to just match one case
+let thing = Some(5);
+if let Some(n) = thing {
+	// n == 5
+} else {
+	// _ case from match
+}
 ```
 
-## Using crates
+# Using crates
 ```rust
 // usingarchive.rs
 extern crate myothercrate;
@@ -250,11 +278,12 @@ myothercrate = { path = "../relative/path/to/myothercrate" }
 pub fn somepublicfunction(...) -> ... { ... }
 ```
 
-## Useful crates, modules
+# Useful crates, modules
 * integer-sqrt
 * num-bigint
 * num-traits
 * bigdecimal
+	* 100 decimal digit limit on sqrt
 * rand
 * itertools
 * num-integer -> nth root
@@ -262,7 +291,7 @@ pub fn somepublicfunction(...) -> ... { ... }
 * itertools::Itertools
 
 
-## Closures
+# Closures
 ```rust
 // Closures are like anonymous functions, and can capture variables from outside scope
 // Normal function can NEVER access outside scope
@@ -280,7 +309,7 @@ work(2,3,4,5);
 "asdf".to_string().as_bytes().iter().map(|&c| (c as u64) - 0x30).sum::<u64>();
 ```
 
-## Functional stuff
+# Functional stuff
 ```rust
 // Sum of 1 to 100, squared
 let x : i64 = (1..=100).sum::<i64>().pow(2);
@@ -298,7 +327,7 @@ max_by_key(|x| x.0)		// Example for tuples
 (1..100).all(|n| n < 1_000)
 ```
 
-## Cargo
+# Cargo
 ```sh
 # Make new project / crate:
 TODO
@@ -309,13 +338,13 @@ cargo clean		# Delete build artifacts
 
 ```
 
-## Casting
+# Casting
 ```rust
 // Number types
 let x : u64 = u8var as u64;
 ```
 
-## Tuples and unpacking
+# Tuples and unpacking
 ```rust
 fn f(...) -> (u64, i64) {
 	...
@@ -330,11 +359,11 @@ t.1
 t.2
 ```
 
-## Attributes
+# Attributes
 
 Attributes look like `#[...]`
 
-### Derive attribute
+## Derive attribute
 ```rust
 // Implement copy trait
 #[derive(Copy, Clone)]
@@ -347,7 +376,7 @@ Attributes look like `#[...]`
 // Implement total comparison of enums with cmp (==, <, >, etc)
 #[derive(PartialEq, Eq, PartialOrd, Ord)]
 ```
-### Rust format
+## Rust format
 ```rust
 fn f() {
 	#[rustfmt::skip]
@@ -360,7 +389,7 @@ fn f() {
 	do not format whole function
 }
 ```
-### Others
+## Others
 ```rust
 // Don't have warning for unused variables or parameters
 #[allow(unused_variables)]
@@ -371,7 +400,7 @@ fn f() {
 
 
 
-## Traits - interfaces
+# Traits - interfaces
 ```rust
 trait MyTrait {
 	fn foo(self) -> something;
@@ -385,24 +414,20 @@ impl MyTrait for MyStruct {
 ```
 
 
-## Const
+# Const
 ```rust
 fn f() {
 	const MY_CONST: i32 = 123;	// NEED TO SPECIFY TYPE EXPLICITLY.
 }
 ```
 
-## Debug vs Optimized
+# Debug vs Optimized
 
 Running in debug will include a lot of runtime checks, and will panic if over/underflow occurs on numbers. In optimized, these checks won't happen. (AFAIK)
 
-## Functions
-```rust
-// Pass function as arguments
-fn my_func(f: fn(i32) -> i32) -> ... {...}
-```
 
-## rayon crate
+
+# rayon crate
 Rayon makes parallel programming easier
 ```rust
 use rayon::prelude::*;
