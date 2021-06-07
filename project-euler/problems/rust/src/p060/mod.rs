@@ -14,7 +14,7 @@ fn test(a: u64, b: u64) -> bool {
 pub struct P060 {}
 impl crate::Problem for P060 {
     #[rustfmt::skip]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let primes = get_primes_under(10_000);
 
         for i0 in 0..primes.len() {
@@ -37,10 +37,13 @@ impl crate::Problem for P060 {
                 println!("{} {} {} {} {}", primes[i0], primes[i1], primes[i2], primes[i3], primes[i4]);
             }
             let sum = primes[i0] + primes[i1] + primes[i2] + primes[i3] + primes[i4];
-            return (60, "Sum 5 primes".to_string(), sum.to_string())
+            return sum.to_string();
         }}}}}
 
-        (60, "Sum 5 primes".to_string(), "ERROR".to_string())
-        // Answer: 26033
+        "ERROR".to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 60 }
+    fn answer_desc(&self) -> String { "Sum 5 primes".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("26033".to_string()) }
 }

@@ -9,7 +9,7 @@ fn count_chars(s: &String) -> u32 {
 
 pub struct P017 {}
 impl crate::Problem for P017 {
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let mut total: u32 = 0;
         for n in 1..=1000 {
             let s = num_to_string(n);
@@ -18,7 +18,10 @@ impl crate::Problem for P017 {
                 println!("{} -> {} -> {}", n, s, count_chars(&s));
             }
         }
-        (17, "Total".to_string(), total.to_string())
-        // Answer: 21124
+        total.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 17 }
+    fn answer_desc(&self) -> String { "Total".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("21124".to_string()) }
 }

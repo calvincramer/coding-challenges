@@ -124,7 +124,7 @@ fn sequence_cycle_length(f: fn(Term) -> Term, x0: Term) -> Option<usize> {
 pub struct P064 {}
 impl crate::Problem for P064 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let mut nums = (2u64..=10_000).filter(|n| !is_square(n)).collect::<Vec<u64>>();
         nums.par_iter_mut().for_each(|n| {
             match sequence_cycle_length(iter_term, Term::new_start(*n)) {
@@ -132,9 +132,10 @@ impl crate::Problem for P064 {
                 None => *n = 0u64,
             };
         });
-        let count = nums.iter().filter(|len| *len % 2 == 1).count();
-
-        (64, "Odd periods".to_string(), count.to_string())
-        // Answer: 1322
+        nums.iter().filter(|len| *len % 2 == 1).count().to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 64 }
+    fn answer_desc(&self) -> String { "Odd periods".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("1322".to_string()) }
 }

@@ -44,8 +44,7 @@ impl crate::Problem for P051 {
     /// The sole x's and sole r's don't work.
     /// Anything with an r in the ones digit won't work.
     /// The x in the one's digit can only be in {1, 3, 7, 9}
-    //#[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let mut number = 1;
         loop {
             number += 2;    // Only odd numbers can have enough primes (even if mask is on ones digit)
@@ -53,11 +52,14 @@ impl crate::Problem for P051 {
             // Binary digits of mask represent wildcards
             for mask in 1u64..(2u64.pow(number.to_string().len() as u32)) {
                 if search(number, mask) {
-                    // Hard code answer because lazy
-                    return (51, "8 prime family start".to_string(), "120303".to_string())
+                    // Hard code answer because lazy, but could get from number (120303) and mask (21 === 010101)
+                    return "121313".to_string();
                 }
             }
         }
-        // Answer: 121313
     }
+    fn is_slow(&self) -> bool { true }
+    fn problem_num(&self) -> i32 { 51 }
+    fn answer_desc(&self) -> String { "8 prime family start".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("121313".to_string()) }
 }

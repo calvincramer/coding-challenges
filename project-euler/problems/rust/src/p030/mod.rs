@@ -2,7 +2,7 @@ use rayon::prelude::*;
 
 pub struct P030 {}
 impl crate::Problem for P030 {
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let sum_digits_pow_5 = |num: &u64| -> u64 {
             let mut sum = 0;
             let mut n: u64 = *num;
@@ -16,7 +16,10 @@ impl crate::Problem for P030 {
         if verbose {
             println!("{:?}", results);
         }
-        (30, "Sum".to_string(), results.iter().sum::<u64>().to_string())
-        // Answer: 443839
+        results.iter().sum::<u64>().to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 30 }
+    fn answer_desc(&self) -> String { "Sum".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("443839".to_string()) }
 }

@@ -3,7 +3,7 @@ use rust_math_tools::read_all_lines;
 pub struct P067 {}
 impl crate::Problem for P067 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let lines = read_all_lines("src/p067/p067_triangle.txt".to_string());
         let mut triangle = Vec::<Vec<u32>>::new();
         for line in lines {
@@ -19,7 +19,10 @@ impl crate::Problem for P067 {
         }
         let max_path = triangle[0][0];
 
-        (67, "Maximum".to_string(), max_path.to_string())
-        // Answer: 7273
+        max_path.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 67 }
+    fn answer_desc(&self) -> String { "Maximum".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("7273".to_string()) }
 }

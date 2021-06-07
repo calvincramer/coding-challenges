@@ -22,7 +22,7 @@ fn build_digits(mut num: u64) -> [u8; 10] {
 pub struct P052 {}
 impl crate::Problem for P052 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         const MAX_MULT: u64 = 6;
         let mut n = 10;
         loop {
@@ -35,10 +35,13 @@ impl crate::Problem for P052 {
                 }
             }
             if good {
-                return (52, "Smallest".to_string(), n.to_string())
+                return n.to_string();
             }
             n += 1;
         }
-        // Answer: 142857
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 52 }
+    fn answer_desc(&self) -> String { "Smallest".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("142857".to_string()) }
 }

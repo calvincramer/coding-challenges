@@ -3,7 +3,7 @@ use rust_math_tools::get_uniq_prime_factors;
 pub struct P047 {}
 impl crate::Problem for P047 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         const LENGTH: usize = 4;  // Four consecutive numbers with four unique prime factors
         let mut arr: [bool; LENGTH] = [false; LENGTH];
         let mut arr_i = 0;
@@ -16,10 +16,13 @@ impl crate::Problem for P047 {
 
             // Stop at first occurrence
             if arr.iter().all(|b| *b) {
-                return (47, "Number".to_string(), (n as usize - LENGTH + 1).to_string())
+                return (n as usize - LENGTH + 1).to_string();
             }
             n += 1;
         }
-        // Answer: 134043
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 47 }
+    fn answer_desc(&self) -> String { "Number".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("134043".to_string()) }
 }

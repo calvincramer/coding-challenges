@@ -20,7 +20,7 @@ fn traverse(tri: &Vec<Vec<u64>>, y: usize, x: usize) -> (u64, Vec<bool>) {
 
 pub struct P018 {}
 impl crate::Problem for P018 {
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let mut triangle: Vec<Vec<u64>> = vec![];
         triangle.push(vec![75]);
         triangle.push(vec![95, 64]);
@@ -59,7 +59,10 @@ impl crate::Problem for P018 {
                 max_i += max_path.pop().unwrap() as usize;
             }
         }
-        (18, "Max path".to_string(), max.to_string())
-        // Answer: 1074
+        max.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 18 }
+    fn answer_desc(&self) -> String { "Max path".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("1074".to_string()) }
 }

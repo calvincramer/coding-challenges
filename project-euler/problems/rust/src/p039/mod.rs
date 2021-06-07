@@ -53,8 +53,11 @@ fn try2(verbose: bool) -> i64 {
 }
 
 impl crate::Problem for P039 {
-    fn run(&self, verbose: bool) -> (i32, String, String) {
-        (39, "Max perimeter".to_string(), try2(verbose).to_string())
-        // Answer: 840
+    fn solve(&self, verbose: bool) -> String {
+        try2(verbose).to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 39 }
+    fn answer_desc(&self) -> String { "Max perimeter".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("840".to_string()) }
 }

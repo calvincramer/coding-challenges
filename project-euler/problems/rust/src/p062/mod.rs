@@ -17,7 +17,7 @@ fn get_obj<'a>(perm: &String, objs: &'a mut Vec<Obj>) -> Option<&'a mut Obj> {
 
 pub struct P062 {}
 impl crate::Problem for P062 {
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let mut objs = Vec::<Obj>::new();
         let mut n = 0u64;
         const MAX: usize = 5;
@@ -41,9 +41,12 @@ impl crate::Problem for P062 {
                         println!("\t{} -> {} = {}^3", i, obj.cubes[i], obj.cubes[i].parse::<u64>().unwrap().nth_root(3));
                     }
                 }
-                return (62, "Smallest cube".to_string(), obj.cubes[0].to_string())
+                return obj.cubes[0].to_string();
             }
         }
-        // Answer: 127035954683
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 62 }
+    fn answer_desc(&self) -> String { "Smallest cube".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("127035954683".to_string()) }
 }

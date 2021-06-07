@@ -3,7 +3,7 @@ use rust_math_tools::divisors_proper;
 pub struct P021 {}
 impl crate::Problem for P021 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let divisors: Vec<u64> = (0..10000)
             .map(|n| divisors_proper(n).iter().sum())
             .collect();
@@ -20,7 +20,10 @@ impl crate::Problem for P021 {
                 amicables.push(n as u64);
             }
         }
-        (21, "Answer".to_string(), amicables.iter().sum::<u64>().to_string())
-        // Answer: 31626
+        amicables.iter().sum::<u64>().to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 21 }
+    fn answer_desc(&self) -> String { "Answer".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("31626".to_string()) }
 }

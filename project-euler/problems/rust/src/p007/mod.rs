@@ -4,7 +4,7 @@ use rust_math_tools;
 pub struct P007 {}
 impl crate::Problem for P007 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let mut num: u64 = 13;
         let mut prime_num: u32 = 6; // Sixth prime is 13
         while prime_num < 10001 {
@@ -13,8 +13,10 @@ impl crate::Problem for P007 {
                 prime_num += 1;
             }
         }
-        (7, "Num".to_string(), num.to_string())
-        // Answer: 104743
+        num.to_string()
     }
-
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 7 }
+    fn answer_desc(&self) -> String { "Num".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("104743".to_string()) }
 }

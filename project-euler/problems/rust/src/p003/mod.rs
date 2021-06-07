@@ -5,7 +5,7 @@ use rust_math_tools::PrimeTest;
 
 pub struct P003 {}
 impl crate::Problem for P003 {
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let num: u64 = 600851475143;
         let mut num_sqrt = num.integer_sqrt();
         let mut largest_prime_factor: u64 = 1;
@@ -26,7 +26,10 @@ impl crate::Problem for P003 {
                 }
             }
         }
-        (3, "Largest prime factor".to_string(), largest_prime_factor.to_string())
-        // Answer: 6857
+        largest_prime_factor.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 3 }
+    fn answer_desc(&self) -> String { "Largest prime factor".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("6857".to_string()) }
 }

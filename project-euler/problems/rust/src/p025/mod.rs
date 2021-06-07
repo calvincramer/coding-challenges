@@ -2,7 +2,7 @@ use num_bigint::BigUint;
 
 pub struct P025 {}
 impl crate::Problem for P025 {
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let mut n1 = BigUint::from(1u64);
         let mut n2 = BigUint::from(1u64);
         let mut i = 2u64;
@@ -16,7 +16,10 @@ impl crate::Problem for P025 {
         if verbose {
             println!("{}", n2.to_string());
         }
-        (25, "fib_i".to_string(), i.to_string())
-        // Answer: 4782
+        i.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 25 }
+    fn answer_desc(&self) -> String { "fib_i".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("4782".to_string()) }
 }

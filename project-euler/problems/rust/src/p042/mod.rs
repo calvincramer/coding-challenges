@@ -14,7 +14,7 @@ fn is_trinum(x: u64) -> bool {
 pub struct P042 {}
 impl crate::Problem for P042 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         // Read words:
         let x = read_all_lines("src/p042/p042_words.txt".to_string());
         let words: Vec<&str> = (&x[0]).split(',').collect();
@@ -40,7 +40,10 @@ impl crate::Problem for P042 {
             }
         }
 
-        (42, "Num tri words".to_string(), total.to_string())
-        // Answer: 162
+        total.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 42 }
+    fn answer_desc(&self) -> String { "Num tri words".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("162".to_string()) }
 }

@@ -3,7 +3,7 @@ use rust_math_tools::get_primes_under;
 pub struct P077 {}
 impl crate::Problem for P077 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         const SIZE: usize = 101;
         const TOTAL_WAYS: usize = 5_000;
 
@@ -32,10 +32,13 @@ impl crate::Problem for P077 {
 
             // Stop?
             if total > TOTAL_WAYS {
-                return (77, "Value".to_string(), n.to_string())
+                return n.to_string();
             }
         }
-        (77, "Value".to_string(), "table too small".to_string())
-        // Answer: 71
+        "table too small".to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 77 }
+    fn answer_desc(&self) -> String { "Value".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("71".to_string()) }
 }

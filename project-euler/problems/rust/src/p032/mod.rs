@@ -4,7 +4,7 @@ use std::iter::FromIterator;
 
 pub struct P032 {}
 impl crate::Problem for P032 {
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let mut results = vec![];
         for m1 in 1u64..=9999 {
             for m2 in m1 + 1..=9999 {
@@ -35,7 +35,10 @@ impl crate::Problem for P032 {
                 results.iter().map(|x| x.2).sum::<u64>()
             );
         }
-        (32, "Sum unique products".to_string(), set.iter().sum::<u64>().to_string())
-        // Answer: 45228
+        set.iter().sum::<u64>().to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 32 }
+    fn answer_desc(&self) -> String { "Sum unique products".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("45228".to_string()) }
 }

@@ -8,7 +8,7 @@ fn get_low_perm(n: u64) -> String {
 
 pub struct P070 {}
 impl crate::Problem for P070 {
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         const MAX: usize = 10_000_000;
         let mut min_n = usize::MAX;
         let mut min_n_over_phi_n = f64::MAX;
@@ -46,7 +46,10 @@ impl crate::Problem for P070 {
             }
         }
 
-        (70, "n".to_string(), min_n.to_string())
-        // Answer: 8319823
+        min_n.to_string()
     }
+    fn is_slow(&self) -> bool { true }
+    fn problem_num(&self) -> i32 { 70 }
+    fn answer_desc(&self) -> String { "n".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("8319823".to_string()) }
 }

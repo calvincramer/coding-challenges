@@ -2,7 +2,7 @@ pub struct P043 {}
 impl crate::Problem for P043 {
     #[allow(unused_variables)]
     #[rustfmt::skip]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let mut sum: u64 = 0;
 
         for d1 in 1..10 {
@@ -47,7 +47,10 @@ impl crate::Problem for P043 {
                       + 10u64.pow(0)*d10;
         }}}}}}}}}}
 
-        (43, "Sum".to_string(), sum.to_string())
-        // Answer: 16695334890
+        sum.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 43 }
+    fn answer_desc(&self) -> String { "Sum".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("16695334890".to_string()) }
 }

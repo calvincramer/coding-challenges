@@ -11,7 +11,7 @@ fn a_has_more_digits(a: &BigInt, b: &BigInt) -> bool {
 pub struct P057 {}
 impl crate::Problem for P057 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let mut frac = Fraction::new(BigInt::from(3), BigInt::from(3));
         let mut total = 0;
         for _ in 2..=1_000 {
@@ -24,7 +24,10 @@ impl crate::Problem for P057 {
             frac.denominator = new_bottom;
             frac.reduce();
         }
-        (57, "Answer".to_string(), total.to_string())
-        // Answer: 153
+        total.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 57 }
+    fn answer_desc(&self) -> String { "Answer".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("153".to_string()) }
 }

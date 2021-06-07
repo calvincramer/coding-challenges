@@ -1,7 +1,7 @@
 /// Credit: http://www.programminglogic.com/integer-partition-algorithm/
 /// I have similar solution in problem 76, but a little weirder
 #[allow(dead_code)]
-fn try1() -> (i32, String, String) {
+fn try1() -> String {
     const TARGET: usize = 60_000;
     let mut table = vec![vec![0u32; TARGET+1]; TARGET+1];
 
@@ -14,15 +14,15 @@ fn try1() -> (i32, String, String) {
         for x in 1..=n { table[n][x] = (table[n][x-1] + table[n-x][x]) % 1_000_000; }
         let total = table[n][n];
         for x in (n+1)..=TARGET { table[n][x] = total; }
-        if total % 1_000_000 == 0 { return (78, "Least n".to_string(), n.to_string()) }
+        if total % 1_000_000 == 0 { return n.to_string(); }
     }
-    (78, "Least n".to_string(), "Answer not found".to_string())
+    "Answer not found".to_string()
 }
 
 /// Use Euler's partitioning formula
 /// https://en.wikipedia.org/wiki/Partition_(number_theory)
 /// https://en.wikipedia.org/wiki/Pentagonal_number_theorem
-fn try2() -> (i32, String, String) {
+fn try2() -> String {
     const SIZE: usize = 400;    // Found amount of pentagonal numbers by trial and error
     const MOD: i64 = 1_000_000;
 
@@ -46,15 +46,18 @@ fn try2() -> (i32, String, String) {
         partitions.push(next % MOD);
     }
 
-    (78, "Least n".to_string(), (partitions.len() - 2).to_string())
+    (partitions.len() - 2).to_string()
 }
 
 pub struct P078 {}
 impl crate::Problem for P078 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         // try1()
         try2()
-        // Answer: 55374
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 78 }
+    fn answer_desc(&self) -> String { "Least n".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("55374".to_string()) }
 }

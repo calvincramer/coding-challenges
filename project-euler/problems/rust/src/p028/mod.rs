@@ -24,12 +24,15 @@ fn try2() {
 pub struct P028 {}
 impl crate::Problem for P028 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         // Integrate the sum:
         let spiral_diag_sum = |r: u64| {
             (16 * r * r * r + 30 * r * r + 26 * r + 3) / 3
         };
-        (28, "Sum".to_string(), spiral_diag_sum(N).to_string())
-        // Answer: 669171001
+        spiral_diag_sum(N).to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 28 }
+    fn answer_desc(&self) -> String { "Sum".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("669171001".to_string()) }
 }

@@ -1,6 +1,6 @@
 pub struct P045 {}
 impl crate::Problem for P045 {
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let mut n_t = 1;    // triangle number index (the n of T_n)
         let mut n_p = 1;    // pentagonal number index
         let mut n_h = 1;    // hexagonal number index
@@ -10,7 +10,7 @@ impl crate::Problem for P045 {
         loop {
             if tri_num == pen_num && tri_num == hex_num {
                 if verbose { println!("{} -> T_{} P_{} H_{}", tri_num, n_t, n_p, n_h); }
-                if n_t > 285 { return (45, "Tri Pen Hex".to_string(), tri_num.to_string()) }
+                if n_t > 285 { return tri_num.to_string(); }
             }
             // Increment the smallest:
             if tri_num < pen_num && tri_num < hex_num {
@@ -24,6 +24,9 @@ impl crate::Problem for P045 {
                 n_h += 1;
             }
         }
-        // Answer: 1533776805
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 45 }
+    fn answer_desc(&self) -> String { "Tri Pen Hex".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("1533776805".to_string()) }
 }

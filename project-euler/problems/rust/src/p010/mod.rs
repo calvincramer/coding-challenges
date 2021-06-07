@@ -4,7 +4,7 @@ use rayon::prelude::*;
 pub struct P010 {}
 impl crate::Problem for P010 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         // Iterative
         // let mut sum: u64 = 0;
         // for n in 2u64..2_000_000 {
@@ -14,10 +14,10 @@ impl crate::Problem for P010 {
         // }
 
         // Parallel
-        let sum = (2u64..2_000_000).into_par_iter().filter(|n| n.is_prime()).sum::<u64>();
-
-        (10, "Sum".to_string(), sum.to_string())
-        // Answer: 142913828922
+        (2u64..2_000_000).into_par_iter().filter(|n| n.is_prime()).sum::<u64>().to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 10 }
+    fn answer_desc(&self) -> String { "Sum".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("142913828922".to_string()) }
 }
-// old iterative debug 0.34016

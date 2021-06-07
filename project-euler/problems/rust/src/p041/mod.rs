@@ -7,7 +7,7 @@ use itertools::Itertools;
 pub struct P041 {}
 impl crate::Problem for P041 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         // Generate all pandigital combinations (slowest part of this problem)
         let mut digit_vec = vec![];
         let mut pandigitals = vec![];
@@ -27,7 +27,10 @@ impl crate::Problem for P041 {
 
         let largest = pandigitals.par_iter().filter(|n| n.is_prime()).max().unwrap();
 
-        (41, "Largest".to_string(), largest.to_string())
-        // Answer: 7652413
+        largest.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 41 }
+    fn answer_desc(&self) -> String { "Largest".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("7652413".to_string()) }
 }

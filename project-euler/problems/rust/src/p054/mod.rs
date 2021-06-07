@@ -214,13 +214,16 @@ fn parse_hands() -> Vec<(Hand, Hand)> {
 pub struct P054 {}
 impl crate::Problem for P054 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let t = parse_hands()
             .iter()
             .filter(|(p1, p2)| Hand::compare_hands(&p1, &p2) == Ordering::Greater)
             .count();
 
-        (54, "Player 1 # wins".to_string(), t.to_string())
-        // Answer: 376
+        t.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 54 }
+    fn answer_desc(&self) -> String { "Player 1 # wins".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("376".to_string()) }
 }

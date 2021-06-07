@@ -5,7 +5,7 @@ use itertools::Itertools;
 pub struct P069 {}
 impl crate::Problem for P069 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let mut max_n = u64::MIN;
         let mut max_phi_n = f64::MIN;
 
@@ -33,7 +33,10 @@ impl crate::Problem for P069 {
             }
         }
 
-        (69, "Maximum".to_string(), max_n.to_string())
-        // Answer: 510510
+        max_n.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 69 }
+    fn answer_desc(&self) -> String { "Maximum".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("510510".to_string()) }
 }

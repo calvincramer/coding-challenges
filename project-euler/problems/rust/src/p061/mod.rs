@@ -127,7 +127,7 @@ fn find_cycle(
 
 pub struct P061 {}
 impl crate::Problem for P061 {
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let p = Polygonals::new();
         let mut nums = [0u64; 6];
         let found = find_cycle(0, &mut nums, 0, &p);
@@ -141,9 +141,12 @@ impl crate::Problem for P061 {
                 println!("nums[4] heptagonal?: {}", p.heptagonal[nums[4] as usize]);
                 println!("nums[5] octagonal?: {}", p.octagonal[nums[5] as usize]);
             }
-            return (61, "Sum".to_string(), nums.iter().sum::<u64>().to_string());
+            return nums.iter().sum::<u64>().to_string();
         }
-        (61, "Sum".to_string(), "Not found".to_string())
-        // Answer: 28684
+        "Not found".to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 61 }
+    fn answer_desc(&self) -> String { "Sum".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("28684".to_string()) }
 }

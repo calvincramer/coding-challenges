@@ -2,7 +2,7 @@ use rust_math_tools::{is_pandigital_1_to_9};
 
 pub struct P038 {}
 impl crate::Problem for P038 {
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         // n > 1 implies n is at least 2, and we are concatenating each product, any number with
         // five digits will be too large: 10_000 concat 20_000 = 1_000_020_000
         let stop: u64 = 10_000;
@@ -27,7 +27,10 @@ impl crate::Problem for P038 {
             }
         }
 
-        (38, "Largest".to_string(), largest.to_string())
-        // Answer: 932718654
+        largest.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 38 }
+    fn answer_desc(&self) -> String { "Largest".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("932718654".to_string()) }
 }

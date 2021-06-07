@@ -15,7 +15,7 @@ fn num_primes(a: i64, b: i64) -> u64 {
 
 pub struct P027 {}
 impl crate::Problem for P027 {
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let mut best_a = 0;
         let mut best_b = 0;
         let mut best_p = 0;
@@ -32,7 +32,10 @@ impl crate::Problem for P027 {
         if verbose {
             println!("num_primes={} a={} b={} a*b={}", best_p, best_a, best_b, best_a * best_b)
         }
-        (27, "a*b".to_string(), (best_a * best_b).to_string())
-        // Answer: -59231
+        (best_a * best_b).to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 27 }
+    fn answer_desc(&self) -> String { "a*b".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("-59231".to_string()) }
 }

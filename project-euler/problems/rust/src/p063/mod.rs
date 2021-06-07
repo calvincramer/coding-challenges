@@ -3,7 +3,7 @@ use std::cmp::Ordering;
 
 pub struct P063 {}
 impl crate::Problem for P063 {
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         use Ordering::*;
         let mut count = 0;
         for a in 1..=9u128 {
@@ -24,7 +24,10 @@ impl crate::Problem for P063 {
                 }
             }
         }
-        (63, "Amount".to_string(), count.to_string())
-        // Answer: 49
+        count.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 63 }
+    fn answer_desc(&self) -> String { "Amount".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("49".to_string()) }
 }

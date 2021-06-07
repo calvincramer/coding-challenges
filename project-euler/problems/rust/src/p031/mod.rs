@@ -1,7 +1,7 @@
 pub struct P031 {}
 impl crate::Problem for P031 {
     #[rustfmt::skip]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let mut ways = 0;
         for tp1 in (0..=200).step_by(1) {       //one pence coin
         for tp2 in (0..=200).step_by(2) {       //two pence coin
@@ -27,7 +27,10 @@ impl crate::Problem for P031 {
                 ways += 1;
             }
         }}}}}}}}
-        (31, "Total ways".to_string(), ways.to_string())
-        // Answer: 73682
+        ways.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 31 }
+    fn answer_desc(&self) -> String { "Total ways".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("73682".to_string()) }
 }

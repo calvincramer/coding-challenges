@@ -15,7 +15,7 @@ fn is_pn(n: u64) -> bool {
 
 pub struct P044 {}
 impl crate::Problem for P044 {
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let mut min_diff = 999_999_999_999;
         let mut pentags = vec![];
 
@@ -34,7 +34,10 @@ impl crate::Problem for P044 {
             pentags.push(get_pn(n));
         }
 
-        (44, "Min difference".to_string(), min_diff.to_string())
-        // Answer: 5482660
+        min_diff.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 44 }
+    fn answer_desc(&self) -> String { "Min difference".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("5482660".to_string()) }
 }

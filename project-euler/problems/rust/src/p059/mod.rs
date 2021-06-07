@@ -19,7 +19,7 @@ fn is_real_message(message: &String) -> bool {
 pub struct P059 {}
 impl crate::Problem for P059 {
     #[rustfmt::skip]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let cipher_str = read_all_lines("src/p059/p059_cipher.txt".to_string());
         let cipher_str: Vec<&str> = cipher_str[0].split(',').collect();
         let cipher_text: Vec<u8> = cipher_str.iter().map(|s| s.parse::<u8>().unwrap()).collect();
@@ -38,11 +38,14 @@ impl crate::Problem for P059 {
                     println!("Message: {}", plain_text);
                 }
                 let s = plain_text.as_bytes().iter().map(|n| *n as u64).sum::<u64>();
-                return (59, "Sum ASCII".to_string(), s.to_string())
+                return s.to_string();
             }
         }}}
 
-        (59, "Sum ASCII".to_string(), "ERROR NO MATCH".to_string())
-        // Answer: 129448
+        "ERROR NO MATCH".to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 59 }
+    fn answer_desc(&self) -> String { "Sum ASCII".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("129448".to_string()) }
 }

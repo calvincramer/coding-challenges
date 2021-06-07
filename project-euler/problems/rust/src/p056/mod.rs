@@ -4,7 +4,7 @@ use rust_math_tools::SumDigits;
 pub struct P056 {}
 impl crate::Problem for P056 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         // Fast enough that we don't need to be smart.
         let mut max = 0;
         for a in 1u64..100 {
@@ -16,7 +16,10 @@ impl crate::Problem for P056 {
                 }
             }
         }
-        (56, "Max digital sum".to_string(), max.to_string())
-        // Answer: 972
+        max.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 56 }
+    fn answer_desc(&self) -> String { "Max digital sum".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("972".to_string()) }
 }

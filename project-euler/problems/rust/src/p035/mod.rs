@@ -17,7 +17,7 @@ fn cycle_num(mut num: u64) -> Vec<u64> {
 pub struct P035 {}
 impl crate::Problem for P035 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let prime_lkup: Vec<bool> = (0u64..1_000_000).into_par_iter().map(|x| x.is_prime()).collect();
         let total_count = (0..1_000_000).into_par_iter()
             .filter(|n| cycle_num(*n)
@@ -26,7 +26,10 @@ impl crate::Problem for P035 {
             )
             .count();
 
-        (35, "Total count".to_string(), total_count.to_string())
-        // Answer: 55
+        total_count.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 35 }
+    fn answer_desc(&self) -> String { "Total count".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("55".to_string()) }
 }

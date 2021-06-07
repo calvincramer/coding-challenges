@@ -1,6 +1,6 @@
 pub struct P009 {}
 impl crate::Problem for P009 {
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         for a in 1i64..1000 {
             for b in a + 1..1000 {
                 let c: i64 = 1000 - a - b;   // Only one option for c
@@ -9,12 +9,15 @@ impl crate::Problem for P009 {
                         println!("a={} b={} c={}", a, b, c);
                         println!("a+b+c={}", a + b + c);
                     }
-                    return (9, "a*b*c".to_string(), (a * b * c).to_string());
+                    return (a * b * c).to_string();
                     // Supposedly there is one one of this triplet, but continue on just in case
                 }
             }
         }
-        (9, "a*b*c".to_string(), "ERROR".to_string())
-        // Answer: 31875000
+        "ERROR".to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 9 }
+    fn answer_desc(&self) -> String { "a*b*c".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("31875000".to_string()) }
 }

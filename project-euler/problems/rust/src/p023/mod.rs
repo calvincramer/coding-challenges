@@ -6,7 +6,7 @@ use rayon::prelude::*;
 pub struct P023 {}
 impl crate::Problem for P023 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let abundant_nums: Vec<u64> = (1..=28123).into_par_iter()
             .map(|n| (n, divisors_sum_type(n)))
             .filter(|(_, t)| t == &DivSum::Abundant)
@@ -24,7 +24,10 @@ impl crate::Problem for P023 {
             }
         }
         let total: u64 = nums.par_iter().sum();
-        (23, "Sum".to_string(), total.to_string())
-        // Answer: 4179871
+        total.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 23 }
+    fn answer_desc(&self) -> String { "Sum".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("4179871".to_string()) }
 }

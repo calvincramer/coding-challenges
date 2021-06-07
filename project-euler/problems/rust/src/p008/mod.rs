@@ -1,7 +1,7 @@
 pub struct P008 {}
 impl crate::Problem for P008 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let mut largest: u64 = 0;
         let s: &[u8] = "73167176531330624919225119674426574742355349194934\
                      96983520312774506326239578318016984801869478851843\
@@ -30,7 +30,10 @@ impl crate::Problem for P008 {
             }
             largest = std::cmp::max(largest, temp_prod);
         }
-        (8, "Largest".to_string(), largest.to_string())
-        // Answer: 23514624000
+        largest.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 8 }
+    fn answer_desc(&self) -> String { "Largest".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("23514624000".to_string()) }
 }

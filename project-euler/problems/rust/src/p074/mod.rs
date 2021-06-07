@@ -23,9 +23,11 @@ fn digit_factorial_length(start: u64) -> usize {
 pub struct P074 {}
 impl crate::Problem for P074 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
-        let total = (0..1_000_000).into_par_iter().filter(|n| digit_factorial_length(*n) == 60).count();
-        (74, "num chains 60".to_string(), total.to_string())
-        // Answer: 402
+    fn solve(&self, verbose: bool) -> String {
+        (0..1_000_000).into_par_iter().filter(|n| digit_factorial_length(*n) == 60).count().to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 74 }
+    fn answer_desc(&self) -> String { "num chains 60".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("402".to_string()) }
 }

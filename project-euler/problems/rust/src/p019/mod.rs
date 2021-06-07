@@ -116,7 +116,7 @@ impl Date {
 pub struct P019 {}
 impl crate::Problem for P019 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let mut date = Date {
             day_of_week: Day::MON,
             day: 1,
@@ -134,7 +134,10 @@ impl crate::Problem for P019 {
                 date.next();
             }
         }
-        (19, "Answer".to_string(), total.to_string())
-        // Answer: 171
+        total.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 19 }
+    fn answer_desc(&self) -> String { "Answer".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("171".to_string()) }
 }

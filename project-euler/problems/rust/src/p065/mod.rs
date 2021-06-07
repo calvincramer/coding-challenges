@@ -4,7 +4,7 @@ use num_traits::One;
 pub struct P065 {}
 impl crate::Problem for P065 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let mut nums = [1u64; 100];
         let mut k = 2;
 
@@ -25,7 +25,10 @@ impl crate::Problem for P065 {
         efrac.invert_clone();
 
         let sum: u64 = efrac.numerator.to_string().as_bytes().iter().map(|c| (*c as u64) - 48).sum();
-        (65, "Sum digits".to_string(), sum.to_string())
-        // Answer: 272
+        sum.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 65 }
+    fn answer_desc(&self) -> String { "Sum digits".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("272".to_string()) }
 }

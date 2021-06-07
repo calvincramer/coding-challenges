@@ -3,7 +3,7 @@ use rust_math_tools::read_all_lines;
 pub struct P022 {}
 impl crate::Problem for P022 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let x = read_all_lines(String::from("src/p022/names.txt"));
         let names: Vec<&str> = (&x[0]).split(',').collect();
         let mut names: Vec<String> = names.iter().map(|s| s.to_string()).collect();
@@ -27,7 +27,10 @@ impl crate::Problem for P022 {
         let final_score = (0u64..scores.len() as u64)
             .map(|i: u64| scores[i as usize] * (i + 1))
             .sum::<u64>();
-        (22, "Score".to_string(), final_score.to_string())
-        // Answer: 871198282
+        final_score.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 22 }
+    fn answer_desc(&self) -> String { "Score".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("871198282".to_string()) }
 }

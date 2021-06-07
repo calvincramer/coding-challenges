@@ -1,7 +1,7 @@
 pub struct P040 {}
 impl crate::Problem for P040 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let mut string = String::new();
         let mut n = 1;
         while string.len() <= 1_000_000 {
@@ -14,7 +14,10 @@ impl crate::Problem for P040 {
             prod *= (char_arr[*i - 1] as u64) - 48;
         }
 
-        (40, "Product".to_string(), prod.to_string())
-        // Answer: 210
+        prod.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 40 }
+    fn answer_desc(&self) -> String { "Product".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("210".to_string()) }
 }

@@ -76,7 +76,7 @@ fn is_repeating_right(cycle_length: usize, chars: &[u8]) -> bool {
 
 pub struct P026 {}
 impl crate::Problem for P026 {
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let mut max_d = 0;
         let mut max_cycle = "".to_string();
         for d in 983..1000 {
@@ -101,7 +101,10 @@ impl crate::Problem for P026 {
         if verbose {
             println!("\nd={} len={} cycle={}", max_d, max_cycle.len(), max_cycle)
         }
-        (26, "d".to_string(), max_d.to_string())
-        // Answer: d=983
+        max_d.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 26 }
+    fn answer_desc(&self) -> String { "d".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("983".to_string()) }
 }

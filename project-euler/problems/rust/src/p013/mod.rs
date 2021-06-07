@@ -6,7 +6,7 @@ use std::io::{BufRead, BufReader};
 pub struct P013 {}
 impl crate::Problem for P013 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         // Big int sum:
         let mut sum: BigUint = Zero::zero();
 
@@ -27,8 +27,10 @@ impl crate::Problem for P013 {
                 Err(e) => println!("error! {}", e),
             }
         }
-        (13, "Answer".to_string(), String::from(&sum.to_string().as_str()[0..10]))
-        // Answer: 5537376230
+        String::from(&sum.to_string().as_str()[0..10])
     }
-
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 13 }
+    fn answer_desc(&self) -> String { "Answer".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("5537376230".to_string()) }
 }

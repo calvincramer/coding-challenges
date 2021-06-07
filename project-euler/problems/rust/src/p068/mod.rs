@@ -2,7 +2,7 @@ pub struct P068 {}
 impl crate::Problem for P068 {
     #[rustfmt::skip]
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         const MAX: u16 = 10;
         let mut max = u64::MIN;
         for n0 in 1..=MAX {
@@ -44,7 +44,10 @@ impl crate::Problem for P068 {
                 max = std::cmp::max(max, big_num);
             }
         }}}}}}}}}}
-        (68, "Max".to_string(), max.to_string())
-        // Answer: 6531031914842725
+        max.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 68 }
+    fn answer_desc(&self) -> String { "Max".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("6531031914842725".to_string()) }
 }

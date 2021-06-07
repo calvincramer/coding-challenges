@@ -3,7 +3,7 @@ use std::collections::HashSet;
 use rayon::prelude::*;
 
 #[allow(dead_code)]
-fn try1() -> (i32, String, String) {
+fn try1() -> String {
     let mut largest: u64 = 0;
     for n1 in 100u64..1000u64 {
         for n2 in (n1+1)..1000u64 {
@@ -12,10 +12,10 @@ fn try1() -> (i32, String, String) {
             }
         }
     }
-    (4, "Largest palindrome".to_string(), largest.to_string())
+    largest.to_string()
 }
 
-fn try1_parallel() -> (i32, String, String) {
+fn try1_parallel() -> String {
     let largest = (100u64..1000u64)
         .into_par_iter()
         .map(|n1| (n1+1..1000u64)
@@ -24,12 +24,12 @@ fn try1_parallel() -> (i32, String, String) {
             .max()
         )
         .max();
-    (4, "Largest palindrome".to_string(), largest.unwrap().unwrap().to_string())
+    largest.unwrap().unwrap().to_string()
 }
 
 /// Slower
 #[allow(dead_code)]
-fn try2() -> (i32, String, String) {
+fn try2() -> String {
     let mut my_set = HashSet::new();
     for n1 in 100u64..1000u64 {
         for n2 in (n1+1)..1000u64 { // Multiplication is associative
@@ -40,17 +40,20 @@ fn try2() -> (i32, String, String) {
     sorted.sort();
     for n in sorted.iter().rev() {
         if (*n).is_palindrome() {
-            return (4, "Largest palindrome".to_string(), n.to_string())
+            return n.to_string()
         }
     }
-    (4, "Largest palindrome".to_string(), "Error".to_string())
+    "Error".to_string()
 }
 
 pub struct P004 {}
 impl crate::Problem for P004 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         try1_parallel()
-        // Answer: 906609
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 4 }
+    fn answer_desc(&self) -> String { "Largest palindrome".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("906609".to_string()) }
 }

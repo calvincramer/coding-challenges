@@ -3,7 +3,7 @@ use rust_math_tools::Fraction;
 pub struct P033 {}
 impl crate::Problem for P033 {
     #[rustfmt::skip]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let mut frac = Fraction { numerator: 1, denominator: 1 };
 
         for numerator in 10..=99 {
@@ -35,7 +35,10 @@ impl crate::Problem for P033 {
         if verbose {
             println!("frac: {}", frac);
         }
-        (33, "denom".to_string(), frac.denominator.to_string())
-        // Answer: 100
+        frac.denominator.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 33 }
+    fn answer_desc(&self) -> String { "denom".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("100".to_string()) }
 }

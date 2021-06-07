@@ -21,7 +21,7 @@ impl Node {
 pub struct P081 {}
 impl crate::Problem for P081 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let lines = read_all_lines("src/p081/p081_matrix.txt".to_string());
 
         let mut board = vec![];
@@ -61,7 +61,10 @@ impl crate::Problem for P081 {
             }
         }
 
-        (81, "Min path".to_string(), total.to_string())
-        // Answer: 427337
+        total.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 81 }
+    fn answer_desc(&self) -> String { "Min path".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("427337".to_string()) }
 }

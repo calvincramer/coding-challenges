@@ -1,6 +1,6 @@
 pub struct P076 {}
 impl crate::Problem for P076 {
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         const TARGET: usize = 100;
         let mut table = [[0; TARGET+1]; TARGET+1];
 
@@ -23,7 +23,10 @@ impl crate::Problem for P076 {
         }
 
         let total = table[TARGET][TARGET-1];
-        (76, "Num ways".to_string(), total.to_string())
-        // Answer: 190569291
+        total.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 76 }
+    fn answer_desc(&self) -> String { "Num ways".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("190569291".to_string()) }
 }

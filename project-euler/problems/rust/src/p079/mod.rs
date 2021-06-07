@@ -10,7 +10,7 @@ use std::collections::HashSet;
 pub struct P079 {}
 impl crate::Problem for P079 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
 
         let lines = read_all_lines("src/p079/p079_keylog.txt".to_string());
         let mut nums: Vec<Vec<u8>> = lines.iter()
@@ -53,7 +53,10 @@ impl crate::Problem for P079 {
 
         }
 
-        (79, "Passcode".to_string(), passcode.iter().map(|n| n.to_string()).collect::<String>())
-        // Answer: 73162890
+        passcode.iter().map(|n| n.to_string()).collect::<String>()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 79 }
+    fn answer_desc(&self) -> String { "Passcode".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("73162890".to_string()) }
 }

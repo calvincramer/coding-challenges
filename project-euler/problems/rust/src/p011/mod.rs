@@ -1,7 +1,7 @@
 pub struct P011 {}
 impl crate::Problem for P011 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let len = 20;
         #[rustfmt::skip]
         let g: [[u32; 20]; 20] = [
@@ -56,7 +56,10 @@ impl crate::Problem for P011 {
             }
         }
 
-        (11, "Max".to_string(), max.to_string())
-        // Answer: 70600674
+        max.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 11 }
+    fn answer_desc(&self) -> String { "Max".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("70600674".to_string()) }
 }

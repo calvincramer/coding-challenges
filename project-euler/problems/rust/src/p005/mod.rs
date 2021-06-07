@@ -23,9 +23,12 @@ fn bad_approach() {
 pub struct P005 {}
 impl crate::Problem for P005 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         // Can figure out manually too:
-        (5, "Smallest".to_string(), (2*2*2*2*3*3*5*7*11*13*17*19).to_string())
-        // Answer: 232792560
+        (2*2*2*2*3*3*5*7*11*13*17*19).to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 5 }
+    fn answer_desc(&self) -> String { "Smallest".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("232792560".to_string()) }
 }

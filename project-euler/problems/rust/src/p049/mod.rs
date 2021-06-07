@@ -13,7 +13,7 @@ fn get_digits(mut n: u64) -> HashSet<u64> {
 pub struct P049 {}
 impl crate::Problem for P049 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         const INC: u64 = 3_330;
         for n1 in 1_489..=(9_999 - 2 * INC) {
             let n2 = n1 + INC;
@@ -28,9 +28,12 @@ impl crate::Problem for P049 {
             if n1_digits != n2_digits || n1_digits != n3_digits {
                 continue;
             }
-            return (49, "Number".to_string(), format!("{}{}{}", n1, n2, n3));
+            return format!("{}{}{}", n1, n2, n3);
         }
-        (49, "Number".to_string(), "Error".to_string())
-        // Answer: 296962999629
+        "Error".to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 49 }
+    fn answer_desc(&self) -> String { "Number".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("296962999629".to_string()) }
 }

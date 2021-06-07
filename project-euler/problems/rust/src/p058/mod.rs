@@ -4,7 +4,7 @@ pub struct P058 {}
 impl crate::Problem for P058 {
     #[allow(unused_variables)]
     #[rustfmt::skip]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let mut n = 0u64;  // Nth concentric ring (middle 1 is the 0th ring)
         let mut tr = 1; // Top right diagonal number
         let mut tl = 1; // Top left diagonal number
@@ -28,7 +28,10 @@ impl crate::Problem for P058 {
             if (total_primes as f64) / (total_nums as f64) < 0.1 { break; }
         }
 
-        (58, "Side length".to_string(), (n*2 + 1).to_string())
-        // Answer: 26241
+        (n*2 + 1).to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 58 }
+    fn answer_desc(&self) -> String { "Side length".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("26241".to_string()) }
 }

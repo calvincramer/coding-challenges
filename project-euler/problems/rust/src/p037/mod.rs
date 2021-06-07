@@ -13,7 +13,7 @@ fn truncatably_prime(n: u64) -> bool {
 
 pub struct P037 {}
 impl crate::Problem for P037 {
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         let mut count = 0;
         let mut n = 11u64;
         let mut sum = 0;
@@ -28,8 +28,10 @@ impl crate::Problem for P037 {
             }
             n += 2;
         }
-        (37, "Sum".to_string(), sum.to_string())
-        // Answer: 748317
+        sum.to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 37 }
+    fn answer_desc(&self) -> String { "Sum".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("748317".to_string()) }
 }
-// 0.37792

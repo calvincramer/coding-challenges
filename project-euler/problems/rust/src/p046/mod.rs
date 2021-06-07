@@ -21,17 +21,20 @@ fn verify_goldbach(n: u64, primes: &Vec<u64>) -> bool {
 pub struct P046 {}
 impl crate::Problem for P046 {
     #[allow(unused_variables)]
-    fn run(&self, verbose: bool) -> (i32, String, String) {
+    fn solve(&self, verbose: bool) -> String {
         // Generate primes
         let mut primes = vec![];
         for n in 0u64..MAX { if n.is_prime() { primes.push(n); } }
 
         for n in (9..MAX).step_by(2) {
             if is_composite(n) && !verify_goldbach(n, &primes) {
-                return (46, "Smallest".to_string(), n.to_string())
+                return n.to_string();
             }
         }
-        (46, "Smallest".to_string(), "Error".to_string())
-        // Answer: 5777
+        "Error".to_string()
     }
+    fn is_slow(&self) -> bool { false }
+    fn problem_num(&self) -> i32 { 46 }
+    fn answer_desc(&self) -> String { "Smallest".to_string() }
+    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("5777".to_string()) }
 }
