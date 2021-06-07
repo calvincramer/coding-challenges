@@ -99,6 +99,19 @@ let a = Name { num_arms: 5, num_toes: 2, ... };
 Name::function1();
 ```
 
+## Tuple structs
+```rust
+// Like structs but unnamed fields
+struct MyTupleStruct(u32, String);
+impl MyTupleStruct {
+	fn foo() { ... }
+}
+
+let obj = MyTupleStruct(5, "asdf".to_string());
+let MyTupleStruct(num, string) = obj;	// Deconstruction
+```
+
+
 # Enums
 ```rust
 enum A {
@@ -289,6 +302,7 @@ pub fn somepublicfunction(...) -> ... { ... }
 * num-integer -> nth root
 * rayon -> easy parallelism, parallel iterator
 * itertools::Itertools
+* pathfinding -> path finding algorithms
 
 
 # Closures
