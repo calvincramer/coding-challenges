@@ -9,7 +9,7 @@ mod p040; mod p041; mod p042; mod p043; mod p044; mod p045; mod p046; mod p047; 
 mod p050; mod p051; mod p052; mod p053; mod p054; mod p055; mod p056; mod p057; mod p058; mod p059;
 mod p060; mod p061; mod p062; mod p063; mod p064; mod p065; mod p066; mod p067; mod p068; mod p069;
 mod p070; mod p071; mod p072; mod p073; mod p074; mod p075; mod p076; mod p077; mod p078; mod p079;
-mod p080; mod p081; mod p082; mod p083;
+mod p080; mod p081; mod p082; mod p083; mod p084;
 
 #[derive(Debug)]
 enum ProblemAnswer {
@@ -86,7 +86,7 @@ fn run_all_problems(verbose: bool, skip_slow: bool) {
         &p065::P065{},                &p067::P067{}, &p068::P068{}, &p069::P069{},
         &p070::P070{}, &p071::P071{}, &p072::P072{}, &p073::P073{}, &p074::P074{},
                        &p076::P076{}, &p077::P077{}, &p078::P078{}, &p079::P079{},
-                       &p081::P081{}, &p082::P082{}, &p083::P083{},
+                       &p081::P081{}, &p082::P082{}, &p083::P083{}, &p084::P084{},
     ];
 
     for prob in problems {
@@ -96,7 +96,7 @@ fn run_all_problems(verbose: bool, skip_slow: bool) {
 
 #[allow(dead_code)]
 fn run_specific_problem(verbose: bool) {
-    timed_run(&p051::P051{}, verbose, false);
+    timed_run(&p084::P084{}, verbose, false);
 }
 
 fn main() {
@@ -106,8 +106,8 @@ fn main() {
     timed_run_header();
     let start = Instant::now();
 
-    run_all_problems(VERBOSE, SKIP_SLOW);
-    // run_specific_problem(VERBOSE);
+//    run_all_problems(VERBOSE, SKIP_SLOW);
+     run_specific_problem(VERBOSE);
 
     println!("\nTotal time: {:.5}s", start.elapsed().as_secs_f64());();
 }
