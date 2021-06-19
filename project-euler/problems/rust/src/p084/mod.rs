@@ -107,11 +107,78 @@ fn try1(verbose: bool) -> String {
     "unknown".to_string()
 }
 
+fn experiment1() -> String {
+    const L: usize = 5;
+    const ERROR: f64 = 0.000_01;
+    let mut v = vec![1u64,0,0,0,0]; // All start at first position
+    let mut new_v = vec![0u64,0,0,0,0];
+    let mut prev_dist = vec![0.0, 0.0, 0.0, 0.0, 0.0];
+    let mut iter = 0;
+    println!("{:?} iter={}", v, iter);
+    loop {
+        // clear new_v
+        for i in 0..L { new_v[i] = 0; }
+
+        // apply roll distribution from each space, to get next iteration
+
+        // 1. 50% roll 1, 50% roll 2
+        // for i in 0..new_v.len() { new_v[i] = v[i] + v[((i + v.len() - 1) % v.len()) as usize ]; }
+
+        // 2. 50% roll 1, 50% roll 2, except for space 0 which always moves 3
+        for i in 0..L {
+            if i == 0 {
+                new_v[i+3] = v[i];
+            } else {
+                new_v[(i+1) % L] += v[i];
+                new_v[(i+2) % L] += v[i];
+            }
+        }
+
+        // Simultaneous update
+        for i in 0..L { v[i] = new_v[i]; }
+
+        // Confine large numbers to a certain precision
+        if v[0] > 100_000_000 {
+            for i in 0..L {
+                v[i] = v[i] / 5;
+            }
+        }
+
+        // Same distribution as previous iteration within error?
+        let mut all_same = true;
+        let mut new_dist = vec![0.0, 0.0, 0.0, 0.0, 0.0];
+        // Calculate new dist
+        let sum: f64 = v.iter().sum::<u64>() as f64;
+        for i in 0..L { new_dist[i] = v[i] as f64 / sum; }
+        for i in 0..L {
+            if (new_dist[i] - prev_dist[i]).abs() > ERROR {
+                all_same = false;
+                break;
+            }
+        }
+        // Update prev dist
+        for i in 0..L { prev_dist[i] = new_dist[i]; }
+
+        // Print current iteration
+        println!("{:.3?} {:?} iter={} {}", new_dist, v, iter, if all_same { "SAME!!!" } else { "" });
+        iter += 1;
+        if iter > 1_000 || all_same { break; }
+    }
+    "experiment".to_string()
+}
+
+// Experiment 2
+// Make 2D transition matrix from each place to the next
+// Raise matrix to Nth power to simulate N moves
+// Credit: Tom Nguyen 
+
+
 pub struct P084 {}
 impl crate::Problem for P084 {
     #[allow(unused_variables)]
     fn solve(&self, verbose: bool) -> String {
-        try1(verbose)
+//        try1(verbose)
+        experiment1()
     }
     fn is_slow(&self) -> bool { false }
     fn problem_num(&self) -> i32 { 84 }
