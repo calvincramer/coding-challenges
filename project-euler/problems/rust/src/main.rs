@@ -95,8 +95,8 @@ fn run_all_problems(verbose: bool, skip_slow: bool) {
 }
 
 #[allow(dead_code)]
-fn run_specific_problem(verbose: bool) {
-    timed_run(&p084::P084{}, verbose, false);
+fn run_specific_problem() {
+    timed_run(&p084::P084{}, true, false);
 }
 
 fn main() {
@@ -107,7 +107,7 @@ fn main() {
     let start = Instant::now();
 
 //    run_all_problems(VERBOSE, SKIP_SLOW);
-     run_specific_problem(VERBOSE);
+     run_specific_problem();
 
     println!("\nTotal time: {:.5}s", start.elapsed().as_secs_f64());();
 }

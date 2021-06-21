@@ -42,24 +42,24 @@ public class Problem084 {
     public static final int TOTAL = 33333333;
     public static int doublesRolled = 0;
     public static final int DICE_FACES = 4;     //6 or 4
-    
+
     public static void main(String[] args) {
         testingBoardProb();
     }
-    
+
     /*
     IMPLEMENT THREE DOUBLES AND GO TO JAIL TO MAKE GO TO JAIL PERCENTAGE 6.24%
     */
     public static void testingBoardProb() {
         int[] board = new int[40];  //0 = GO, 10 = jail, 20 = FP, 30 = G2J, etc.
-        
+
         //roll
         //while on community chest or chance, see if need to move
         //increment position counter
-        
+
         int position = 0;
         for (int i = 0; i < TOTAL; i++) {
-            
+
             position = rollDice(position);
             while (onChance(position) || onCommunity(position)) {
                 int oldPos = position;
@@ -67,47 +67,47 @@ public class Problem084 {
                     position = drawChance(position);
                 else if (onCommunity(position))
                     position = drawCommunity(position);
-                
+
                 if (oldPos == position) //not a moving card, ending turn right on chance or community chest
                     break;
             }
             //if on G2J, move to jail
             if (position == 30)
                 position = 10;
-            
+
             //System.out.println(getSquareName(position));
-            
+
             board[position]++;
-            
+
         }
-        
-        
-        
+
+
+
         //print precentages
         System.out.println("in order");
         for (int i = 0; i < board.length; i++) {
             System.out.print(i + "\t");
             System.out.println(board[i] * 100.0 / TOTAL);   //percent
         }
-        
+
         //print maximum percentages
         System.out.println("\nmax");
         CardPer[] cards = new CardPer[board.length];
         for (int i = 0; i < cards.length; i++)
             cards[i] = new CardPer(board[i], getSquareName(i), i);
-        
+
         MF.quickSort(cards);
         MF.reverseArray(cards);
-        
+
         for (int i = 0; i < board.length; i++) {
             System.out.print(cards[i].card + "\t(" + cards[i].position + ")" + "\t");
             System.out.println(cards[i].total * 100.0 / TOTAL);   //percent
         }
-        
+
     }
 
-    
-    
+
+
     /*
     MAKE A CYLCLIC QUEUE, RATHER THAN RANDOM?
     */
@@ -127,7 +127,7 @@ public class Problem084 {
             default: return position;   //no movement
         }
     }
-    
+
     /*
     MAKE A CYLCLIC QUEUE, RATHER THAN RANDOM?
     */
@@ -137,18 +137,18 @@ public class Problem084 {
             return 0;   //GO
         else if (num == 1)
             return 10;  //JAIL
-        else 
+        else
             return position;
     }
-    
+
     public static boolean onChance(int position) {
         return position == 7 || position == 22 || position == 36;
     }
-    
+
     public static boolean onCommunity(int position) {
         return position == 2 || position == 17 || position == 33;
     }
-    
+
     public static String getSquareName(int position) {
         switch (position) {
             case 0: return "GO";
@@ -194,26 +194,26 @@ public class Problem084 {
             default: return "BAD LOCATION !!!!!!!!!!!!!!";
         }
     }
-    
+
     public static int rollDice(int position) {
         int d1 = rng.nextInt(DICE_FACES)+1;
         int d2 = rng.nextInt(DICE_FACES)+1;
-        
+
         if (d1 == d2)
             doublesRolled++;
         else
             doublesRolled = 0;
-        
+
         if (doublesRolled >= 3) {
             doublesRolled = 0;
             //System.out.println("\t3 DOUBLES!");
             return 10;      //GO TO JAIL SUCKER!
         }
-        
+
         return (position + d1 + d2) % 40;
     }
-    
-    public static class CardPer 
+
+    public static class CardPer
         implements Comparable<CardPer> {
         int total;
         String card;
@@ -224,14 +224,14 @@ public class Problem084 {
             this.card = name;
             this.position = position;
         }
-        
+
         @Override
         public int compareTo(CardPer other) {
             if (this.total > other.total)
                 return 1;
             if (this.total < other.total)
                 return -1;
-            else 
+            else
                 return 0;
         }
     }
@@ -280,7 +280,7 @@ CH1	(7)	0.865154
 G2J	(30)	0.0
 */
 
-/* for 6 sided dice
+/* for 4 sided dice
 JAIL	(10)	7.022302285714286
 R2	(15)	3.616253142857143
 E3	(24)	3.287921142857143
