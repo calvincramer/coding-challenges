@@ -106,7 +106,9 @@ mod try1 {
         board[largest_i_2] = 0;
         let largest_i_3 = get_largest_i(&board).unwrap();
 
-        println!("{} {} {}", largest_i_1, largest_i_2, largest_i_3);
+        if verbose {
+            println!("{} {} {}", largest_i_1, largest_i_2, largest_i_3);
+        }
 
         "unknown".to_string()
     }
@@ -239,7 +241,9 @@ mod try2 {
         v[0] = 1.0;                         // Start at first position
         let mut prev_dist = vec![0f64; L];  // Distribution (likelihood to be on space)
         let mut iter = 0;
-        println!("{:?} iter={}", v, iter);
+        if verbose {
+            println!("{:?} iter={}", v, iter);
+        }
         loop {
             // apply roll distribution from each space, to get next iteration
             for i in 0..L {
@@ -269,7 +273,9 @@ mod try2 {
             for i in 0..L { prev_dist[i] = new_dist[i]; }
 
             // Print current iteration
-            println!("{:.3?} {:?} iter={} {}", new_dist, v, iter, if all_same { "SAME!!!" } else { "" });
+            if verbose {
+                println!("{:.3?} {:?} iter={} {}", new_dist, v, iter, if all_same { "SAME!!!" } else { "" });
+            }
             iter += 1;
             if iter > 1_000 || all_same { break; }
         }
@@ -281,71 +287,65 @@ mod try2 {
 // Make 2D transition matrix from each place to the next
 // Raise matrix to Nth power to simulate N moves
 // Credit: Tom Nguyen
-// TODO: apply real distribution for each space. Need to account for how normal moves may end on a chance or community chest, which may jump them other locations
-// TODO: also be careful since one chance space can move back three spaces onto a community chest (recursive)
 mod try3 {
-    use ndarray::{Array, Dimension, arr2, Ix2};
+    use ndarray::{Array, Ix2, s};
 
     const L: usize = 40;
+    const DICE_SIDES: usize = 4;
 
-    fn apply_chance(at: usize, t: &mut Array<f64, Ix2>) {
+    fn apply_chance(from: usize, at: usize, t: &mut Array<f64, Ix2>, base_likelihood: f64) {
         // 16 possibilities
-        t[[at, 0]]  += 1f64/16f64;     // GO
-        t[[at, 5]]  += 1f64/16f64;     // R1
-        t[[at, 10]] += 1f64/16f64;    // JAIL
-        t[[at, 11]] += 1f64/16f64;    // C1
-        t[[at, 24]] += 1f64/16f64;    // E3
-        t[[at, 39]] += 1f64/16f64;    // H2
+        t[[from, 0]]  += base_likelihood * 1f64/16f64;     // GO
+        t[[from, 5]]  += base_likelihood * 1f64/16f64;     // R1
+        t[[from, 10]] += base_likelihood * 1f64/16f64;    // JAIL
+        t[[from, 11]] += base_likelihood * 1f64/16f64;    // C1
+        t[[from, 24]] += base_likelihood * 1f64/16f64;    // E3
+        t[[from, 39]] += base_likelihood * 1f64/16f64;    // H2
 
-        // next railroad (2x)
-        t[[at, 5]]  += 1f64/32f64;
-        t[[at, 15]] += 1f64/32f64;
-        t[[at, 25]] += 1f64/32f64;
-        t[[at, 35]] += 1f64/32f64;
+        // next railroad (2x cards)
+        t[[from, match at { 7 => 15, 22 => 25, 36 => 5, _ => panic!("apply_chance bad"),
+        }]] += base_likelihood * 2f64/16f64;
 
         // next utility
-        t[[at, 12]] += 2f64/48f64;    // two chances go to utility 1
-        t[[at, 28]] += 1f64/48f64;    // one chance goes to utility 2
+        t[[from, match at { 7 => 12, 22 => 28, 36 => 12, _ => panic!("apply_chance bad"),
+        }]] += base_likelihood * 1f64/16f64;
 
-        t[[at, at-3]] += 1f64/16f64;  // go back 3
-        t[[at, at]]   += 3f64/8f64;     // no movement 6 cards
+        // go back 3 - may land on a community chest which may move us other places
+        apply_distribution(from, at-3, t,base_likelihood * 1f64/16f64);
+        t[[from, at]] += base_likelihood * 6f64/16f64;     // no movement 6 cards
     }
 
-    fn apply_community(at: usize, t: &mut Array<f64, Ix2>) {
-        t[[at, 0] ] += 1f64/16f64;    // GO
-        t[[at, 10]] += 1f64/16f64;    // JAIL
-        t[[at, at]] += 7f64/8f64;     // no movement 14 cards
+    fn apply_community(from: usize, at: usize, t: &mut Array<f64, Ix2>, base_likelihood: f64) {
+        t[[from, 0] ] += base_likelihood * 1f64 /16f64;    // GO
+        t[[from, 10]] += base_likelihood * 1f64 /16f64;    // JAIL
+        t[[from, at]] += base_likelihood * 14f64/16f64;     // no movement 14 cards
     }
 
-    fn apply_normal(at: usize, t: &mut Array<f64, Ix2>) {
-        // two 6-sided dice:
-        t[[at, (at+2)  % L]] += 1f64/36f64;
-        t[[at, (at+3)  % L]] += 2f64/36f64;
-        t[[at, (at+4)  % L]] += 3f64/36f64;
-        t[[at, (at+5)  % L]] += 4f64/36f64;
-        t[[at, (at+6)  % L]] += 5f64/36f64;
-        t[[at, (at+7)  % L]] += 6f64/36f64;
-        t[[at, (at+8)  % L]] += 5f64/36f64;
-        t[[at, (at+9)  % L]] += 4f64/36f64;
-        t[[at, (at+10) % L]] += 3f64/36f64;
-        t[[at, (at+11) % L]] += 2f64/36f64;
-        t[[at, (at+12) % L]] += 1f64/36f64;
-    }
-
-    fn apply_distribution(at: usize, t: &mut Array<f64, Ix2>) {
-        // Special places:
-        // TODO Three doubles in a row - go to jail
+    /// Applies distribution at specific spot, depending on the what the spot is.
+    fn apply_distribution(from: usize, at: usize, t: &mut Array<f64, Ix2>, base_likelihood: f64) {
         match at {
-            2 | 17 | 33 => apply_community(at, t),
-            7 | 22 | 36 => apply_chance(at, t),
-            30 => t[[30, 10]] += 1f64,  // go to jail space
-            _ => apply_normal(at, t),
+            2 | 17 | 33 => apply_community(from, at, t, base_likelihood),
+            7 | 22 | 36 => apply_chance(from, at, t, base_likelihood),
+            30 => t[[from, 10]] += base_likelihood,   // go to jail space
+            _ => t[[from, at]] += base_likelihood,    // normal space ends turn at space_land_at
         };
+    }
+
+    /// Applies distribution by rolling dice at specific spot
+    fn apply_roll_distribution_at(at: usize, t: &mut Array<f64, Ix2>) {
+        // TODO Three doubles in a row - go to jail
+        let mut roll_dist = 0;
+        for roll_val in 2..=(DICE_SIDES*2) {
+            match roll_val <= DICE_SIDES + 1 {
+                true => roll_dist += 1,
+                false => roll_dist -= 1,
+            };
+            apply_distribution(at, (at+roll_val) % L, t, (roll_dist as f64) / ((DICE_SIDES * DICE_SIDES) as f64));
+        }
     }
 
     fn print_t (array: &Array<f64, Ix2>) {
         for r in 0..L {
-            println!();
             for c in 0..L {
                 let n = array[[r, c]];
                 if n == 0.0f64 {
@@ -354,8 +354,8 @@ mod try3 {
                     print!("{:.3} ", n);
                 }
             }
+            println!();
         }
-        println!();
     }
 
     fn get_largest_i<T>(arr: &[T]) -> Option<usize>
@@ -375,44 +375,74 @@ mod try3 {
     pub fn try3(verbose: bool) -> String {
         let mut transition = Array::<f64, _ >::zeros((L, L));
         for i in 0..L {
-            apply_distribution(i, &mut transition);
+            apply_roll_distribution_at(i, &mut transition);
         }
-        let orig_t = transition.clone();
+        if verbose {
+            println!("Transition matrix:");
+            print_t(&transition);
+        }
+
+        // Sum of rows should be equal to 1
+        for r_i in 0..L {
+            let sum = transition.slice(s![r_i, ..]).sum();
+            if sum.abs() - 1f64 > 0.000_1f64 {
+                panic!("row {} sum not equal to 1", r_i);
+            }
+            // if verbose { println!("row {} sum: {}", r_i, sum); }
+        }
+
         // Raise transition to nth power
+        let orig_t = transition.clone();
         for _ in 0..100 {
             transition = transition.dot(&orig_t);
         }
         if verbose {
-            print_t(&transition);
+            println!("\nProbabilities:");
+            for i in 0..L {
+                print!("{:.3} ", transition[[0, i]]);
+            }
+            println!();
         }
 
         // Get three highest
         let mut row = [0f64; L];
-        for i in 0..L { row[i] = transition[[0, i]]; }
+        for i in 0..L {
+            row[i] = transition[[0, i]];
+        }
         let largest_i_1 = get_largest_i(&row).unwrap();
+        let largest_1 = row[largest_i_1];
         row[largest_i_1] = 0.0;
+
         let largest_i_2 = get_largest_i(&row).unwrap();
+        let largest_2 = row[largest_i_2];
         row[largest_i_2] = 0.0;
+
         let largest_i_3 = get_largest_i(&row).unwrap();
+        let largest_3 = row[largest_i_3];
+        row[largest_i_3] = 0.0;
 
-        println!("{} {} {}", largest_i_1, largest_i_2, largest_i_3);
+        if verbose {
+            println!("\nMost probable spaces:");
+            println!("{} -> {:.2}%", largest_i_1, largest_1 * 100f64);
+            println!("{} -> {:.2}%", largest_i_2, largest_2 * 100f64);
+            println!("{} -> {:.2}%", largest_i_3, largest_3 * 100f64);
+        }
 
-        "experiment".to_string()
+        format!("{:02}{:02}{:02}", largest_i_1, largest_i_2, largest_i_3).to_string()
     }
 }
-
 
 pub struct P084 {}
 impl crate::Problem for P084 {
     #[allow(unused_variables)]
     fn solve(&self, verbose: bool) -> String {
         // try1::try1(verbose)
-        // experiment1()
+        // experiment   1()
         // try2::try2(verbose)
         try3::try3(verbose)
     }
     fn is_slow(&self) -> bool { false }
     fn problem_num(&self) -> i32 { 84 }
-    fn answer_desc(&self) -> String { "Modal string".to_string() }
+    fn answer_desc(&self) -> String { "Monopoly modal str".to_string() }
     fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("101524".to_string()) }
 }

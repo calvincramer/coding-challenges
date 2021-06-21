@@ -252,19 +252,14 @@ s.parse::<u32>()	// String to number (optional)
 ```rust
 let x = 5;
 match x {
-	1 => println!("x is one"),
-	2 | 3 => println!("x is 2 or 3"),
-	_ => println!("x is not one two or three"),
+	1 => println!("x is one"),	// Single match
+	2 | 3 => println!("x is 2 or 3"),	// Match any of the clauses
+	4 => (),	// DO NOTHING
+	5..=10 => println!("x in between 5 and 10 inclusive"), 	// Match over a range
+	_ => println!("x is not one two or three"),	// Match anything else that hasn't been matched thus far.
 }
+
 // ref and ref mut cases
-
-
-// Chose to do nothing:
-match something {
-	1 => ...,
-	2 => (),	// DO NOTHING CASE
-	_ => ...,
-}
 
 // if let
 // use this to just match one case
