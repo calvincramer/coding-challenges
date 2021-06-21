@@ -9,7 +9,7 @@ mod p040; mod p041; mod p042; mod p043; mod p044; mod p045; mod p046; mod p047; 
 mod p050; mod p051; mod p052; mod p053; mod p054; mod p055; mod p056; mod p057; mod p058; mod p059;
 mod p060; mod p061; mod p062; mod p063; mod p064; mod p065; mod p066; mod p067; mod p068; mod p069;
 mod p070; mod p071; mod p072; mod p073; mod p074; mod p075; mod p076; mod p077; mod p078; mod p079;
-mod p080; mod p081; mod p082; mod p083; mod p084;
+mod p080; mod p081; mod p082; mod p083; mod p084; mod p085;
 
 #[derive(Debug)]
 enum ProblemAnswer {
@@ -96,7 +96,7 @@ fn timed_run(prob: &dyn Problem, verbose: bool, skip_slow: bool) {
 
 #[allow(dead_code)]
 fn run_specific_problem() {
-    timed_run(&p084::P084{}, true, false);
+    timed_run(&p085::P085{}, false , false);
 }
 
 fn main() {
