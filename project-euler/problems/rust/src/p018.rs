@@ -1,7 +1,11 @@
 /// Returns maximum path sum, left right bool path vector
 fn traverse(tri: &Vec<Vec<u64>>, y: usize, x: usize) -> (u64, Vec<bool>) {
-    if y >= tri.len() { return (0, vec![]); }
-    if x >= tri[y].len() { return (0, vec![]); }
+    if y >= tri.len() {
+        return (0, vec![]);
+    }
+    if x >= tri[y].len() {
+        return (0, vec![]);
+    }
 
     let (max_l, mut path_l) = traverse(tri, y + 1, x);
     let (max_r, mut path_r) = traverse(tri, y + 1, x + 1);
@@ -10,11 +14,11 @@ fn traverse(tri: &Vec<Vec<u64>>, y: usize, x: usize) -> (u64, Vec<bool>) {
         true => {
             path_l.push(false);
             (tri[y][x] + max_l, path_l)
-        },
+        }
         false => {
             path_r.push(true);
-            return (tri[y][x] + max_r, path_r)
-        },
+            return (tri[y][x] + max_r, path_r);
+        }
     }
 }
 
@@ -36,18 +40,22 @@ impl crate::Problem for P018 {
         triangle.push(vec![70, 11, 33, 28, 77, 73, 17, 78, 39, 68, 17, 57]);
         triangle.push(vec![91, 71, 52, 38, 17, 14, 91, 43, 58, 50, 27, 29, 48]);
         triangle.push(vec![63, 66, 04, 68, 89, 53, 67, 30, 73, 16, 69, 87, 40, 31]);
-        triangle.push(vec![04, 62, 98, 27, 23, 09, 70, 98, 73, 93, 38, 53, 60, 04, 23]);
+        triangle.push(vec![
+            04, 62, 98, 27, 23, 09, 70, 98, 73, 93, 38, 53, 60, 04, 23,
+        ]);
 
         let (max, mut max_path) = traverse(&triangle, 0, 0);
 
         // Print max path
         if verbose {
-            let mut max_i = 0;  // Track the max path
+            let mut max_i = 0; // Track the max path
             let mut add_to_start = triangle.len() * 3 - 3;
 
             for row in triangle {
                 print!("{:x$}", "", x = add_to_start);
-                if add_to_start >= 3 { add_to_start -= 3; }
+                if add_to_start >= 3 {
+                    add_to_start -= 3;
+                }
                 for i in 0..row.len() {
                     if i == max_i {
                         print!("|{:2}|  ", row[i]);
@@ -61,8 +69,16 @@ impl crate::Problem for P018 {
         }
         max.to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 18 }
-    fn answer_desc(&self) -> String { "Max path".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("1074".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        18
+    }
+    fn answer_desc(&self) -> String {
+        "Max path".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("1074".to_string())
+    }
 }

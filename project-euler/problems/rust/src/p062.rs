@@ -29,7 +29,10 @@ impl crate::Problem for P062 {
             let low_perm = perm.chars().sorted().collect::<String>();
             let found = get_obj(&low_perm, &mut objs);
             if found.is_none() {
-                objs.push(Obj{low_perm: low_perm, cubes: vec![perm]});
+                objs.push(Obj {
+                    low_perm: low_perm,
+                    cubes: vec![perm],
+                });
                 continue;
             }
             let obj = found.unwrap();
@@ -38,15 +41,28 @@ impl crate::Problem for P062 {
                 if verbose {
                     println!("Low perm = {}", obj.low_perm);
                     for i in 0..obj.cubes.len() {
-                        println!("\t{} -> {} = {}^3", i, obj.cubes[i], obj.cubes[i].parse::<u64>().unwrap().nth_root(3));
+                        println!(
+                            "\t{} -> {} = {}^3",
+                            i,
+                            obj.cubes[i],
+                            obj.cubes[i].parse::<u64>().unwrap().nth_root(3)
+                        );
                     }
                 }
                 return obj.cubes[0].to_string();
             }
         }
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 62 }
-    fn answer_desc(&self) -> String { "Smallest cube".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("127035954683".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        62
+    }
+    fn answer_desc(&self) -> String {
+        "Smallest cube".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("127035954683".to_string())
+    }
 }

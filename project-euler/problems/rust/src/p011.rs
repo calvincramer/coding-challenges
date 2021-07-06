@@ -58,8 +58,16 @@ impl crate::Problem for P011 {
 
         max.to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 11 }
-    fn answer_desc(&self) -> String { "Max".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("70600674".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        11
+    }
+    fn answer_desc(&self) -> String {
+        "Max".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("70600674".to_string())
+    }
 }

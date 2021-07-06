@@ -4,7 +4,7 @@ pub struct P047 {}
 impl crate::Problem for P047 {
     #[allow(unused_variables)]
     fn solve(&self, verbose: bool) -> String {
-        const LENGTH: usize = 4;  // Four consecutive numbers with four unique prime factors
+        const LENGTH: usize = 4; // Four consecutive numbers with four unique prime factors
         let mut arr: [bool; LENGTH] = [false; LENGTH];
         let mut arr_i = 0;
 
@@ -21,8 +21,16 @@ impl crate::Problem for P047 {
             n += 1;
         }
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 47 }
-    fn answer_desc(&self) -> String { "Number".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("134043".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        47
+    }
+    fn answer_desc(&self) -> String {
+        "Number".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("134043".to_string())
+    }
 }

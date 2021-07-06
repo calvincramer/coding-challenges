@@ -1,4 +1,4 @@
-use rust_math_tools::{is_pandigital_1_to_9};
+use rust_math_tools::is_pandigital_1_to_9;
 
 pub struct P038 {}
 impl crate::Problem for P038 {
@@ -22,15 +22,23 @@ impl crate::Problem for P038 {
                     largest = bigger_num;
                 }
                 if verbose {
-                    println!("{} (1,...,{}) -> {}", num, mult-1, bigger_num)
+                    println!("{} (1,...,{}) -> {}", num, mult - 1, bigger_num)
                 }
             }
         }
 
         largest.to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 38 }
-    fn answer_desc(&self) -> String { "Largest".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("932718654".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        38
+    }
+    fn answer_desc(&self) -> String {
+        "Largest".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("932718654".to_string())
+    }
 }

@@ -1,9 +1,9 @@
-use rust_math_tools::Fraction;
 use num_bigint::BigInt;
+use rust_math_tools::Fraction;
 
 fn a_has_more_digits(a: &BigInt, b: &BigInt) -> bool {
     if a <= b {
-        return false
+        return false;
     }
     return a.to_string().len() > b.to_string().len();
 }
@@ -18,7 +18,7 @@ impl crate::Problem for P057 {
             if a_has_more_digits(&frac.numerator, &frac.denominator) {
                 total += 1;
             }
-            let new_top = &frac.numerator + 2*&frac.denominator;
+            let new_top = &frac.numerator + 2 * &frac.denominator;
             let new_bottom = frac.numerator + frac.denominator;
             frac.numerator = new_top;
             frac.denominator = new_bottom;
@@ -26,8 +26,16 @@ impl crate::Problem for P057 {
         }
         total.to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 57 }
-    fn answer_desc(&self) -> String { "Answer".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("153".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        57
+    }
+    fn answer_desc(&self) -> String {
+        "Answer".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("153".to_string())
+    }
 }

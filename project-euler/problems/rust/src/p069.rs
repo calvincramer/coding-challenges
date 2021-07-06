@@ -1,6 +1,6 @@
-use rust_math_tools::totient;
-use rayon::prelude::*;
 use itertools::Itertools;
+use rayon::prelude::*;
+use rust_math_tools::totient;
 
 pub struct P069 {}
 impl crate::Problem for P069 {
@@ -35,8 +35,16 @@ impl crate::Problem for P069 {
 
         max_n.to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 69 }
-    fn answer_desc(&self) -> String { "Maximum".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("510510".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        69
+    }
+    fn answer_desc(&self) -> String {
+        "Maximum".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("510510".to_string())
+    }
 }

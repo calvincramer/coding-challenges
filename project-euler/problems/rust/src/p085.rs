@@ -8,17 +8,17 @@ fn count_rects(w: usize, h: usize) -> isize {
     }
     count as isize
 }
-    
+
 /// Same as count_rects(), but solved discrete sum
 fn count_rects_2(w: usize, h: usize) -> isize {
-    ((w * (w+1) * h * (h+1)) / 4 ) as isize
+    ((w * (w + 1) * h * (h + 1)) / 4) as isize
 }
 
 pub struct P085 {}
 impl crate::Problem for P085 {
     fn solve(&self, verbose: bool) -> String {
         const GOAL: isize = 2_000_000;
-        const MAX: usize = 100;     // Found limit by running
+        const MAX: usize = 100; // Found limit by running
         let mut closest_w = 0;
         let mut closest_h = 0;
         let mut closest_num = 0;
@@ -41,8 +41,16 @@ impl crate::Problem for P085 {
         }
         (closest_h * closest_w).to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 85 }
-    fn answer_desc(&self) -> String { "Rect area".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("2772".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        85
+    }
+    fn answer_desc(&self) -> String {
+        "Rect area".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("2772".to_string())
+    }
 }

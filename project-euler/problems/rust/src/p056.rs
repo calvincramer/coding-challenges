@@ -18,8 +18,16 @@ impl crate::Problem for P056 {
         }
         max.to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 56 }
-    fn answer_desc(&self) -> String { "Max digital sum".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("972".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        56
+    }
+    fn answer_desc(&self) -> String {
+        "Max digital sum".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("972".to_string())
+    }
 }

@@ -1,23 +1,19 @@
+use itertools::Itertools;
 /// Algorithm:
 /// Take out the number the only occurs on the left most. This number must be the next
 /// number in the passcode. Repeat until nothing left
 /// This method only works if the characters in the passcode are unique
-
 use rust_math_tools::read_all_lines;
-use itertools::Itertools;
 use std::collections::HashSet;
 
 pub struct P079 {}
 impl crate::Problem for P079 {
     #[allow(unused_variables)]
     fn solve(&self, verbose: bool) -> String {
-
         let lines = read_all_lines("src/input_files/p079_keylog.txt".to_string());
-        let mut nums: Vec<Vec<u8>> = lines.iter()
-            .map(|s| s.as_bytes()
-                .iter()
-                .map(|c| c - 0x30)
-                .collect_vec())
+        let mut nums: Vec<Vec<u8>> = lines
+            .iter()
+            .map(|s| s.as_bytes().iter().map(|c| c - 0x30).collect_vec())
             .collect_vec(); // 0x30 = ascii '0'
         let mut passcode = Vec::new();
 
@@ -50,13 +46,20 @@ impl crate::Problem for P079 {
                     }
                 }
             }
-
         }
 
         passcode.iter().map(|n| n.to_string()).collect::<String>()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 79 }
-    fn answer_desc(&self) -> String { "Passcode".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("73162890".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        79
+    }
+    fn answer_desc(&self) -> String {
+        "Passcode".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("73162890".to_string())
+    }
 }

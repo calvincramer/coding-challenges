@@ -30,8 +30,16 @@ impl crate::Problem for P058 {
 
         (n*2 + 1).to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 58 }
-    fn answer_desc(&self) -> String { "Side length".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("26241".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        58
+    }
+    fn answer_desc(&self) -> String {
+        "Side length".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("26241".to_string())
+    }
 }

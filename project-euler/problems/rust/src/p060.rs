@@ -42,8 +42,16 @@ impl crate::Problem for P060 {
 
         "ERROR".to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 60 }
-    fn answer_desc(&self) -> String { "Sum 5 primes".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("26033".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        60
+    }
+    fn answer_desc(&self) -> String {
+        "Sum 5 primes".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("26033".to_string())
+    }
 }

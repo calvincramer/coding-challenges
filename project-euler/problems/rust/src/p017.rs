@@ -20,8 +20,16 @@ impl crate::Problem for P017 {
         }
         total.to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 17 }
-    fn answer_desc(&self) -> String { "Total".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("21124".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        17
+    }
+    fn answer_desc(&self) -> String {
+        "Total".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("21124".to_string())
+    }
 }

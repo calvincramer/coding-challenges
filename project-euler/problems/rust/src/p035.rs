@@ -18,18 +18,27 @@ pub struct P035 {}
 impl crate::Problem for P035 {
     #[allow(unused_variables)]
     fn solve(&self, verbose: bool) -> String {
-        let prime_lkup: Vec<bool> = (0u64..1_000_000).into_par_iter().map(|x| x.is_prime()).collect();
-        let total_count = (0..1_000_000).into_par_iter()
-            .filter(|n| cycle_num(*n)
-                .iter()
-                .all(|n2| prime_lkup[*n2 as usize])
-            )
+        let prime_lkup: Vec<bool> = (0u64..1_000_000)
+            .into_par_iter()
+            .map(|x| x.is_prime())
+            .collect();
+        let total_count = (0..1_000_000)
+            .into_par_iter()
+            .filter(|n| cycle_num(*n).iter().all(|n2| prime_lkup[*n2 as usize]))
             .count();
 
         total_count.to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 35 }
-    fn answer_desc(&self) -> String { "Total count".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("55".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        35
+    }
+    fn answer_desc(&self) -> String {
+        "Total count".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("55".to_string())
+    }
 }

@@ -12,8 +12,16 @@ impl crate::Problem for P012 {
         }
         trinum_sum.to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 12 }
-    fn answer_desc(&self) -> String { "Sum".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("76576500".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        12
+    }
+    fn answer_desc(&self) -> String {
+        "Sum".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("76576500".to_string())
+    }
 }

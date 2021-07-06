@@ -1,5 +1,5 @@
-use rust_math_tools::PrimeTest;
 use rayon::prelude::*;
+use rust_math_tools::PrimeTest;
 
 pub struct P010 {}
 impl crate::Problem for P010 {
@@ -14,10 +14,22 @@ impl crate::Problem for P010 {
         // }
 
         // Parallel
-        (2u64..2_000_000).into_par_iter().filter(|n| n.is_prime()).sum::<u64>().to_string()
+        (2u64..2_000_000)
+            .into_par_iter()
+            .filter(|n| n.is_prime())
+            .sum::<u64>()
+            .to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 10 }
-    fn answer_desc(&self) -> String { "Sum".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("142913828922".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        10
+    }
+    fn answer_desc(&self) -> String {
+        "Sum".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("142913828922".to_string())
+    }
 }

@@ -37,8 +37,16 @@ impl crate::Problem for P033 {
         }
         frac.denominator.to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 33 }
-    fn answer_desc(&self) -> String { "denom".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("100".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        33
+    }
+    fn answer_desc(&self) -> String {
+        "denom".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("100".to_string())
+    }
 }

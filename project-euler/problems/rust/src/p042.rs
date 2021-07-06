@@ -1,13 +1,16 @@
-use rust_math_tools::read_all_lines;
 use integer_sqrt::IntegerSquareRoot;
-
+use rust_math_tools::read_all_lines;
 
 fn is_trinum(x: u64) -> bool {
-    let num = 1 + (8*x);
+    let num = 1 + (8 * x);
     let num_sqrt = num.integer_sqrt();
-    if num_sqrt.pow(2) != num { return false; }
+    if num_sqrt.pow(2) != num {
+        return false;
+    }
     let top = num_sqrt - 1;
-    if top % 2 != 0 { return false; }
+    if top % 2 != 0 {
+        return false;
+    }
     true
 }
 
@@ -25,12 +28,9 @@ impl crate::Problem for P042 {
         }
 
         // Convert words to values
-        let values: Vec<u64> = words.iter()
-            .map(|s| s
-                .as_bytes()
-                .iter()
-                .map(|c| (*c - 64) as u64)
-                .sum::<u64>())
+        let values: Vec<u64> = words
+            .iter()
+            .map(|s| s.as_bytes().iter().map(|c| (*c - 64) as u64).sum::<u64>())
             .collect();
 
         let mut total = 0;
@@ -42,8 +42,16 @@ impl crate::Problem for P042 {
 
         total.to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 42 }
-    fn answer_desc(&self) -> String { "Num tri words".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("162".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        42
+    }
+    fn answer_desc(&self) -> String {
+        "Num tri words".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("162".to_string())
+    }
 }

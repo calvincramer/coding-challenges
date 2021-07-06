@@ -37,8 +37,16 @@ impl crate::Problem for P032 {
         }
         set.iter().sum::<u64>().to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 32 }
-    fn answer_desc(&self) -> String { "Sum unique products".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("45228".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        32
+    }
+    fn answer_desc(&self) -> String {
+        "Sum unique products".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("45228".to_string())
+    }
 }

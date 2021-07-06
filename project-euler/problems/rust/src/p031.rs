@@ -29,8 +29,16 @@ impl crate::Problem for P031 {
         }}}}}}}}
         ways.to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 31 }
-    fn answer_desc(&self) -> String { "Total ways".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("73682".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        31
+    }
+    fn answer_desc(&self) -> String {
+        "Total ways".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("73682".to_string())
+    }
 }

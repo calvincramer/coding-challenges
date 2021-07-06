@@ -1,7 +1,7 @@
-use rust_math_tools::read_all_lines;
 use pathfinding::dijkstra;
-use std::collections::HashSet;
 use rayon::prelude::*;
+use rust_math_tools::read_all_lines;
+use std::collections::HashSet;
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Hash)]
 struct Node(usize, usize, usize); // number, y, x
@@ -10,13 +10,13 @@ impl Node {
         let &Node(_, y, x) = self;
         let mut neighbors = vec![];
         if y > 0 {
-            neighbors.push((board[y-1][x], board[y-1][x].0));
+            neighbors.push((board[y - 1][x], board[y - 1][x].0));
         }
         if y < board.len() - 1 {
-            neighbors.push((board[y+1][x], board[y+1][x].0));
+            neighbors.push((board[y + 1][x], board[y + 1][x].0));
         }
         if x < board[y].len() - 1 {
-            neighbors.push((board[y][x+1], board[y][x+1].0));
+            neighbors.push((board[y][x + 1], board[y][x + 1].0));
         }
         neighbors
     }
@@ -32,23 +32,28 @@ impl crate::Problem for P082 {
         for (y, line) in lines.iter().enumerate() {
             let mut temp_row = vec![];
             for (x, n_str) in line.split(",").enumerate() {
-                temp_row.push( Node(n_str.parse::<usize>().unwrap(), y, x) );
+                temp_row.push(Node(n_str.parse::<usize>().unwrap(), y, x));
             }
             board.push(temp_row);
         }
 
-        let (min_path, min_path_sum) = (0..board.len()).into_par_iter().map(|start_y| {
-            let result = dijkstra(
-                &board[start_y][0],
-                |node| node.neighbors(&board),
-                |node| {
-                    let &Node(n, y, x) = node;
-                    x == board[board.len() - 1].len() - 1
-                });
-            let (path, total) = result.unwrap();
-            // Add value of first node, since we only use cost on edges rather than nodes
-            (path, total + board[start_y][0].0)
-        }).min_by_key(|result| result.1).unwrap();
+        let (min_path, min_path_sum) = (0..board.len())
+            .into_par_iter()
+            .map(|start_y| {
+                let result = dijkstra(
+                    &board[start_y][0],
+                    |node| node.neighbors(&board),
+                    |node| {
+                        let &Node(n, y, x) = node;
+                        x == board[board.len() - 1].len() - 1
+                    },
+                );
+                let (path, total) = result.unwrap();
+                // Add value of first node, since we only use cost on edges rather than nodes
+                (path, total + board[start_y][0].0)
+            })
+            .min_by_key(|result| result.1)
+            .unwrap();
 
         if verbose {
             println!("Path {:?}", min_path);
@@ -60,7 +65,13 @@ impl crate::Problem for P082 {
             }
             for y in 0..board.len() {
                 for x in 0..board[y].len() {
-                    print!("{}", match path_positions.contains(&(y, x)) { true => "X", false => "·", });
+                    print!(
+                        "{}",
+                        match path_positions.contains(&(y, x)) {
+                            true => "X",
+                            false => "·",
+                        }
+                    );
                 }
                 println!();
             }
@@ -68,8 +79,16 @@ impl crate::Problem for P082 {
 
         min_path_sum.to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 82 }
-    fn answer_desc(&self) -> String { "Min path".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("260324".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        82
+    }
+    fn answer_desc(&self) -> String {
+        "Min path".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("260324".to_string())
+    }
 }

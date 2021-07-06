@@ -66,7 +66,7 @@ fn in_array(target: u64, arr: &[u64]) -> bool {
 
 fn find_cycle(
     count: usize,
-    nums_found: &mut [u64; 6],  // triangle, square, ... octagonal number found
+    nums_found: &mut [u64; 6], // triangle, square, ... octagonal number found
     prev_2_digits: u64,
     polygonals: &Polygonals,
 ) -> bool {
@@ -145,8 +145,16 @@ impl crate::Problem for P061 {
         }
         "Not found".to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 61 }
-    fn answer_desc(&self) -> String { "Sum".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("28684".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        61
+    }
+    fn answer_desc(&self) -> String {
+        "Sum".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("28684".to_string())
+    }
 }

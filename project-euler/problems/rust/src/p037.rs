@@ -4,9 +4,13 @@ fn truncatably_prime(n: u64) -> bool {
     let s = n.to_string();
     for stop in 0..s.len() {
         let right = (&s[..(s.len() - stop)]).parse::<u64>().unwrap();
-        if ! right.is_prime() { return false; }
+        if !right.is_prime() {
+            return false;
+        }
         let left = (&s[stop..]).parse::<u64>().unwrap();
-        if ! left.is_prime() { return false; }
+        if !left.is_prime() {
+            return false;
+        }
     }
     true
 }
@@ -30,8 +34,16 @@ impl crate::Problem for P037 {
         }
         sum.to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 37 }
-    fn answer_desc(&self) -> String { "Sum".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("748317".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        37
+    }
+    fn answer_desc(&self) -> String {
+        "Sum".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("748317".to_string())
+    }
 }

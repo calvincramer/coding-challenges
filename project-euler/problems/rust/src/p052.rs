@@ -29,7 +29,7 @@ impl crate::Problem for P052 {
             let _1x_digits = build_digits(n);
             let mut good = true;
             for mult in 2..=MAX_MULT {
-                if ! same_digits(mult * n, _1x_digits) {
+                if !same_digits(mult * n, _1x_digits) {
                     good = false;
                     break;
                 }
@@ -40,8 +40,16 @@ impl crate::Problem for P052 {
             n += 1;
         }
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 52 }
-    fn answer_desc(&self) -> String { "Smallest".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("142857".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        52
+    }
+    fn answer_desc(&self) -> String {
+        "Smallest".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("142857".to_string())
+    }
 }

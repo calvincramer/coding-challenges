@@ -11,9 +11,7 @@ fn decrypt(cipher_text: &Vec<u8>, password: &[u8]) -> String {
 }
 
 fn is_real_message(message: &String) -> bool {
-    message.contains(" the") &&
-    message.contains(" and") &&
-    message.contains(" in")
+    message.contains(" the") && message.contains(" and") && message.contains(" in")
 }
 
 pub struct P059 {}
@@ -44,8 +42,16 @@ impl crate::Problem for P059 {
 
         "ERROR NO MATCH".to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 59 }
-    fn answer_desc(&self) -> String { "Sum ASCII".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("129448".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        59
+    }
+    fn answer_desc(&self) -> String {
+        "Sum ASCII".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("129448".to_string())
+    }
 }

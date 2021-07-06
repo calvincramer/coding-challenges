@@ -29,7 +29,9 @@ fn longest_prime_sum(target: u64, primes: &Vec<u64>) -> usize {
         }
         // Add on right
         i_right += 1;
-        if ! (i_right < primes.len() && primes[i_right] < target) { break; }
+        if !(i_right < primes.len() && primes[i_right] < target) {
+            break;
+        }
         sum += primes[i_right];
     }
 
@@ -40,13 +42,27 @@ pub struct P050 {}
 impl crate::Problem for P050 {
     #[allow(unused_variables)]
     fn solve(&self, verbose: bool) -> String {
-        let primes: Vec<u64> = (0u64..1_000_000).into_par_iter().filter(|n| n.is_prime()).collect();
-        let max = primes.par_iter().map(|p| (longest_prime_sum(*p, &primes), p)).max_by_key(|x| x.0);
+        let primes: Vec<u64> = (0u64..1_000_000)
+            .into_par_iter()
+            .filter(|n| n.is_prime())
+            .collect();
+        let max = primes
+            .par_iter()
+            .map(|p| (longest_prime_sum(*p, &primes), p))
+            .max_by_key(|x| x.0);
         let max_prime = max.unwrap().1;
         max_prime.to_string()
     }
-    fn is_slow(&self) -> bool { true }
-    fn problem_num(&self) -> i32 { 50 }
-    fn answer_desc(&self) -> String { "Prime".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("997651".to_string()) }
+    fn is_slow(&self) -> bool {
+        true
+    }
+    fn problem_num(&self) -> i32 {
+        50
+    }
+    fn answer_desc(&self) -> String {
+        "Prime".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("997651".to_string())
+    }
 }

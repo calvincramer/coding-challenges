@@ -1,5 +1,5 @@
-use rust_math_tools::ncr;
 use num_bigint::BigUint;
+use rust_math_tools::ncr;
 
 pub struct P053 {}
 impl crate::Problem for P053 {
@@ -16,8 +16,16 @@ impl crate::Problem for P053 {
         }
         total.to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 53 }
-    fn answer_desc(&self) -> String { "Num > one million".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("4075".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        53
+    }
+    fn answer_desc(&self) -> String {
+        "Num > one million".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("4075".to_string())
+    }
 }

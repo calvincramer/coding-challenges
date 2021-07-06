@@ -30,12 +30,26 @@ impl crate::Problem for P027 {
             }
         }
         if verbose {
-            println!("num_primes={} a={} b={} a*b={}", best_p, best_a, best_b, best_a * best_b)
+            println!(
+                "num_primes={} a={} b={} a*b={}",
+                best_p,
+                best_a,
+                best_b,
+                best_a * best_b
+            )
         }
         (best_a * best_b).to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 27 }
-    fn answer_desc(&self) -> String { "a*b".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("-59231".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        27
+    }
+    fn answer_desc(&self) -> String {
+        "a*b".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("-59231".to_string())
+    }
 }

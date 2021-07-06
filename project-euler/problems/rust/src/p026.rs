@@ -18,8 +18,8 @@ use num_traits::One;
 ///     return fail
 
 fn find_largest_cycle(n: u64) -> Option<String> {
-    let mut prec: u64 = n * 3;     // Cycle may be as long as denominator (theorem?)
-    let mut last_len: usize = 0;   // Last size after cutting off ending zeroes (for non-repeating numbers)
+    let mut prec: u64 = n * 3; // Cycle may be as long as denominator (theorem?)
+    let mut last_len: usize = 0; // Last size after cutting off ending zeroes (for non-repeating numbers)
     loop {
         let frac: BigDecimal = BigDecimal::one();
         let frac = frac.with_prec(prec);
@@ -27,7 +27,7 @@ fn find_largest_cycle(n: u64) -> Option<String> {
         let frac_str = frac.to_string();
         let frac_str = frac_str.as_bytes();
 
-        let mut cut_i = frac_str.len() - 1;     // CUT OFF THE LAST DIGIT: IT MAY BE ROUNDED.
+        let mut cut_i = frac_str.len() - 1; // CUT OFF THE LAST DIGIT: IT MAY BE ROUNDED.
         while cut_i > 0 && frac_str[cut_i - 1] == ('0' as u8) {
             cut_i -= 1;
         }
@@ -54,7 +54,11 @@ fn find_cycle(s: &[u8]) -> Option<String> {
 
     for cycle_len in 1..(chars.len() / 3) {
         if is_repeating_right(cycle_len, chars) {
-            return Some(std::str::from_utf8(&chars[chars.len() - cycle_len..]).unwrap().to_string())
+            return Some(
+                std::str::from_utf8(&chars[chars.len() - cycle_len..])
+                    .unwrap()
+                    .to_string(),
+            );
         }
     }
     None
@@ -71,7 +75,7 @@ fn is_repeating_right(cycle_length: usize, chars: &[u8]) -> bool {
     let i3 = i2 - cycle_length;
     let i4 = i3 - cycle_length;
     // Substring equality:
-    return (chars[i2..i1] == chars[i3..i2]) && (chars[i2..i1] == chars[i4..i3])
+    return (chars[i2..i1] == chars[i3..i2]) && (chars[i2..i1] == chars[i4..i3]);
 }
 
 pub struct P026 {}
@@ -90,12 +94,12 @@ impl crate::Problem for P026 {
                         max_cycle = cycle_str;
                         max_d = d;
                     }
-                },
+                }
                 None => {
                     if verbose {
                         println!("d={} no cycle", d);
                     }
-                },
+                }
             }
         }
         if verbose {
@@ -103,8 +107,16 @@ impl crate::Problem for P026 {
         }
         max_d.to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 26 }
-    fn answer_desc(&self) -> String { "d".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("983".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        26
+    }
+    fn answer_desc(&self) -> String {
+        "d".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("983".to_string())
+    }
 }

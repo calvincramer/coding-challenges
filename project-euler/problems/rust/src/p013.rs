@@ -29,8 +29,16 @@ impl crate::Problem for P013 {
         }
         String::from(&sum.to_string().as_str()[0..10])
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 13 }
-    fn answer_desc(&self) -> String { "Answer".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("5537376230".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        13
+    }
+    fn answer_desc(&self) -> String {
+        "Answer".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("5537376230".to_string())
+    }
 }

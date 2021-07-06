@@ -1,6 +1,6 @@
+use itertools::Itertools;
 use rayon::prelude::*;
 use rust_math_tools::PrimeTest;
-use itertools::Itertools;
 
 // TODO: parallelize
 
@@ -21,16 +21,35 @@ impl crate::Problem for P041 {
                     _ => (),
                 }
                 // vector of digits to number
-                pandigitals.push(pandigital_vec.iter().map(|n| n.to_string()).join("").parse::<u64>().unwrap());
+                pandigitals.push(
+                    pandigital_vec
+                        .iter()
+                        .map(|n| n.to_string())
+                        .join("")
+                        .parse::<u64>()
+                        .unwrap(),
+                );
             }
         }
 
-        let largest = pandigitals.par_iter().filter(|n| n.is_prime()).max().unwrap();
+        let largest = pandigitals
+            .par_iter()
+            .filter(|n| n.is_prime())
+            .max()
+            .unwrap();
 
         largest.to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 41 }
-    fn answer_desc(&self) -> String { "Largest".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("7652413".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        41
+    }
+    fn answer_desc(&self) -> String {
+        "Largest".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("7652413".to_string())
+    }
 }

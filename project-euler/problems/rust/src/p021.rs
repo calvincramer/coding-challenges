@@ -22,8 +22,16 @@ impl crate::Problem for P021 {
         }
         amicables.iter().sum::<u64>().to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 21 }
-    fn answer_desc(&self) -> String { "Answer".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("31626".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        21
+    }
+    fn answer_desc(&self) -> String {
+        "Answer".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("31626".to_string())
+    }
 }

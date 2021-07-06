@@ -8,7 +8,11 @@ impl crate::Problem for P024 {
         let mut permutation_num = 1u64;
         loop {
             if permutation_num == 1_000_000 {
-                return arr.iter().map(|d| d.to_string()).collect::<Vec<String>>().join("");
+                return arr
+                    .iter()
+                    .map(|d| d.to_string())
+                    .collect::<Vec<String>>()
+                    .join("");
             }
             if permute_once(&mut arr) == false {
                 break;
@@ -17,8 +21,16 @@ impl crate::Problem for P024 {
         }
         String::from("Error")
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 24 }
-    fn answer_desc(&self) -> String { "Answer".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("2783915460".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        24
+    }
+    fn answer_desc(&self) -> String {
+        "Answer".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("2783915460".to_string())
+    }
 }

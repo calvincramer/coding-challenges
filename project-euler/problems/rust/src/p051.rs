@@ -1,5 +1,5 @@
-use rust_math_tools::PrimeTest;
 use itertools::Itertools;
+use rust_math_tools::PrimeTest;
 
 fn search(n: u64, mask: u64) -> bool {
     let str = n.to_string();
@@ -8,8 +8,8 @@ fn search(n: u64, mask: u64) -> bool {
     let mut num_not_primes = 0;
     for to in (if mask & 1 == 1 { 1 } else { 0 })..=9 {
         for i in 0..bytes.len() {
-            if mask & (1<<i) != 0 {
-                bytes[i] = std::char::from_u32(to + 48).unwrap();   // '0' == 48
+            if mask & (1 << i) != 0 {
+                bytes[i] = std::char::from_u32(to + 48).unwrap(); // '0' == 48
             }
         }
         // bytes to number:
@@ -19,8 +19,10 @@ fn search(n: u64, mask: u64) -> bool {
             true => num_primes += 1,
             false => {
                 num_not_primes += 1;
-                if num_not_primes >= 3 { return false; }
-            },
+                if num_not_primes >= 3 {
+                    return false;
+                }
+            }
         }
     }
     8 == num_primes
@@ -47,8 +49,10 @@ impl crate::Problem for P051 {
     fn solve(&self, verbose: bool) -> String {
         let mut number = 1;
         loop {
-            number += 2;    // Only odd numbers can have enough primes (even if mask is on ones digit)
-            if verbose { println!("{}", number); }
+            number += 2; // Only odd numbers can have enough primes (even if mask is on ones digit)
+            if verbose {
+                println!("{}", number);
+            }
             // Binary digits of mask represent wildcards
             for mask in 1u64..(2u64.pow(number.to_string().len() as u32)) {
                 if search(number, mask) {
@@ -58,8 +62,16 @@ impl crate::Problem for P051 {
             }
         }
     }
-    fn is_slow(&self) -> bool { true }
-    fn problem_num(&self) -> i32 { 51 }
-    fn answer_desc(&self) -> String { "8 prime family start".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("121313".to_string()) }
+    fn is_slow(&self) -> bool {
+        true
+    }
+    fn problem_num(&self) -> i32 {
+        51
+    }
+    fn answer_desc(&self) -> String {
+        "8 prime family start".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("121313".to_string())
+    }
 }

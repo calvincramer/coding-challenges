@@ -1,10 +1,13 @@
-use std::fmt;
 use rust_math_tools::read_all_lines;
 use std::cmp::Ordering;
+use std::fmt;
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Copy, Clone)]
 enum Suite {
-    S = 0, C = 1, D = 2, H = 3,
+    S = 0,
+    C = 1,
+    D = 2,
+    H = 3,
 }
 
 #[derive(Copy, Clone)]
@@ -54,7 +57,11 @@ impl Hand {
     fn new(mut cards: Vec<Card>) -> Hand {
         cards.sort_by(compare_cards);
         let (r, r_of) = rank_hand(&cards);
-        Hand { cards, rank: r, rank_of: r_of }
+        Hand {
+            cards,
+            rank: r,
+            rank_of: r_of,
+        }
     }
 
     fn compare_hands(hand1: &Hand, hand2: &Hand) -> Ordering {
@@ -76,7 +83,7 @@ impl Hand {
                         Equal
                     }
                 }
-            },
+            }
         }
     }
 }
@@ -97,7 +104,7 @@ fn rank_hand(hand: &Vec<Card>) -> (Rank, Card) {
     let is_straight: bool = {
         let mut temp = true;
         for i in 1..hand.len() {
-            if hand[i-1].number + 1 != hand[i].number {
+            if hand[i - 1].number + 1 != hand[i].number {
                 temp = false;
                 break;
             }
@@ -113,8 +120,11 @@ fn rank_hand(hand: &Vec<Card>) -> (Rank, Card) {
     }
 
     // Only one quad allowed
-    for i in 0..hand.len()-3 {
-        if hand[i].number == hand[i+1].number && hand[i].number == hand[i+2].number && hand[i].number == hand[i+3].number {
+    for i in 0..hand.len() - 3 {
+        if hand[i].number == hand[i + 1].number
+            && hand[i].number == hand[i + 2].number
+            && hand[i].number == hand[i + 3].number
+        {
             return (Quadruple, hand[i].clone());
         }
     }
@@ -122,20 +132,20 @@ fn rank_hand(hand: &Vec<Card>) -> (Rank, Card) {
     // Find triples
     let mut has_triple = false;
     let mut triple_i = 0;
-    for i in 0..hand.len()-2 {
+    for i in 0..hand.len() - 2 {
         if hand[i].number == hand[i + 1].number && hand[i].number == hand[i + 2].number {
             has_triple = true;
             triple_i = i;
-            break;  // Only one triple
+            break; // Only one triple
         }
     }
 
     // Find pairs
     let mut num_pairs = 0;
     let mut last_pair_i = 0;
-    for i in 0..hand.len()-1 {
+    for i in 0..hand.len() - 1 {
         if hand[i].number == hand[i + 1].number {
-            if has_triple && (triple_i == i || triple_i+1 == i) {
+            if has_triple && (triple_i == i || triple_i + 1 == i) {
                 continue;
             }
             num_pairs += 1;
@@ -147,9 +157,9 @@ fn rank_hand(hand: &Vec<Card>) -> (Rank, Card) {
     if has_triple && num_pairs == 1 {
         (FullHouse, hand[triple_i].clone())
     } else if all_same_suite {
-        (Flush, hand[hand.len()-1].clone())
+        (Flush, hand[hand.len() - 1].clone())
     } else if is_straight {
-        (Straight, hand[hand.len()-1].clone())
+        (Straight, hand[hand.len() - 1].clone())
     } else if has_triple {
         (Triple, hand[triple_i].clone())
     } else if num_pairs == 2 {
@@ -157,7 +167,7 @@ fn rank_hand(hand: &Vec<Card>) -> (Rank, Card) {
     } else if num_pairs == 1 {
         (Pair, hand[last_pair_i].clone())
     } else {
-        (CardHigh, hand[hand.len()-1].clone())
+        (CardHigh, hand[hand.len() - 1].clone())
     }
 }
 
@@ -181,15 +191,15 @@ fn parse_card(hand: &str) -> Card {
                 'C' => C,
                 'D' => D,
                 'H' => H,
-                _ => panic!("Suit not recognized: {}", hand[1])
+                _ => panic!("Suit not recognized: {}", hand[1]),
             }
-        }
+        },
     }
 }
 
 fn compare_cards(c1: &Card, c2: &Card) -> Ordering {
     use Ordering::*;
-    match c1.number.cmp(&c2.number)   {
+    match c1.number.cmp(&c2.number) {
         Less => Less,
         Greater => Greater,
         Equal => c1.suite.cmp(&c2.suite),
@@ -206,7 +216,7 @@ fn parse_hands() -> Vec<(Hand, Hand)> {
             let card = parse_card(card_str);
             (if i < 5 { &mut p1 } else { &mut p2 }).push(card);
         }
-        hands.push( (Hand::new(p1), Hand::new(p2)) );
+        hands.push((Hand::new(p1), Hand::new(p2)));
     }
     hands
 }
@@ -222,8 +232,16 @@ impl crate::Problem for P054 {
 
         t.to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 54 }
-    fn answer_desc(&self) -> String { "Player 1 # wins".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("376".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        54
+    }
+    fn answer_desc(&self) -> String {
+        "Player 1 # wins".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("376".to_string())
+    }
 }

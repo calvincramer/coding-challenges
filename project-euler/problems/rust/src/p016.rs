@@ -8,10 +8,23 @@ impl crate::Problem for P016 {
         if verbose {
             println!("{}", big);
         }
-        big.to_string().as_bytes().iter().map(|&c| (c as u64) - 0x30).sum::<u64>().to_string()
+        big.to_string()
+            .as_bytes()
+            .iter()
+            .map(|&c| (c as u64) - 0x30)
+            .sum::<u64>()
+            .to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 16 }
-    fn answer_desc(&self) -> String { "Sum".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("1366".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        16
+    }
+    fn answer_desc(&self) -> String {
+        "Sum".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("1366".to_string())
+    }
 }

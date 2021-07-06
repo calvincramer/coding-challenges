@@ -15,8 +15,16 @@ impl crate::Problem for P007 {
         }
         num.to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 7 }
-    fn answer_desc(&self) -> String { "Num".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("104743".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        7
+    }
+    fn answer_desc(&self) -> String {
+        "Num".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("104743".to_string())
+    }
 }

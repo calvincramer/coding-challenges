@@ -1,6 +1,6 @@
+use num_bigint::BigUint;
 use std::collections::HashSet;
 use std::iter::FromIterator;
-use num_bigint::BigUint;
 
 pub struct P029 {}
 impl crate::Problem for P029 {
@@ -16,8 +16,16 @@ impl crate::Problem for P029 {
         let set: HashSet<BigUint> = HashSet::from_iter(nums);
         set.len().to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 29 }
-    fn answer_desc(&self) -> String { "Answer".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("9183".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        29
+    }
+    fn answer_desc(&self) -> String {
+        "Answer".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("9183".to_string())
+    }
 }

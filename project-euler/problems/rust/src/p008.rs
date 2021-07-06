@@ -22,7 +22,8 @@ impl crate::Problem for P008 {
                      07198403850962455444362981230987879927244284909188\
                      84580156166097919133875499200524063689912560717606\
                      05886116467109405077541002256983155200055935729725\
-                     71636269561882670428252483600823257530420752963450".as_bytes();
+                     71636269561882670428252483600823257530420752963450"
+            .as_bytes();
         for i in 0..(s.len() - 13) {
             let mut temp_prod: u64 = 1;
             for j in i..(i + 13) {
@@ -32,8 +33,16 @@ impl crate::Problem for P008 {
         }
         largest.to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 8 }
-    fn answer_desc(&self) -> String { "Largest".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("23514624000".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        8
+    }
+    fn answer_desc(&self) -> String {
+        "Largest".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("23514624000".to_string())
+    }
 }

@@ -1,7 +1,7 @@
 use integer_sqrt::IntegerSquareRoot;
 use rust_math_tools;
-use std::cmp;
 use rust_math_tools::PrimeTest;
+use std::cmp;
 
 pub struct P003 {}
 impl crate::Problem for P003 {
@@ -28,8 +28,16 @@ impl crate::Problem for P003 {
         }
         largest_prime_factor.to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 3 }
-    fn answer_desc(&self) -> String { "Largest prime factor".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("6857".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        3
+    }
+    fn answer_desc(&self) -> String {
+        "Largest prime factor".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("6857".to_string())
+    }
 }

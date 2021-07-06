@@ -18,8 +18,8 @@ mod try1 {
         match *doubles_rolled >= 3 {
             true => {
                 *doubles_rolled = 0;
-                *pos = 10;    // go to jail
-            },
+                *pos = 10; // go to jail
+            }
             false => *pos = (*pos + d1 + d2) % BOARD_LENGTH,
         }
     }
@@ -34,16 +34,16 @@ mod try1 {
 
     fn do_chance(pos: &mut usize) {
         match rand::random::<usize>() % 16 {
-            0 => *pos = 0,      // GO
-            1 => *pos = 10,     // JAIL
-            2 => *pos = 11,     // C1
-            3 => *pos = 24,     // E3
-            4 => *pos = 39,     // H2
-            5 => *pos = 5,      // R1
-            6 | 7 => *pos = (((*pos + 5) / 10) + 5) % BOARD_LENGTH, // next railroad
-            8 => *pos = if *pos < 12 || *pos >= 28 { 12 } else { 28 },  // next utility
-            9 => *pos -= 3,     // go back 3
-            _ => (),            // no movement
+            0 => *pos = 0,                                             // GO
+            1 => *pos = 10,                                            // JAIL
+            2 => *pos = 11,                                            // C1
+            3 => *pos = 24,                                            // E3
+            4 => *pos = 39,                                            // H2
+            5 => *pos = 5,                                             // R1
+            6 | 7 => *pos = (((*pos + 5) / 10) + 5) % BOARD_LENGTH,    // next railroad
+            8 => *pos = if *pos < 12 || *pos >= 28 { 12 } else { 28 }, // next utility
+            9 => *pos -= 3,                                            // go back 3
+            _ => (),                                                   // no movement
         }
     }
 
@@ -63,7 +63,7 @@ mod try1 {
             }
             if on_community(*pos) {
                 do_community(pos);
-                continue
+                continue;
             }
             break;
         }
@@ -74,7 +74,9 @@ mod try1 {
     }
 
     fn get_largest_i<T>(arr: &[T]) -> Option<usize>
-        where T: Ord {
+    where
+        T: Ord,
+    {
         if arr.len() == 0 {
             return None;
         }
@@ -117,14 +119,16 @@ mod try1 {
 fn experiment1() -> String {
     const L: usize = 5;
     const ERROR: f64 = 0.000_01;
-    let mut v = vec![1u64,0,0,0,0]; // All start at first position
-    let mut new_v = vec![0u64,0,0,0,0];
+    let mut v = vec![1u64, 0, 0, 0, 0]; // All start at first position
+    let mut new_v = vec![0u64, 0, 0, 0, 0];
     let mut prev_dist = vec![0.0, 0.0, 0.0, 0.0, 0.0];
     let mut iter = 0;
     println!("{:?} iter={}", v, iter);
     loop {
         // clear new_v
-        for i in 0..L { new_v[i] = 0; }
+        for i in 0..L {
+            new_v[i] = 0;
+        }
 
         // apply roll distribution from each space, to get next iteration
 
@@ -134,15 +138,17 @@ fn experiment1() -> String {
         // 2. 50% roll 1, 50% roll 2, except for space 0 which always moves 3
         for i in 0..L {
             if i == 0 {
-                new_v[i+3] = v[i];
+                new_v[i + 3] = v[i];
             } else {
-                new_v[(i+1) % L] += v[i];
-                new_v[(i+2) % L] += v[i];
+                new_v[(i + 1) % L] += v[i];
+                new_v[(i + 2) % L] += v[i];
             }
         }
 
         // Simultaneous update
-        for i in 0..L { v[i] = new_v[i]; }
+        for i in 0..L {
+            v[i] = new_v[i];
+        }
 
         // Confine large numbers to a certain precision
         if v[0] > 100_000_000 {
@@ -156,7 +162,9 @@ fn experiment1() -> String {
         let mut new_dist = vec![0.0, 0.0, 0.0, 0.0, 0.0];
         // Calculate new dist
         let sum: f64 = v.iter().sum::<u64>() as f64;
-        for i in 0..L { new_dist[i] = v[i] as f64 / sum; }
+        for i in 0..L {
+            new_dist[i] = v[i] as f64 / sum;
+        }
         for i in 0..L {
             if (new_dist[i] - prev_dist[i]).abs() > ERROR {
                 all_same = false;
@@ -164,12 +172,22 @@ fn experiment1() -> String {
             }
         }
         // Update prev dist
-        for i in 0..L { prev_dist[i] = new_dist[i]; }
+        for i in 0..L {
+            prev_dist[i] = new_dist[i];
+        }
 
         // Print current iteration
-        println!("{:.3?} {:?} iter={} {}", new_dist, v, iter, if all_same { "SAME!!!" } else { "" });
+        println!(
+            "{:.3?} {:?} iter={} {}",
+            new_dist,
+            v,
+            iter,
+            if all_same { "SAME!!!" } else { "" }
+        );
         iter += 1;
-        if iter > 1_000 || all_same { break; }
+        if iter > 1_000 || all_same {
+            break;
+        }
     }
     "experiment".to_string()
 }
@@ -181,46 +199,46 @@ mod try2 {
 
     fn apply_chance(at: usize, board: &mut Vec<f64>) {
         // 16 possibilities
-        board[0] += 1f64/16f64;     // GO
-        board[5] += 1f64/16f64;     // R1
-        board[10] += 1f64/16f64;    // JAIL
-        board[11] += 1f64/16f64;    // C1
-        board[24] += 1f64/16f64;    // E3
-        board[39] += 1f64/16f64;    // H2
+        board[0] += 1f64 / 16f64; // GO
+        board[5] += 1f64 / 16f64; // R1
+        board[10] += 1f64 / 16f64; // JAIL
+        board[11] += 1f64 / 16f64; // C1
+        board[24] += 1f64 / 16f64; // E3
+        board[39] += 1f64 / 16f64; // H2
 
         // next railroad (2x)
-        board[5] += 1f64/32f64;
-        board[15] += 1f64/32f64;
-        board[25] += 1f64/32f64;
-        board[35] += 1f64/32f64;
+        board[5] += 1f64 / 32f64;
+        board[15] += 1f64 / 32f64;
+        board[25] += 1f64 / 32f64;
+        board[35] += 1f64 / 32f64;
 
         // next utility
-        board[12] += 2f64/48f64;    // two chances go to utility 1
-        board[28] += 1f64/48f64;    // one chance goes to utility 2
+        board[12] += 2f64 / 48f64; // two chances go to utility 1
+        board[28] += 1f64 / 48f64; // one chance goes to utility 2
 
-        board[at-3] += 1f64/16f64;  // go back 3
-        board[at] += 3f64/8f64;     // no movement 6 cards
+        board[at - 3] += 1f64 / 16f64; // go back 3
+        board[at] += 3f64 / 8f64; // no movement 6 cards
     }
 
     fn apply_community(at: usize, board: &mut Vec<f64>) {
-        board[0] += 1f64/16f64;    // GO
-        board[10] += 1f64/16f64;    // JAIL
-        board[at] += 7f64/8f64;     // no movement 14 cards
+        board[0] += 1f64 / 16f64; // GO
+        board[10] += 1f64 / 16f64; // JAIL
+        board[at] += 7f64 / 8f64; // no movement 14 cards
     }
 
     fn apply_normal(at: usize, board: &mut Vec<f64>) {
         // two 6-sided dice:
-        board[(at+2) % L] += 1f64/36f64;
-        board[(at+3) % L] += 2f64/36f64;
-        board[(at+4) % L] += 3f64/36f64;
-        board[(at+5) % L] += 4f64/36f64;
-        board[(at+6) % L] += 5f64/36f64;
-        board[(at+7) % L] += 6f64/36f64;
-        board[(at+8) % L] += 5f64/36f64;
-        board[(at+9) % L] += 4f64/36f64;
-        board[(at+10) % L] += 3f64/36f64;
-        board[(at+11) % L] += 2f64/36f64;
-        board[(at+12) % L] += 1f64/36f64;
+        board[(at + 2) % L] += 1f64 / 36f64;
+        board[(at + 3) % L] += 2f64 / 36f64;
+        board[(at + 4) % L] += 3f64 / 36f64;
+        board[(at + 5) % L] += 4f64 / 36f64;
+        board[(at + 6) % L] += 5f64 / 36f64;
+        board[(at + 7) % L] += 6f64 / 36f64;
+        board[(at + 8) % L] += 5f64 / 36f64;
+        board[(at + 9) % L] += 4f64 / 36f64;
+        board[(at + 10) % L] += 3f64 / 36f64;
+        board[(at + 11) % L] += 2f64 / 36f64;
+        board[(at + 12) % L] += 1f64 / 36f64;
     }
 
     fn apply_distribution(at: usize, board: &mut Vec<f64>) {
@@ -229,7 +247,7 @@ mod try2 {
         match at {
             2 | 17 | 33 => apply_community(at, board),
             7 | 22 | 36 => apply_chance(at, board),
-            40 => board[10] += 1f64/40f64,  // go to jail space
+            40 => board[10] += 1f64 / 40f64, // go to jail space
             _ => apply_normal(at, board),
         };
     }
@@ -237,9 +255,9 @@ mod try2 {
     pub fn try2(verbose: bool) -> String {
         const ERROR: f64 = 0.000_01;
         const MAX_BEFORE_SCALE_DOWN: f64 = 100_000.0;
-        let mut v = vec![0f64; L];          // Board
-        v[0] = 1.0;                         // Start at first position
-        let mut prev_dist = vec![0f64; L];  // Distribution (likelihood to be on space)
+        let mut v = vec![0f64; L]; // Board
+        v[0] = 1.0; // Start at first position
+        let mut prev_dist = vec![0f64; L]; // Distribution (likelihood to be on space)
         let mut iter = 0;
         if verbose {
             println!("{:?} iter={}", v, iter);
@@ -262,7 +280,9 @@ mod try2 {
             let mut new_dist = vec![0f64; L];
             // Calculate new dist
             let sum = v.iter().sum::<f64>();
-            for i in 0..L { new_dist[i] = v[i] as f64 / sum; }
+            for i in 0..L {
+                new_dist[i] = v[i] as f64 / sum;
+            }
             for i in 0..L {
                 if (new_dist[i] - prev_dist[i]).abs() > ERROR {
                     all_same = false;
@@ -270,14 +290,24 @@ mod try2 {
                 }
             }
             // Update prev dist
-            for i in 0..L { prev_dist[i] = new_dist[i]; }
+            for i in 0..L {
+                prev_dist[i] = new_dist[i];
+            }
 
             // Print current iteration
             if verbose {
-                println!("{:.3?} {:?} iter={} {}", new_dist, v, iter, if all_same { "SAME!!!" } else { "" });
+                println!(
+                    "{:.3?} {:?} iter={} {}",
+                    new_dist,
+                    v,
+                    iter,
+                    if all_same { "SAME!!!" } else { "" }
+                );
             }
             iter += 1;
-            if iter > 1_000 || all_same { break; }
+            if iter > 1_000 || all_same {
+                break;
+            }
         }
         "experiment".to_string()
     }
@@ -288,37 +318,51 @@ mod try2 {
 // Raise matrix to Nth power to simulate N moves
 // Credit: Tom Nguyen
 mod try3 {
-    use ndarray::{Array, Ix2, s};
+    use ndarray::{s, Array, Ix2};
 
     const L: usize = 40;
     const DICE_SIDES: usize = 4;
 
     fn apply_chance(from: usize, at: usize, t: &mut Array<f64, Ix2>, base_likelihood: f64) {
         // 16 possibilities
-        t[[from, 0]]  += base_likelihood * 1f64/16f64;     // GO
-        t[[from, 5]]  += base_likelihood * 1f64/16f64;     // R1
-        t[[from, 10]] += base_likelihood * 1f64/16f64;    // JAIL
-        t[[from, 11]] += base_likelihood * 1f64/16f64;    // C1
-        t[[from, 24]] += base_likelihood * 1f64/16f64;    // E3
-        t[[from, 39]] += base_likelihood * 1f64/16f64;    // H2
+        t[[from, 0]] += base_likelihood * 1f64 / 16f64; // GO
+        t[[from, 5]] += base_likelihood * 1f64 / 16f64; // R1
+        t[[from, 10]] += base_likelihood * 1f64 / 16f64; // JAIL
+        t[[from, 11]] += base_likelihood * 1f64 / 16f64; // C1
+        t[[from, 24]] += base_likelihood * 1f64 / 16f64; // E3
+        t[[from, 39]] += base_likelihood * 1f64 / 16f64; // H2
 
         // next railroad (2x cards)
-        t[[from, match at { 7 => 15, 22 => 25, 36 => 5, _ => panic!("apply_chance bad"),
-        }]] += base_likelihood * 2f64/16f64;
+        t[[
+            from,
+            match at {
+                7 => 15,
+                22 => 25,
+                36 => 5,
+                _ => panic!("apply_chance bad"),
+            },
+        ]] += base_likelihood * 2f64 / 16f64;
 
         // next utility
-        t[[from, match at { 7 => 12, 22 => 28, 36 => 12, _ => panic!("apply_chance bad"),
-        }]] += base_likelihood * 1f64/16f64;
+        t[[
+            from,
+            match at {
+                7 => 12,
+                22 => 28,
+                36 => 12,
+                _ => panic!("apply_chance bad"),
+            },
+        ]] += base_likelihood * 1f64 / 16f64;
 
         // go back 3 - may land on a community chest which may move us other places
-        apply_distribution(from, at-3, t,base_likelihood * 1f64/16f64);
-        t[[from, at]] += base_likelihood * 6f64/16f64;     // no movement 6 cards
+        apply_distribution(from, at - 3, t, base_likelihood * 1f64 / 16f64);
+        t[[from, at]] += base_likelihood * 6f64 / 16f64; // no movement 6 cards
     }
 
     fn apply_community(from: usize, at: usize, t: &mut Array<f64, Ix2>, base_likelihood: f64) {
-        t[[from, 0] ] += base_likelihood * 1f64 /16f64;    // GO
-        t[[from, 10]] += base_likelihood * 1f64 /16f64;    // JAIL
-        t[[from, at]] += base_likelihood * 14f64/16f64;     // no movement 14 cards
+        t[[from, 0]] += base_likelihood * 1f64 / 16f64; // GO
+        t[[from, 10]] += base_likelihood * 1f64 / 16f64; // JAIL
+        t[[from, at]] += base_likelihood * 14f64 / 16f64; // no movement 14 cards
     }
 
     /// Applies distribution at specific spot, depending on the what the spot is.
@@ -326,8 +370,8 @@ mod try3 {
         match at {
             2 | 17 | 33 => apply_community(from, at, t, base_likelihood),
             7 | 22 | 36 => apply_chance(from, at, t, base_likelihood),
-            30 => t[[from, 10]] += base_likelihood,   // go to jail space
-            _ => t[[from, at]] += base_likelihood,    // normal space ends turn at space_land_at
+            30 => t[[from, 10]] += base_likelihood, // go to jail space
+            _ => t[[from, at]] += base_likelihood,  // normal space ends turn at space_land_at
         };
     }
 
@@ -335,16 +379,21 @@ mod try3 {
     fn apply_roll_distribution_at(at: usize, t: &mut Array<f64, Ix2>) {
         // TODO Three doubles in a row - go to jail
         let mut roll_dist = 0;
-        for roll_val in 2..=(DICE_SIDES*2) {
+        for roll_val in 2..=(DICE_SIDES * 2) {
             match roll_val <= DICE_SIDES + 1 {
                 true => roll_dist += 1,
                 false => roll_dist -= 1,
             };
-            apply_distribution(at, (at+roll_val) % L, t, (roll_dist as f64) / ((DICE_SIDES * DICE_SIDES) as f64));
+            apply_distribution(
+                at,
+                (at + roll_val) % L,
+                t,
+                (roll_dist as f64) / ((DICE_SIDES * DICE_SIDES) as f64),
+            );
         }
     }
 
-    fn print_t (array: &Array<f64, Ix2>) {
+    fn print_t(array: &Array<f64, Ix2>) {
         for r in 0..L {
             for c in 0..L {
                 let n = array[[r, c]];
@@ -359,7 +408,9 @@ mod try3 {
     }
 
     fn get_largest_i<T>(arr: &[T]) -> Option<usize>
-        where T: PartialOrd {
+    where
+        T: PartialOrd,
+    {
         if arr.len() == 0 {
             return None;
         }
@@ -373,7 +424,7 @@ mod try3 {
     }
 
     pub fn try3(verbose: bool) -> String {
-        let mut transition = Array::<f64, _ >::zeros((L, L));
+        let mut transition = Array::<f64, _>::zeros((L, L));
         for i in 0..L {
             apply_roll_distribution_at(i, &mut transition);
         }
@@ -441,8 +492,16 @@ impl crate::Problem for P084 {
         // try2::try2(verbose)
         try3::try3(verbose)
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 84 }
-    fn answer_desc(&self) -> String { "Monopoly modal str".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("101524".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        84
+    }
+    fn answer_desc(&self) -> String {
+        "Monopoly modal str".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("101524".to_string())
+    }
 }

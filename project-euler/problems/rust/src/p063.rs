@@ -19,15 +19,23 @@ impl crate::Problem for P063 {
                             println!("{} = {}^{}", num, a, n);
                         }
                         count += 1
-                    },
+                    }
                     Greater => break,
                 }
             }
         }
         count.to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 63 }
-    fn answer_desc(&self) -> String { "Amount".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("49".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        63
+    }
+    fn answer_desc(&self) -> String {
+        "Amount".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("49".to_string())
+    }
 }

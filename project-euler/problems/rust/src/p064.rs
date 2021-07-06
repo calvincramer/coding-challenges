@@ -1,6 +1,6 @@
 use num_integer::Roots;
-use rust_math_tools::is_square;
 use rayon::prelude::*;
+use rust_math_tools::is_square;
 
 #[derive(Copy, Clone, Debug)]
 struct Term {
@@ -82,15 +82,18 @@ fn term_repeats_n_times(
 /// Returns (a,b) where _a_ is the cycle length, and _b_ is the cycle start index (0-indexed), or
 /// None if no cycle is detected.
 fn sequence_cycle_length(f: fn(Term) -> Term, x0: Term) -> Option<usize> {
-    let mut length_max = 1usize;  // limit to check length
+    let mut length_max = 1usize; // limit to check length
     let mut start = x0;
     let mut start_i = 0usize; // used to update length_max occasionally
-    const TIMES_MUST_REPEAT: usize = 5;  // must repeat this many times to be considered a cycle
-    const MIN_CYCLE_LEN_CHECK: usize = 20;   // must check the cycle out this many terms
+    const TIMES_MUST_REPEAT: usize = 5; // must repeat this many times to be considered a cycle
+    const MIN_CYCLE_LEN_CHECK: usize = 20; // must check the cycle out this many terms
     const INDEX_LIMIT: usize = 1000;
 
     let get_cycles_check = |cycle_length: usize| -> usize {
-        std::cmp::max(cycle_length * TIMES_MUST_REPEAT, MIN_CYCLE_LEN_CHECK / cycle_length)
+        std::cmp::max(
+            cycle_length * TIMES_MUST_REPEAT,
+            MIN_CYCLE_LEN_CHECK / cycle_length,
+        )
     };
 
     while start_i < INDEX_LIMIT {
@@ -125,7 +128,9 @@ pub struct P064 {}
 impl crate::Problem for P064 {
     #[allow(unused_variables)]
     fn solve(&self, verbose: bool) -> String {
-        let mut nums = (2u64..=10_000).filter(|n| !is_square(n)).collect::<Vec<u64>>();
+        let mut nums = (2u64..=10_000)
+            .filter(|n| !is_square(n))
+            .collect::<Vec<u64>>();
         nums.par_iter_mut().for_each(|n| {
             match sequence_cycle_length(iter_term, Term::new_start(*n)) {
                 Some(len) => *n = len as u64,
@@ -134,8 +139,16 @@ impl crate::Problem for P064 {
         });
         nums.iter().filter(|len| *len % 2 == 1).count().to_string()
     }
-    fn is_slow(&self) -> bool { false }
-    fn problem_num(&self) -> i32 { 64 }
-    fn answer_desc(&self) -> String { "Odd periods".to_string() }
-    fn real_answer(&self) -> crate::ProblemAnswer { crate::ProblemAnswer::Some("1322".to_string()) }
+    fn is_slow(&self) -> bool {
+        false
+    }
+    fn problem_num(&self) -> i32 {
+        64
+    }
+    fn answer_desc(&self) -> String {
+        "Odd periods".to_string()
+    }
+    fn real_answer(&self) -> crate::ProblemAnswer {
+        crate::ProblemAnswer::Some("1322".to_string())
+    }
 }
