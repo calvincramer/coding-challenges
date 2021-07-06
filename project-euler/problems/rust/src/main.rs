@@ -88,6 +88,7 @@ mod p084;
 mod p085;
 mod p086;
 mod p087;
+mod p088;
 
 #[derive(Debug)]
 enum ProblemAnswer {
@@ -200,7 +201,7 @@ fn timed_run(prob: &dyn Problem, verbose: bool, skip_slow: bool) {
 
 #[allow(dead_code)]
 fn run_specific_problem() {
-    timed_run(&p087::P087 {}, false, false);
+    timed_run(&p088::P088 {}, true, false);
 }
 
 fn main() {

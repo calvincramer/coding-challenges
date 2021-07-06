@@ -1,8 +1,7 @@
+use crate::gcf::gcf;
 /// Numeric functionality
-
 use crate::palindrome::Palindrome;
 use crate::prime::get_uniq_prime_factors;
-use crate::gcf::gcf;
 use crate::reversible::reverse;
 
 extern crate integer_sqrt;
@@ -10,14 +9,17 @@ use integer_sqrt::IntegerSquareRoot;
 
 extern crate num_bigint;
 use num_bigint::BigUint;
-use std::ops::{AddAssign};
+use std::ops::AddAssign;
 
 extern crate num_traits;
 use num_traits::One;
 use num_traits::Zero;
 
+use crate::PrimeTest;
 use itertools::Itertools;
 
+use std::collections::HashSet;
+use std::iter::FromIterator;
 
 /// Collatz sequence: if n is even divide number by 2, else if odd multiply by 3 and add 1, repeat until reach 1.
 pub fn collatz_steps(mut num: u64) -> u64 {
@@ -34,11 +36,17 @@ pub fn collatz_steps(mut num: u64) -> u64 {
 
 /// Get all divisors of a number (divisors from 1 to num inclusive)
 pub fn divisors(num: u64) -> Vec<u64> {
-    if num == 0 { return vec![]; }
+    if num == 0 {
+        return vec![];
+    }
     let sqrt = num.integer_sqrt();
-    let first_half : Vec<u64> = (1..=sqrt).filter(|div| num % div == 0).collect();
-    let end = if sqrt.pow(2) == num { first_half.len() - 1 } else { first_half.len() };
-    let second_half : Vec<u64> = (0..end).rev().map(|i| num / first_half[i]).collect();
+    let first_half: Vec<u64> = (1..=sqrt).filter(|div| num % div == 0).collect();
+    let end = if sqrt.pow(2) == num {
+        first_half.len() - 1
+    } else {
+        first_half.len()
+    };
+    let second_half: Vec<u64> = (0..end).rev().map(|i| num / first_half[i]).collect();
     [first_half, second_half].concat()
 }
 
@@ -46,18 +54,17 @@ pub fn divisors(num: u64) -> Vec<u64> {
 pub fn divisors_proper(num: u64) -> Vec<u64> {
     let mut divs = divisors(num);
     if divs.len() > 0 && divs[divs.len() - 1] == num {
-        divs.pop();  // Remove num from list of divisors
+        divs.pop(); // Remove num from list of divisors
     }
     divs
 }
 
 /// Type comparing sum of proper divisors to number
-#[derive(Debug)]
-#[derive(PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq)]
 pub enum DivSum {
-    Deficient = -1,     // Sum of proper divisors is less than the number
-    Perfect = 0,        // "" equal to the number
-    Abundant = 1,       // "" greater than the number
+    Deficient = -1, // Sum of proper divisors is less than the number
+    Perfect = 0,    // "" equal to the number
+    Abundant = 1,   // "" greater than the number
 }
 
 /// Compare the sum of proper divisors of num to the num
@@ -80,12 +87,12 @@ pub fn factorial(num: u64) -> BigUint {
 fn recurse_fact(start: u64, n: u64) -> BigUint {
     if n <= 16 {
         let mut r = BigUint::from(start);
-        for i in (start+1)..(start+n) {
+        for i in (start + 1)..(start + n) {
             r = r * i;
         }
         return r;
     }
-    let h = n / 2;  // half
+    let h = n / 2; // half
     recurse_fact(start, h) * recurse_fact(start + h, n - h)
 }
 /// TODO: Faster factorial: http://www.luschny.de/math/factorial/csharp/FactorialSplit.cs.html
@@ -101,7 +108,7 @@ pub fn factorial_slow(num: u64) -> BigUint {
 
 /// Lychrel numbers are numbers that never produce palindromes by reversing and adding itself
 pub fn is_lychrel(num: u64) -> bool {
-    const MAX_TESTS: i32 = 50;   // Stop after this number of iterations
+    const MAX_TESTS: i32 = 50; // Stop after this number of iterations
     let mut n = BigUint::from(num);
     for _ in 0..=MAX_TESTS {
         n.add_assign(reverse(&n));
@@ -120,7 +127,7 @@ pub fn is_square(num: &u64) -> bool {
 /// nCr - number of combinations
 pub fn ncr(n: u64, r: u64) -> BigUint {
     if r > n {
-        return BigUint::zero()
+        return BigUint::zero();
     }
     let n_fact = factorial(n);
     let r_fact = factorial(r);
@@ -156,7 +163,9 @@ pub fn num_digits_128(mut num: u128) -> u128 {
 
 /// Get the number of divisors (divisors from 1 to num inclusive)
 pub fn num_divisors(num: u64) -> u64 {
-    if num == 0 { return 0; }
+    if num == 0 {
+        return 0;
+    }
     let sqrt = num.integer_sqrt();
     let mut total = 0;
     for div in 1..=sqrt {
@@ -165,40 +174,73 @@ pub fn num_divisors(num: u64) -> u64 {
         }
     }
     if sqrt.pow(2) == num {
-        total -= 1;     // Square numbers on count sqrt once (ex: 25)
+        total -= 1; // Square numbers on count sqrt once (ex: 25)
     }
     total
 }
 
+/// Slow
+pub fn get_factors(num: u64) -> Vec<u64> {
+    let mut factors = vec![];
+    let sqrt = num.integer_sqrt();
+    for div in 2..sqrt {
+        if num % div == 0 {
+            factors.push(div);
+            factors.push(num / div);
+        }
+    }
+    if sqrt.pow(2) == num {
+        factors.push(sqrt);
+    } else if num % sqrt == 0 {
+        factors.push(sqrt);
+        factors.push(num / sqrt);
+
+    }
+    factors.sort();
+    factors
+}
+
+/// Gets all factorizations of a number, returned in no particular order
+/// 12 -> 12, 2*6, 2*2*3, 4*3
+pub fn get_all_factorizations(num: u64) -> Vec<Vec<u64>> {
+    if num.is_prime() {
+        return vec![vec![num]];
+    }
+    let mut result = vec![vec![num]];
+    for div in get_factors(num) {
+        let rest = num / div;
+        let mut rest_results = get_all_factorizations(rest);
+        for i in 0..rest_results.len() {
+            let pos_to_insert = match rest_results[i].binary_search(&div) {
+                Ok(pos) => pos,
+                Err(pos) => pos,
+            };
+            rest_results[i].insert(pos_to_insert, div);
+        }
+        result.append(&mut rest_results);
+    }
+    Vec::from_iter(HashSet::<Vec<u64>>::from_iter(result))
+
+}
 
 /// Returns all pandigitals of digits made of of 'from' to 'to'
 /// Example: get_pandigitals(2, 4) -> [2,3,4], [2,4,3], [3,2,4], [3,4,2], [4,2,3], [4,3,2]
-pub fn get_pandigitals(from: u8, to: u8) -> Vec<u64>  {
+pub fn get_pandigitals(from: u8, to: u8) -> Vec<u64> {
     if from > 9 || to > 9 {
         panic!("from and to cannot be greater than 9");
     }
-    (from..=to).permutations((to - from + 1) as usize)
-        .map(|v| v.iter()
-            .map(|n| n.to_string())
-            .join("")
-            .parse::<u64>()
-            .unwrap())
+    (from..=to)
+        .permutations((to - from + 1) as usize)
+        .map(|v| {
+            v.iter()
+                .map(|n| n.to_string())
+                .join("")
+                .parse::<u64>()
+                .unwrap()
+        })
         .collect()
 }
 
-/// num has all digits from from_digit to to_digit inclusive?
-// pub fn is_pandigital_SLOW(mut num: u64, from_digit: u8, to_digit: u8) -> bool {
-//     let mut found: HashSet<u8> = HashSet::new();
-//     while num > 0 {
-//         let d: u8 = (num % 10) as u8;
-//         match found.contains(&d) {
-//             true => return false,
-//             false => found.insert(d),
-//         };
-//         num /= 10;
-//     }
-//     return found == HashSet::from_iter(from_digit..=to_digit);
-// }
 /// num has all digits from from_digit to to_digit inclusive? (faster than implementation with HashSet)
 pub fn is_pandigital(mut num: u64, from_digit: u8, to_digit: u8) -> bool {
     let mut found = [false; 10];
@@ -206,7 +248,7 @@ pub fn is_pandigital(mut num: u64, from_digit: u8, to_digit: u8) -> bool {
     while num > 0 {
         let d = (num % 10) as usize;
         if d < from_digit as usize || d > to_digit as usize || found[d] == true {
-            return false
+            return false;
         }
         found[d] = true;
         num_found += 1;
@@ -217,20 +259,19 @@ pub fn is_pandigital(mut num: u64, from_digit: u8, to_digit: u8) -> bool {
 /// Specialized version even faster than above
 pub fn is_pandigital_1_to_9(mut num: u64) -> bool {
     if num < 123_456_789 || num > 987_654_321 {
-        return false
+        return false;
     }
     let mut found = [false; 10];
     while num > 0 {
         let d = (num % 10) as usize;
         if d == 0 || found[d] == true {
-            return false
+            return false;
         }
         found[d] = true;
         num /= 10;
     }
     true
 }
-
 
 /// Euler's totient function. AKA "phi" function
 /// Counts the number of numbers less than n which are relatively prime to n
@@ -242,7 +283,7 @@ pub fn totient(n: u64) -> u64 {
     let mut top = 1;
     let mut bottom = 1;
     for n in factors {
-        top *= n-1;
+        top *= n - 1;
         bottom *= n;
     }
     n * top / bottom
@@ -257,7 +298,7 @@ pub trait SumDigits {
 
 impl SumDigits for BigUint {
     fn sum_digits(&self) -> u64 {
-        self.to_string().chars().map(|c| (c as u64)-0x30).sum()
+        self.to_string().chars().map(|c| (c as u64) - 0x30).sum()
     }
 }
 
@@ -266,10 +307,10 @@ impl SumDigits for BigUint {
 /// WARNING: this function may be inefficient.
 pub fn permute_once(arr: &mut [u64]) -> bool {
     // Find first ascending index:
-    let mut fd = arr.len();     // First decrease(?)
+    let mut fd = arr.len(); // First decrease(?)
     for i in (1..arr.len()).rev() {
-        if arr[i] > arr[i-1] {
-            fd = i-1;
+        if arr[i] > arr[i - 1] {
+            fd = i - 1;
             break;
         }
     }
@@ -281,7 +322,7 @@ pub fn permute_once(arr: &mut [u64]) -> bool {
     let mut inc_uniq = false;
     while !inc_uniq {
         arr[fd] += 1;
-        inc_uniq = true;    // Assume we incremented to a unique number (to the left) first
+        inc_uniq = true; // Assume we incremented to a unique number (to the left) first
         for i in 0..fd {
             if arr[i] == arr[fd] {
                 inc_uniq = false;
@@ -290,7 +331,8 @@ pub fn permute_once(arr: &mut [u64]) -> bool {
     }
 
     // Fill in numbers to the right of fd
-    for i in fd+1..arr.len() {  // For each index from right of decrease to end
+    for i in fd + 1..arr.len() {
+        // For each index from right of decrease to end
         for num_try in 0..arr.len() {
             let mut found_good = true;
             for index in 0..i {
@@ -370,8 +412,14 @@ mod lib_rs_tests {
         assert_eq!(f(1), BigUint::one());
         assert_eq!(f(2), BigUint::parse_bytes(b"2", 10).unwrap());
         assert_eq!(f(6), BigUint::parse_bytes(b"720", 10).unwrap());
-        assert_eq!(f(20), BigUint::parse_bytes(b"2432902008176640000", 10).unwrap());
-        assert_eq!(f(20), BigUint::parse_bytes(b"2432902008176640000", 10).unwrap());
+        assert_eq!(
+            f(20),
+            BigUint::parse_bytes(b"2432902008176640000", 10).unwrap()
+        );
+        assert_eq!(
+            f(20),
+            BigUint::parse_bytes(b"2432902008176640000", 10).unwrap()
+        );
         assert_eq!(f(100), BigUint::parse_bytes(b"93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000", 10).unwrap());
     }
 
@@ -387,7 +435,7 @@ mod lib_rs_tests {
 
     #[test]
     fn test_divisors_sum_type() {
-        use DivSum::{Deficient, Perfect, Abundant};
+        use DivSum::{Abundant, Deficient, Perfect};
         assert_eq!(divisors_sum_type(12), Abundant);
         assert_eq!(divisors_sum_type(28), Perfect);
         assert_eq!(divisors_sum_type(31), Deficient);
@@ -419,7 +467,7 @@ mod lib_rs_tests {
         assert_eq!(is_lychrel(1234321), false);
         assert_eq!(is_lychrel(349), false);
         assert_eq!(is_lychrel(196), true);
-        assert_eq!(is_lychrel(4994), true);     // palindromes are not necessarily lychrel
+        assert_eq!(is_lychrel(4994), true); // palindromes are not necessarily lychrel
     }
 
     #[test]
@@ -457,6 +505,34 @@ mod lib_rs_tests {
 
     #[test]
     fn test_get_pandigitals() {
-        assert_eq!(get_pandigitals(5,7), vec![567, 576, 657, 675, 756, 765]);
+        assert_eq!(get_pandigitals(5, 7), vec![567, 576, 657, 675, 756, 765]);
+    }
+
+    #[test]
+    /// TODO
+    fn test_get_all_factorizations() {
+        assert_eq!(
+            get_all_factorizations(12),
+            vec![vec![12], vec![2, 6], vec![2, 2, 3]]
+        );
+        assert_eq!(
+            get_all_factorizations(24),
+            vec![vec![24], vec![2, 12], vec![2, 2, 6], vec![2, 2, 2, 3]]
+        );
+        assert_eq!(
+            get_all_factorizations(100),
+            vec![vec![100], vec![2, 50], vec![2, 2, 25], vec![2, 2, 5, 5]]
+        );
+        assert_eq!(
+            get_all_factorizations(963),
+            vec![vec![963], vec![3, 321], vec![3, 3, 107]]
+        );
+        // 16: 2*8, 2*2*4, 2*2*2*2, 4*4
+    }
+
+    #[test]
+    fn test_get_factors() {
+        assert_eq!(get_factors(10), vec![2, 5]);
+        assert_eq!(get_factors(16), vec![2, 4, 8]);
     }
 }

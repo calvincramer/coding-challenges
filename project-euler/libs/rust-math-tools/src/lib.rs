@@ -1,8 +1,6 @@
 /// TODO
 /// * pre computing primes, prime factorizations, totients, etc (make generalized)
-
 // Internal modules to publish (pub use module::* will export their stuff into the root crate)
-
 pub mod etc;
 pub use etc::*;
 

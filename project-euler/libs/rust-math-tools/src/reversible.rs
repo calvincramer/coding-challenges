@@ -1,10 +1,19 @@
-use std::string::ToString;
-use std::str::FromStr;
 use std::fmt::Debug;
+use std::str::FromStr;
+use std::string::ToString;
 
 pub fn reverse<T>(thing: &T) -> T
-    where T: ToString + FromStr, <T as FromStr>::Err: Debug {
-    thing.to_string().chars().rev().collect::<String>().parse::<T>().unwrap()
+where
+    T: ToString + FromStr,
+    <T as FromStr>::Err: Debug,
+{
+    thing
+        .to_string()
+        .chars()
+        .rev()
+        .collect::<String>()
+        .parse::<T>()
+        .unwrap()
 }
 
 #[test]

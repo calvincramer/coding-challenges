@@ -139,6 +139,7 @@ use std::vec::Vec;
 // Create
 let x = vec![1, 2, 3];	// Creates a vector that has elements 1, 2, and 3
 let x = Vec::new();
+let x = vec![0; 10]; 	// Length of ten initialized to 0
 
 // Iterate
 for n in x.iter() {
@@ -300,7 +301,7 @@ pub fn somepublicfunction(...) -> ... { ... }
 * pathfinding -> path finding algorithms
 
 
-# Closures
+# Closures / lambda
 ```rust
 // Closures are like anonymous functions, and can capture variables from outside scope
 // Normal function can NEVER access outside scope
@@ -316,6 +317,9 @@ work(2,3,4,5);
 "asdf".to_string().as_bytes().iter().map(|&c| c - 0x30);	// c is a u8
 // This allows us to take the sum:
 "asdf".to_string().as_bytes().iter().map(|&c| (c as u64) - 0x30).sum::<u64>();
+
+// Create and immediately use (need surrounding parenthesis)
+let ans = (|| {some_calculation...})();
 ```
 
 # Functional stuff

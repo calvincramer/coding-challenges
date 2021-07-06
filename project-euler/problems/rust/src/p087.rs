@@ -3,6 +3,7 @@ use rust_math_tools::get_primes_under;
 
 pub struct P087 {}
 impl crate::Problem for P087 {
+    #[allow(unused_variables)]
     fn solve(&self, verbose: bool) -> String {
         const TARGET: usize = 50_000_000;
         let primes = get_primes_under(TARGET.integer_sqrt() as u64);

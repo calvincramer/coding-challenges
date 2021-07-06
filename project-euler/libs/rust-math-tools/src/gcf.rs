@@ -5,7 +5,9 @@ use std::ops::Rem;
 
 /// Calculates greatest common factor between two numbers
 pub fn gcf<T>(n1: &T, n2: &T) -> T
-    where T: Clone + Eq + Rem<Output = T> + Zero {
+where
+    T: Clone + Eq + Rem<Output = T> + Zero,
+{
     let mut n1_temp = n1.clone();
     let mut n2_temp = n2.clone();
     if n1_temp == T::zero() {

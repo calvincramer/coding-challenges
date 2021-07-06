@@ -11,7 +11,10 @@ pub struct Fraction<T> {
 
 impl<T> Fraction<T> {
     pub fn new(top: T, bottom: T) -> Fraction<T> {
-        Fraction{numerator: top, denominator: bottom}
+        Fraction {
+            numerator: top,
+            denominator: bottom,
+        }
     }
 }
 
