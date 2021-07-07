@@ -1,3 +1,4 @@
+use ansi_term;
 use std::fmt;
 use std::time::Instant;
 
@@ -89,6 +90,7 @@ mod p085;
 mod p086;
 mod p087;
 mod p088;
+mod p089;
 
 #[derive(Debug)]
 enum ProblemAnswer {
@@ -122,6 +124,7 @@ const C2_WIDTH: usize = 20;
 const C3_WIDTH: usize = 20;
 const C4_WIDTH: usize = 8;
 
+#[allow(dead_code)]
 fn timed_run_header() {
     println!(
         "{:>w1$} | {:^w2$} | {:^w3$} | {:.w4$}",
@@ -147,74 +150,98 @@ fn timed_run_header() {
     );
 }
 
-fn timed_run(prob: &dyn Problem, verbose: bool, skip_slow: bool) {
-    let problem_num = prob.problem_num();
-    let answer_desc = prob.answer_desc();
+#[allow(dead_code)]
+fn timed_run_checked(prob: &dyn Problem, verbose: bool, skip_slow: bool) {
     let real_answer = prob.real_answer().to_string();
-    let start = Instant::now();
-    let skip_run = skip_slow && prob.is_slow();
-    let answer_str = if skip_run {
-        "    SKIP SLOW".to_string()
-    } else {
-        prob.solve(verbose)
-    };
-    let answer_str = answer_str.to_string();
-    let mut answer_str_print = answer_str.clone();
-    if answer_str != real_answer && !skip_run {
-        answer_str_print += " WRONG ANSWER";
+    let skip_run = (skip_slow && prob.is_slow())
+        || match prob.real_answer() {
+            ProblemAnswer::Some(_) => false,
+            ProblemAnswer::AnswerUnknown => true,
+        };
+    let mut elapsed = 0f64;
+    let mut answer_str = "SKIP SLOW / UNKNOWN ".to_string();
+    if !skip_run {
+        // No multiple assignment :(
+        let (tmp_answer_str, tmp_elapsed) = timed_run(prob, verbose);
+        answer_str = tmp_answer_str;
+        elapsed = tmp_elapsed;
     }
-    print!(
+    // Print information:
+    let mut to_print = format!(
         "{:>w1$} | {:>w2$} | {:w3$} | {:.5}",
-        problem_num,
-        answer_desc,
-        answer_str_print,
-        start.elapsed().as_secs_f64(),
+        prob.problem_num(),
+        prob.answer_desc(),
+        answer_str,
+        elapsed,
         w1 = C1_WIDTH,
         w2 = C2_WIDTH,
         w3 = C3_WIDTH
     );
     if answer_str != real_answer && !skip_run {
-        print!("\t\tGot {}, expected {}", answer_str, real_answer);
+        to_print += format!(
+            "\t\tWrong answer! Got {}, expected {}",
+            answer_str, real_answer
+        )
+        .as_str();
     }
-    println!();
+    to_print += "\n";
+    if skip_run {
+        print!(
+            "{}",
+            ansi_term::Style::new().strikethrough().paint(to_print)
+        );
+    } else if answer_str != real_answer {
+        print!("{}", ansi_term::Color::Red.paint(to_print));
+    } else {
+        print!("{}", to_print);
+    }
 }
 
-// #[allow(dead_code)]
-// fn run_all_problems(verbose: bool, skip_slow: bool) {
-//     #[rustfmt::skip]
-//     let problems: Vec<&dyn Problem> = vec![
-//                        &p001::P001{}, &p002::P002{}, &p003::P003{}, &p004::P004{}, &p005::P005{}, &p006::P006{}, &p007::P007{}, &p008::P008{}, &p009::P009{},
-//         &p010::P010{}, &p011::P011{}, &p012::P012{}, &p013::P013{}, &p014::P014{}, &p015::P015{}, &p016::P016{}, &p017::P017{}, &p018::P018{}, &p019::P019{},
-//         &p020::P020{}, &p021::P021{}, &p022::P022{}, &p023::P023{}, &p024::P024{}, &p025::P025{}, &p026::P026{}, &p027::P027{}, &p028::P028{}, &p029::P029{},
-//         &p030::P030{}, &p031::P031{}, &p032::P032{}, &p033::P033{}, &p034::P034{}, &p035::P035{}, &p036::P036{}, &p037::P037{}, &p038::P038{}, &p039::P039{},
-//         &p040::P040{}, &p041::P041{}, &p042::P042{}, &p043::P043{}, &p044::P044{}, &p045::P045{}, &p046::P046{}, &p047::P047{}, &p048::P048{}, &p049::P049{},
-//         &p050::P050{}, &p051::P051{}, &p052::P052{}, &p053::P053{}, &p054::P054{}, &p055::P055{}, &p056::P056{}, &p057::P057{}, &p058::P058{}, &p059::P059{},
-//         &p060::P060{}, &p061::P061{}, &p062::P062{}, &p063::P063{}, &p064::P064{}, &p065::P065{},                &p067::P067{}, &p068::P068{}, &p069::P069{},
-//         &p070::P070{}, &p071::P071{}, &p072::P072{}, &p073::P073{}, &p074::P074{},                &p076::P076{}, &p077::P077{}, &p078::P078{}, &p079::P079{},
-//                        &p081::P081{}, &p082::P082{}, &p083::P083{}, &p084::P084{}, &p085::P085{}, &p086::P086{},
-//     ];
-//
-//     for prob in problems {
-//         timed_run(prob, verbose, skip_slow);
-//     }
-// }
+fn timed_run(prob: &dyn Problem, verbose: bool) -> (String, f64) {
+    let start = Instant::now();
+    (prob.solve(verbose), start.elapsed().as_secs_f64())
+}
 
 #[allow(dead_code)]
+#[cfg(feature = "run_all")]
+fn run_all_problems() {
+    const VERBOSE: bool = false;
+    const SKIP_SLOW: bool = true;
+    #[rustfmt::skip]
+    let problems: Vec<&dyn Problem> = vec![
+                       &p001::P001{}, &p002::P002{}, &p003::P003{}, &p004::P004{}, &p005::P005{}, &p006::P006{}, &p007::P007{}, &p008::P008{}, &p009::P009{},
+        &p010::P010{}, &p011::P011{}, &p012::P012{}, &p013::P013{}, &p014::P014{}, &p015::P015{}, &p016::P016{}, &p017::P017{}, &p018::P018{}, &p019::P019{},
+        &p020::P020{}, &p021::P021{}, &p022::P022{}, &p023::P023{}, &p024::P024{}, &p025::P025{}, &p026::P026{}, &p027::P027{}, &p028::P028{}, &p029::P029{},
+        &p030::P030{}, &p031::P031{}, &p032::P032{}, &p033::P033{}, &p034::P034{}, &p035::P035{}, &p036::P036{}, &p037::P037{}, &p038::P038{}, &p039::P039{},
+        &p040::P040{}, &p041::P041{}, &p042::P042{}, &p043::P043{}, &p044::P044{}, &p045::P045{}, &p046::P046{}, &p047::P047{}, &p048::P048{}, &p049::P049{},
+        &p050::P050{}, &p051::P051{}, &p052::P052{}, &p053::P053{}, &p054::P054{}, &p055::P055{}, &p056::P056{}, &p057::P057{}, &p058::P058{}, &p059::P059{},
+        &p060::P060{}, &p061::P061{}, &p062::P062{}, &p063::P063{}, &p064::P064{}, &p065::P065{}, &p066::P066{}, &p067::P067{}, &p068::P068{}, &p069::P069{},
+        &p070::P070{}, &p071::P071{}, &p072::P072{}, &p073::P073{}, &p074::P074{}, &p075::P075{}, &p076::P076{}, &p077::P077{}, &p078::P078{}, &p079::P079{}, 
+        &p080::P080{}, &p081::P081{}, &p082::P082{}, &p083::P083{}, &p084::P084{}, &p085::P085{}, &p086::P086{}, &p087::P087{}, &p088::P088{}, &p089::P089{},
+    ];
+    timed_run_header();
+    let start = Instant::now();
+    for prob in problems {
+        timed_run_checked(prob, VERBOSE, SKIP_SLOW);
+    }
+    println!("\nTotal time: {:.5}s", start.elapsed().as_secs_f64());
+}
+
+#[cfg(feature = "run_one")]
 fn run_specific_problem() {
-    timed_run(&p088::P088 {}, true, false);
+    let (answer_str, elapsed) = timed_run(&p089::P089 {}, true);
+    println!("Answer: {}", answer_str);
+    println!("Elapsed: {}s", elapsed);
 }
 
 fn main() {
-    #[allow(dead_code)]
-    const VERBOSE: bool = false;
-    #[allow(dead_code)]
-    const SKIP_SLOW: bool = true;
-    timed_run_header();
-    let start = Instant::now();
+    #[cfg(feature = "run_all")]
+    {
+        run_all_problems();
+    }
 
-    // run_all_problems(VERBOSE, SKIP_SLOW);
-    run_specific_problem();
-
-    println!("\nTotal time: {:.5}s", start.elapsed().as_secs_f64());
-    ();
+    #[cfg(feature = "run_one")]
+    {
+        run_specific_problem();
+    }
 }

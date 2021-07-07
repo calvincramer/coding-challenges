@@ -7,6 +7,7 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+ansi_term = "0.12.1"
 bigdecimal = "0.2.0"
 integer-sqrt = "0.1.5"
 itertools = "0.10.0"
@@ -18,3 +19,8 @@ pathfinding = "0.1"
 rand = "0.8.3"
 rayon = "1.5.1"
 rust-math-tools = { path = "../../libs/rust-math-tools" }
+
+[features]
+default = ["run_one"]
+run_all = []    # Run all of the problems
+run_one = []    # Only run one of the problems

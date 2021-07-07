@@ -200,7 +200,8 @@ pub fn get_factors(num: u64) -> Vec<u64> {
     factors
 }
 
-/// Gets all factorizations of a number, returned in no particular order
+/// Gets all factorizations of a number. The results are not returned in any particular order, but
+/// each result has ascending products.
 /// 12 -> 12, 2*6, 2*2*3, 4*3
 pub fn get_all_factorizations(num: u64) -> Vec<Vec<u64>> {
     if num.is_prime() {
@@ -511,23 +512,41 @@ mod lib_rs_tests {
     #[test]
     /// TODO
     fn test_get_all_factorizations() {
-        assert_eq!(
-            get_all_factorizations(12),
-            vec![vec![12], vec![2, 6], vec![2, 2, 3]]
-        );
-        assert_eq!(
-            get_all_factorizations(24),
-            vec![vec![24], vec![2, 12], vec![2, 2, 6], vec![2, 2, 2, 3]]
-        );
-        assert_eq!(
-            get_all_factorizations(100),
-            vec![vec![100], vec![2, 50], vec![2, 2, 25], vec![2, 2, 5, 5]]
-        );
-        assert_eq!(
-            get_all_factorizations(963),
-            vec![vec![963], vec![3, 321], vec![3, 3, 107]]
-        );
-        // 16: 2*8, 2*2*4, 2*2*2*2, 4*4
+        let factorizations = get_all_factorizations(12);
+        assert!(factorizations.contains(&vec![12]));
+        assert!(factorizations.contains(&vec![2, 6]));
+        assert!(factorizations.contains(&vec![2, 2, 3]));
+        assert!(factorizations.contains(&vec![3, 4]));
+        assert_eq!(factorizations.len(), 4);
+
+        let factorizations = get_all_factorizations(24);
+        assert!(factorizations.contains(&vec![24]));
+        assert!(factorizations.contains(&vec![2, 12]));
+        assert!(factorizations.contains(&vec![2, 2, 6]));
+        assert!(factorizations.contains(&vec![2, 2, 2, 3]));
+        assert!(factorizations.contains(&vec![2, 3, 4]));
+        assert!(factorizations.contains(&vec![3, 8]));
+        assert!(factorizations.contains(&vec![4, 6]));
+        assert_eq!(factorizations.len(), 7);
+
+        let factorizations = get_all_factorizations(100);
+        assert!(factorizations.contains(&vec![100]));
+        assert!(factorizations.contains(&vec![2, 50]));
+        assert!(factorizations.contains(&vec![2, 2, 25]));
+        assert!(factorizations.contains(&vec![2, 2, 5, 5]));
+        assert!(factorizations.contains(&vec![4, 25]));
+        assert!(factorizations.contains(&vec![4, 5, 5]));
+        assert!(factorizations.contains(&vec![2, 5, 10]));
+        assert!(factorizations.contains(&vec![5, 20]));
+        assert!(factorizations.contains(&vec![10, 10]));
+        assert_eq!(factorizations.len(), 9);
+
+        let factorizations = get_all_factorizations(963);
+        assert!(factorizations.contains(&vec![963]));
+        assert!(factorizations.contains(&vec![3, 321]));
+        assert!(factorizations.contains(&vec![3, 3, 107]));
+        assert!(factorizations.contains(&vec![9, 107]));
+        assert_eq!(factorizations.len(), 4);
     }
 
     #[test]

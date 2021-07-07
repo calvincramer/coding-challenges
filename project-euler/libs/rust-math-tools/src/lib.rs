@@ -24,3 +24,6 @@ pub use prime::*;
 
 pub mod reversible;
 pub use reversible::*;
+
+pub mod roman;
+pub use roman::*;

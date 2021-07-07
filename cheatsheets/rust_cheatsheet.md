@@ -222,7 +222,8 @@ s.parse::<u64>()	// str to number
 
 // <Chars> type has many useful features for ascii characters
 // Chars contains UNICODE characters, and are 4 bytes each.
-chs = s.char()
+use std::str::Chars
+chs = s.chars()
 s.rev()
 s.collect()
 s.eq(other)
@@ -435,9 +436,7 @@ fn f() {
 ```
 
 # Debug vs Optimized
-
 Running in debug will include a lot of runtime checks, and will panic if over/underflow occurs on numbers. In optimized, these checks won't happen. (AFAIK)
-
 
 
 # rayon crate
@@ -452,6 +451,22 @@ into_par_iter()		// Good for ranges
 // Better to use Vec instead of array. May overflow stack with array
 ```
 
+
+# Conditional compilation
+Like ifdef in C/C++
+```rust
+// In rust code:
+// This is a boolean flag, on or off.
+// This can be applied to functions or code blocks, like any other macro
+#[cfg(feature = "myfeature")]
+
+// In Cargo.toml
+[features]
+myfeature = []
+
+// From command line:
+cargo ... --features myfeature
+```
 
 
 
