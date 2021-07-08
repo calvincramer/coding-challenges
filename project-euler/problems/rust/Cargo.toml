@@ -21,6 +21,5 @@ rayon = "1.5.1"
 rust-math-tools = { path = "../../libs/rust-math-tools" }
 
 [features]
-default = ["run_one"]
 run_all = []    # Run all of the problems
 run_one = []    # Only run one of the problems

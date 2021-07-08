@@ -20,6 +20,7 @@ use itertools::Itertools;
 
 use std::collections::HashSet;
 use std::iter::FromIterator;
+use std::convert::TryFrom;
 
 /// Collatz sequence: if n is even divide number by 2, else if odd multiply by 3 and add 1, repeat until reach 1.
 pub fn collatz_steps(mut num: u64) -> u64 {
@@ -194,7 +195,6 @@ pub fn get_factors(num: u64) -> Vec<u64> {
     } else if num % sqrt == 0 {
         factors.push(sqrt);
         factors.push(num / sqrt);
-
     }
     factors.sort();
     factors
@@ -221,7 +221,6 @@ pub fn get_all_factorizations(num: u64) -> Vec<Vec<u64>> {
         result.append(&mut rest_results);
     }
     Vec::from_iter(HashSet::<Vec<u64>>::from_iter(result))
-
 }
 
 /// Returns all pandigitals of digits made of of 'from' to 'to'
@@ -306,7 +305,10 @@ impl SumDigits for BigUint {
 /// Permutes an array of numbers from 0 to N once. Returns false if no more permutations (numbers are descending)
 /// WARNING: this function should only be used with numbers increasing from 0, like [0, 1, 2, 3]. No other numbers are tested.
 /// WARNING: this function may be inefficient.
-pub fn permute_once(arr: &mut [u64]) -> bool {
+pub fn permute_once<T>(arr: &mut [T]) -> bool
+where
+    T: PartialOrd + AddAssign + One + Zero + TryFrom<usize>,
+{
     // Find first ascending index:
     let mut fd = arr.len(); // First decrease(?)
     for i in (1..arr.len()).rev() {
@@ -322,7 +324,7 @@ pub fn permute_once(arr: &mut [u64]) -> bool {
 
     let mut inc_uniq = false;
     while !inc_uniq {
-        arr[fd] += 1;
+        arr[fd] += T::one();
         inc_uniq = true; // Assume we incremented to a unique number (to the left) first
         for i in 0..fd {
             if arr[i] == arr[fd] {
@@ -335,20 +337,81 @@ pub fn permute_once(arr: &mut [u64]) -> bool {
     for i in fd + 1..arr.len() {
         // For each index from right of decrease to end
         for num_try in 0..arr.len() {
+            let num_try_t = match T::try_from(num_try) {
+                Ok(res) => res,
+                Err(_) => panic!("Can't cast usize into T "),
+            };
             let mut found_good = true;
             for index in 0..i {
-                if arr[index] == num_try as u64 {
+                if arr[index] == num_try_t {
                     found_good = false;
                     break;
                 }
             }
             if found_good {
-                arr[i] = num_try as u64;
+                arr[i] = num_try_t;
                 break;
             }
         }
     }
     true
+}
+
+/// Generate all combinations of input elements, with size of $elements_in_combination
+/// Ex: combinations of [1, 2, 3, 4] of length 2: [[1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4]]
+pub fn combinations(all_elements: &Vec<u64>, elements_in_combination: usize) -> Vec<Vec<u64>> {
+    combination_helper(
+        all_elements,
+        &mut vec![0; elements_in_combination],
+        0,
+        all_elements.len() - 1,
+        0,
+        elements_in_combination,
+    )
+}
+
+/// Implementation for combinations() function
+fn combination_helper(
+    arr: &Vec<u64>,
+    data: &mut Vec<u64>,
+    start: usize,
+    end: usize,
+    index: usize,
+    r: usize,
+) -> Vec<Vec<u64>> {
+    let mut results = vec![];
+    if index == r {
+        results.push(data.clone());
+        return results;
+    }
+    let mut i = start;
+    while i <= end && end - i + 1 >= r - index {
+        data[index] = arr[i];
+        for comb in combination_helper(arr, data, i + 1, end, index + 1, r) {
+            results.push(comb);
+        }
+        i += 1;
+    }
+    results
+}
+
+/// Returns sum of the square of each decimal digit in input number
+pub fn square_digits(mut num: u64) -> u64 {
+    let mut total = 0u64;
+    while num > 0 {
+        total += (num % 10).pow(2);
+        num /= 10;
+    }
+    total
+}
+
+/// Slower implementation of square_digits()
+pub fn square_digits_slow(num: u64) -> u64 {
+    let mut total = 0u64;
+    for c in num.to_string().as_bytes() {
+        total += ((*c as u64) - 48).pow(2) // 48 == ascii '0'
+    }
+    total
 }
 
 #[cfg(test)]
@@ -553,5 +616,10 @@ mod lib_rs_tests {
     fn test_get_factors() {
         assert_eq!(get_factors(10), vec![2, 5]);
         assert_eq!(get_factors(16), vec![2, 4, 8]);
+    }
+
+    #[test]
+    fn test_combinations() {
+        println!("{:?}", combinations(&vec![1, 2, 3, 4], 2));
     }
 }

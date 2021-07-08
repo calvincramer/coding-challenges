@@ -91,6 +91,10 @@ mod p086;
 mod p087;
 mod p088;
 mod p089;
+mod p090;
+mod p091;
+mod p092;
+mod p093;
 
 #[derive(Debug)]
 enum ProblemAnswer {
@@ -218,6 +222,7 @@ fn run_all_problems() {
         &p060::P060{}, &p061::P061{}, &p062::P062{}, &p063::P063{}, &p064::P064{}, &p065::P065{}, &p066::P066{}, &p067::P067{}, &p068::P068{}, &p069::P069{},
         &p070::P070{}, &p071::P071{}, &p072::P072{}, &p073::P073{}, &p074::P074{}, &p075::P075{}, &p076::P076{}, &p077::P077{}, &p078::P078{}, &p079::P079{}, 
         &p080::P080{}, &p081::P081{}, &p082::P082{}, &p083::P083{}, &p084::P084{}, &p085::P085{}, &p086::P086{}, &p087::P087{}, &p088::P088{}, &p089::P089{},
+        &p090::P090{}, &p091::P091{}, &p092::P092{}, &p093::P093{},
     ];
     timed_run_header();
     let start = Instant::now();
@@ -229,7 +234,9 @@ fn run_all_problems() {
 
 #[cfg(feature = "run_one")]
 fn run_specific_problem() {
-    let (answer_str, elapsed) = timed_run(&p089::P089 {}, true);
+    let problem = p093::P093 {};
+    println!("Problem #{}", problem.problem_num());
+    let (answer_str, elapsed) = timed_run(&problem, true);
     println!("Answer: {}", answer_str);
     println!("Elapsed: {}s", elapsed);
 }
