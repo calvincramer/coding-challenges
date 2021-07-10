@@ -1,4 +1,4 @@
-use rust_math_tools::is_square;
+use rust_math_tools::IsSquare;
 
 pub struct P086 {}
 impl crate::Problem for P086 {
@@ -14,7 +14,7 @@ impl crate::Problem for P086 {
             m += 1;
             for a in 1..=m {
                 for b in a..=m {
-                    if is_square(&(m.pow(2) + (a + b).pow(2))) {
+                    if (&(m.pow(2) + (a + b).pow(2))).is_square() {
                         num_integer_paths += 1;
                     }
                 }

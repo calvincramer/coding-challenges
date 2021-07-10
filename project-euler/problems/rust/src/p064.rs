@@ -1,6 +1,6 @@
 use num_integer::Roots;
 use rayon::prelude::*;
-use rust_math_tools::is_square;
+use rust_math_tools::IsSquare;
 
 #[derive(Copy, Clone, Debug)]
 struct Term {
@@ -129,7 +129,7 @@ impl crate::Problem for P064 {
     #[allow(unused_variables)]
     fn solve(&self, verbose: bool) -> String {
         let mut nums = (2u64..=10_000)
-            .filter(|n| !is_square(n))
+            .filter(|n| !n.is_square())
             .collect::<Vec<u64>>();
         nums.par_iter_mut().for_each(|n| {
             match sequence_cycle_length(iter_term, Term::new_start(*n)) {

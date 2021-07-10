@@ -1,5 +1,5 @@
 use bigdecimal::BigDecimal;
-use rust_math_tools::is_square;
+use rust_math_tools::IsSquare;
 
 pub struct P080 {}
 impl crate::Problem for P080 {
@@ -12,7 +12,7 @@ impl crate::Problem for P080 {
         let mut total: u64 = 0;
 
         for n in START_N..=END_N {
-            if is_square(&n) {
+            if n.is_square() {
                 continue;
             }
             let big_n = BigDecimal::from(n).with_prec(PREC);

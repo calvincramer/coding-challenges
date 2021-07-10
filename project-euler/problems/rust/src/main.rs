@@ -95,6 +95,7 @@ mod p090;
 mod p091;
 mod p092;
 mod p093;
+mod p094;
 
 #[derive(Debug)]
 enum ProblemAnswer {
@@ -234,7 +235,7 @@ fn run_all_problems() {
 
 #[cfg(feature = "run_one")]
 fn run_specific_problem() {
-    let problem = p093::P093 {};
+    let problem = p094::P094 {};
     println!("Problem #{}", problem.problem_num());
     let (answer_str, elapsed) = timed_run(&problem, true);
     println!("Answer: {}", answer_str);

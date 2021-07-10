@@ -120,9 +120,21 @@ pub fn is_lychrel(num: u64) -> bool {
     true
 }
 
-/// Is a number a square of an integer?
-pub fn is_square(num: &u64) -> bool {
-    *num == (*num).integer_sqrt().pow(2)
+/// A number is square
+pub trait IsSquare {
+    fn is_square(&self) -> bool;
+}
+
+impl IsSquare for u64 {
+    fn is_square(&self) -> bool {
+        *self == self.integer_sqrt().pow(2)
+    }
+}
+
+impl IsSquare for u128 {
+    fn is_square(&self) -> bool {
+        *self == self.integer_sqrt().pow(2)
+    }
 }
 
 /// nCr - number of combinations
@@ -420,20 +432,20 @@ mod lib_rs_tests {
 
     #[test]
     fn test_is_square() {
-        assert!(is_square(&0));
-        assert!(is_square(&1));
-        assert!(is_square(&4));
-        assert!(is_square(&9));
-        assert!(is_square(&16));
-        assert!(is_square(&25));
-        assert!(is_square(&36));
-        assert!(is_square(&49));
+        assert!(0u64.is_square());
+        assert!(1u64.is_square());
+        assert!(4u64.is_square());
+        assert!(9u64.is_square());
+        assert!(16u64.is_square());
+        assert!(25u64.is_square());
+        assert!(36u64.is_square());
+        assert!(49u64.is_square());
 
-        assert!(!is_square(&2));
-        assert!(!is_square(&3));
-        assert!(!is_square(&5));
-        assert!(!is_square(&6));
-        assert!(!is_square(&101));
+        assert!(!2u64.is_square());
+        assert!(!3u64.is_square());
+        assert!(!5u64.is_square());
+        assert!(!6u64.is_square());
+        assert!(!101u64.is_square());
     }
 
     #[test]
@@ -619,7 +631,9 @@ mod lib_rs_tests {
     }
 
     #[test]
+    /// TODO
     fn test_combinations() {
+        assert!(false);
         println!("{:?}", combinations(&vec![1, 2, 3, 4], 2));
     }
 }
