@@ -155,8 +155,10 @@ fn timed_run_header() {
     );
 }
 
+/// Returns whether problem passed or failed
 #[allow(dead_code)]
-fn timed_run_checked(prob: &dyn Problem, verbose: bool, skip_slow: bool) {
+fn timed_run_checked(prob: &dyn Problem, verbose: bool, skip_slow: bool) -> bool {
+    let mut passed = true;
     let real_answer = prob.real_answer().to_string();
     let skip_run = (skip_slow && prob.is_slow())
         || match prob.real_answer() {
@@ -188,6 +190,7 @@ fn timed_run_checked(prob: &dyn Problem, verbose: bool, skip_slow: bool) {
             answer_str, real_answer
         )
         .as_str();
+        passed = false;
     }
     to_print += "\n";
     if skip_run {
@@ -200,6 +203,7 @@ fn timed_run_checked(prob: &dyn Problem, verbose: bool, skip_slow: bool) {
     } else {
         print!("{}", to_print);
     }
+    return passed;
 }
 
 fn timed_run(prob: &dyn Problem, verbose: bool) -> (String, f64) {
@@ -207,11 +211,13 @@ fn timed_run(prob: &dyn Problem, verbose: bool) -> (String, f64) {
     (prob.solve(verbose), start.elapsed().as_secs_f64())
 }
 
+/// Returned true if all problems passed
 #[allow(dead_code)]
 #[cfg(feature = "run_all")]
-fn run_all_problems() {
+fn run_all_problems() -> bool {
     const VERBOSE: bool = false;
-    const SKIP_SLOW: bool = true;
+    const SKIP_SLOW: bool = true; // Don't push this to be false.
+    let mut passed_all = true;
     #[rustfmt::skip]
     let problems: Vec<&dyn Problem> = vec![
                        &p001::P001{}, &p002::P002{}, &p003::P003{}, &p004::P004{}, &p005::P005{}, &p006::P006{}, &p007::P007{}, &p008::P008{}, &p009::P009{},
@@ -228,9 +234,10 @@ fn run_all_problems() {
     timed_run_header();
     let start = Instant::now();
     for prob in problems {
-        timed_run_checked(prob, VERBOSE, SKIP_SLOW);
+        passed_all = passed_all & timed_run_checked(prob, VERBOSE, SKIP_SLOW);
     }
     println!("\nTotal time: {:.5}s", start.elapsed().as_secs_f64());
+    passed_all
 }
 
 #[cfg(feature = "run_one")]
@@ -242,14 +249,16 @@ fn run_specific_problem() {
     println!("Elapsed: {}s", elapsed);
 }
 
-fn main() {
-    #[cfg(feature = "run_all")]
-    {
-        run_all_problems();
-    }
-
-    #[cfg(feature = "run_one")]
-    {
+fn main() -> Result<(), ()> {
+    if cfg!(feature = "run_all") {
+        match run_all_problems() {
+            true => Ok(()),
+            false => Err(()),
+        }
+    } else if cfg!(feature = "run_one") {
         run_specific_problem();
+        Ok(())
+    } else {
+        Ok(())
     }
 }
