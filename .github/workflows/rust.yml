@@ -10,16 +10,15 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
+  main:
 
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: ./project-euler/problems/rust
     steps:
     - uses: actions/checkout@v2
-    
-    - name: cd
-      run: cd project-euler/problems/rust
-    
+
     - name: Build
       run: cargo build --release --features run_all
       
