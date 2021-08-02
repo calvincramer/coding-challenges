@@ -30,7 +30,7 @@ impl crate::Problem for P090 {
                 }
             }
         }
-        (total + 1).to_string()
+        total.to_string()
     }
     fn is_slow(&self) -> bool {
         false
