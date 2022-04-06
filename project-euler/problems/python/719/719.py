@@ -135,8 +135,58 @@ def try_partition_sum(num: int):
     # return _try_partition_sum_helper_no_list(target=num, add_to_choice=0, num=num * num, num_splits=0)
 
 
-def smart_tree_search():
-    pass  # TODO - see comments at top
+def _calculate_test(nums, split_joins, undecided_use='j') -> int:
+    """
+    Calculate the value of an array of digits with decisions to either join or split each one.
+    Can change '?' values to a either join or split
+    """
+    # split_joins may be too small
+    if len(split_joins) + 1 < len(nums):
+        diff = len(nums) - len(split_joins) - 1
+        split_joins = split_joins + ([undecided_use] * diff)
+
+    # Decide on undecided
+    for idx in range(len(split_joins)):
+        if split_joins[idx] == '?':
+            split_joins[idx] = undecided_use
+
+    value = 0
+    i = 0
+    nums_len = len(nums)
+    split_joins_len = len(split_joins)
+
+    while i < nums_len:
+        temp_sum = nums[i]
+        if i == split_joins_len:    # Last number special
+            value += temp_sum
+            break
+        if split_joins[i] == 'j':
+            j = i
+            while j < split_joins_len and split_joins[j] == 'j':
+                j += 1
+                temp_sum = (temp_sum*10) + nums[j]
+            i = j + 1
+        else:   # sj_i == 's':
+            i += 1
+        value += temp_sum
+    return value
+
+
+def smart_tree_search(nums, split_joins, target: int) -> bool:
+    """Don't descent down impossible paths"""
+    # Leaf
+    if len(split_joins) + 1 == len(nums):
+        return target == _calculate_test(nums, split_joins)
+
+    # Descend
+    _min = _calculate_test(nums, split_joins, undecided_use='s')
+    _max = _calculate_test(nums, split_joins, undecided_use='j')
+
+    if _min <= target <= _max:
+        if smart_tree_search(nums, split_joins + ['j'], target) is True:    # Left -> join
+            return True
+        return smart_tree_search(nums, split_joins + ['s'], target)     # Right -> split
+    return False
 
 
 def T(N: int) -> int:
@@ -146,37 +196,44 @@ def T(N: int) -> int:
 
     total = 0
     for n in nums:
-        res_b, res_list = try_partition_sum(n)
+        # res_b, res_list = try_partition_sum(n)
         # res_b = try_partition_sum(n)
+        res_b = smart_tree_search(nums=[int(c) for c in str(n*n)], split_joins=[], target=n)
 
         if res_b is True:
-            print(f"{n*n} -> {res_list}")
+            # print(f"{n*n} -> {res_list}")
             total += n ** 2
 
     return total
 
 
 def main():
+    print(f"[6.7.2.4] -> {_calculate_test([6, 7, 2, 4], ['j', 'j', 'j'])} (expected 6724)")
+    print(f"[6.7.2|4] -> {_calculate_test([6, 7, 2, 4], ['j', 'j', 's'])} (expected 676)")
+    print(f"[6.7|2.4] -> {_calculate_test([6, 7, 2, 4], ['j', 's', 'j'])} (expected 91)")
+    print(f"[6.7|2|4] -> {_calculate_test([6, 7, 2, 4], ['j', 's', 's'])} (expected 73)")
+    print(f"[6|7.2.4] -> {_calculate_test([6, 7, 2, 4], ['s', 'j', 'j'])} (expected 730)")
+    print(f"[6|7.2|4] -> {_calculate_test([6, 7, 2, 4], ['s', 'j', 's'])} (expected 82)")
+    print(f"[6|7|2.4] -> {_calculate_test([6, 7, 2, 4], ['s', 's', 'j'])} (expected 37)")
+    print(f"[6|7|2|4] -> {_calculate_test([6, 7, 2, 4], ['s', 's', 's'])} (expected 19)")
+    print()
+    print(f"[6|7?2?4] -> {_calculate_test([6, 7, 2, 4], ['s', '?', '?'])} (expected 730)")
+    return
+
+    # n = 82
+    # print(smart_tree_search(nums=[int(c) for c in str(n*n)], split_joins=[], target=n))
+    # return
+
     start = time.time()
     print(f"T(10^4) = {T(10 ** 4)}\tReal answer = 41333\ttime = {time.time() - start}s")
-
     start = time.time()
     print(f"T(10^6) = {T(10 ** 6)}\ttime = {time.time() - start}s")
-
     start = time.time()
     print(f"T(10^8) = {T(10 ** 8)}\ttime = {time.time() - start}s")  # 4.431447982788086s
-
     start = time.time()
     print(f"T(10^9) = {T(10 ** 9)}\ttime = {time.time() - start}s")  # 28.334288597106934s
-
     start = time.time()
     print(f"T(10^12) = {T(10 ** 12)}\ttime = {time.time() - start}s")
-
-    # print(f"{9**2} -> {try_partition_sum(9)}")
-    # print(f"{82**2} -> {try_partition_sum(82)}")
-    # print(f"{91**2} -> {try_partition_sum(91)}")
-    # print(f"{99**2} -> {try_partition_sum(99)}")
-    # print(f"{11**2} -> {try_partition_sum(11)}")
 
 
 if __name__ == "__main__":
