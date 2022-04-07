@@ -1,5 +1,5 @@
 #!/usr/bin/env python3.7
-
+import math
 import timeit
 import time
 
@@ -183,21 +183,28 @@ def smart_tree_search(nums, split_joins, target: int) -> bool:
     _max = _calculate_test(nums, split_joins, undecided_use='j')
 
     if _min <= target <= _max:
-        if smart_tree_search(nums, split_joins + ['j'], target) is True:    # Left -> join
+        # Left -> join
+        left_ans = smart_tree_search(nums, split_joins + ['j'], target)
+        if left_ans is True:
             return True
-        return smart_tree_search(nums, split_joins + ['s'], target)     # Right -> split
+        # Right -> split
+        right_ans = smart_tree_search(nums, split_joins + ['s'], target)
+        if right_ans is True:
+            return True
     return False
 
 
 def T(N: int) -> int:
-    end = int(numpy.sqrt(N))
-    nums = numpy.arange(end + 1)
+    end = int(math.sqrt(N))
+    # nums = numpy.arange(end + 1)
     # nums = numpy.power(nums, 2)     # Get squares
 
     total = 0
-    for n in nums:
+    for n in range(end+1):
         # res_b, res_list = try_partition_sum(n)
         # res_b = try_partition_sum(n)
+        n_sqr = n*n
+
         res_b = smart_tree_search(nums=[int(c) for c in str(n*n)], split_joins=[], target=n)
 
         if res_b is True:
@@ -207,7 +214,7 @@ def T(N: int) -> int:
     return total
 
 
-def main():
+def testing():
     print(f"[6.7.2.4] -> {_calculate_test([6, 7, 2, 4], ['j', 'j', 'j'])} (expected 6724)")
     print(f"[6.7.2|4] -> {_calculate_test([6, 7, 2, 4], ['j', 'j', 's'])} (expected 676)")
     print(f"[6.7|2.4] -> {_calculate_test([6, 7, 2, 4], ['j', 's', 'j'])} (expected 91)")
@@ -224,14 +231,19 @@ def main():
     # print(smart_tree_search(nums=[int(c) for c in str(n*n)], split_joins=[], target=n))
     # return
 
+
+def main():
+    # testing()
+
+
     start = time.time()
     print(f"T(10^4) = {T(10 ** 4)}\tReal answer = 41333\ttime = {time.time() - start}s")
     start = time.time()
     print(f"T(10^6) = {T(10 ** 6)}\ttime = {time.time() - start}s")
     start = time.time()
-    print(f"T(10^8) = {T(10 ** 8)}\ttime = {time.time() - start}s")  # 4.431447982788086s
+    print(f"T(10^8) = {T(10 ** 8)}\ttime = {time.time() - start}s")
     start = time.time()
-    print(f"T(10^9) = {T(10 ** 9)}\ttime = {time.time() - start}s")  # 28.334288597106934s
+    print(f"T(10^9) = {T(10 ** 9)}\ttime = {time.time() - start}s")
     start = time.time()
     print(f"T(10^12) = {T(10 ** 12)}\ttime = {time.time() - start}s")
 
