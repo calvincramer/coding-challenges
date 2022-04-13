@@ -1,4 +1,8 @@
 from collections import defaultdict
+# from math import log2
+
+import numpy
+from numpy import log2
 
 """
 Observations:
@@ -15,8 +19,55 @@ Maybe we could try from smallest to largest difference and check if it starts wi
 
 3. Computing number to directly check whether it starts with L is too expensive.
 
+4. Can compute
 
+p(123, 678910) = 
+    193061442 no (python math log2)
+    193061442 no (numpy log2
+    193060761 no
+    193060708 no (c++)
+    
+    
 """
+
+
+def test5():
+    L = 123
+
+    def low_range_gen():
+        log2_l = log2(L)
+        log2_10 = log2(10)
+        num = log2_l    # Start
+        while True:
+            yield num
+            num += log2_10  # next
+
+    def high_range_gen():
+        log2_l_p1 = log2(L+1)
+        log2_10 = log2(10)
+        num = log2_l_p1    # Start
+        while True:
+            yield num
+            num += log2_10  # next
+
+    count = 0
+    target_count = 678910
+    for i, (low, high) in enumerate(zip(low_range_gen(), high_range_gen())):
+        # See if low, high go over unit boundary
+
+        # if int(low) != int(high):
+        # if int(low) != int(high) or low == int(low):
+        if high - int(low) >= 1.0:
+            count += 1
+            pow_2_val = int(high)
+            if count == target_count:
+                print(f"!!! {count}: {pow_2_val}")
+                break
+            else:
+                print(f"{count}: {pow_2_val}")
+                pass
+
+
 
 def test4():
     """Guess incrementing 10, 73, 83 to see how fast we can go"""
@@ -68,7 +119,6 @@ def test4():
             continue
 
         raise ValueError("Need more logic!")
-
 
 
 def test3():
@@ -172,10 +222,11 @@ def test0(L: str = '123'):
 
 
 def main():
-    # test0(L='123')
+    # test0(L='12')
     # test1(L='1', test_repeat_diff=[4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,4,3,3,3])
-    #test3()
-    test4()
+    # test3()
+    # test4()
+    test5()
 
 if __name__ == '__main__':
     main()
