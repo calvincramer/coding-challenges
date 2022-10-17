@@ -15,4 +15,3 @@ class Solution:
         #   don't necessarily include parent,
         #   don't necessarily include both children
         pass
-    
