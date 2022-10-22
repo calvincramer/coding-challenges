@@ -1,7 +1,7 @@
 
 import unittest
 
-import utils.utils as utils
+import utils as utils
 
 
 class TestUtils(unittest.TestCase):
