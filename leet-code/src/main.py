@@ -51,7 +51,7 @@ def main():
     # Run a specific problem
     start = time.time()
     # Run problem by importing it
-    import problems.p1396.python.p1396
+    import problems.p0744.python.p0744
     elapsed = datetime.timedelta(seconds=time.time() - start)
     print('Elapsed: {}'.format(elapsed))
 
