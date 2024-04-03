@@ -47,12 +47,19 @@ class UTest:
             print(colored(f"{self._common_message(message)} passed", "green"))
         self._ran_a_test_common()
 
+    def test_almost_eq(self, input1: float, input2: float, message=None, eps=0.000001):
+        if abs(input1 - input2) > eps:
+            print(colored(f"{self._common_message(message)} FAILED (arg1={input1} and arg2={input2} are not almost equal to {eps} difference)", "red"))
+        else:
+            print(colored(f"{self._common_message(message)} passed", "green"))
+        self._ran_a_test_common()
+
 
 def main():
     # Run a specific problem
     start = time.time()
     # Run problem by importing it
-    import problems.p2248.python.p2248
+    import problems.p1377.python.p1377
 
     elapsed = datetime.timedelta(seconds=time.time() - start)
     print("Elapsed: {}".format(elapsed))
