@@ -148,7 +148,7 @@ def main():
     # Run a specific problem
     start = time.time()
     # Run problem by importing it
-    import problems.p1562
+    import problems.p2280
 
     elapsed = datetime.timedelta(seconds=time.time() - start)
     print("Elapsed: {}".format(elapsed))
