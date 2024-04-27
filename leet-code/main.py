@@ -2,8 +2,27 @@
 
 import time
 import datetime
+import importlib
 
 from termcolor import colored
+
+
+def main():
+    # Run a specific problem
+    start = time.time()
+
+    # Run problem by importing it
+    PROBLEM_NUM_MODULE = "problems.p2103"
+    print(colored(f"{'#' * 20} PROBLEM {__modPathToProblemNum(PROBLEM_NUM_MODULE)} {'#' * 20}", "yellow", attrs=["reverse"]))
+    importlib.import_module(PROBLEM_NUM_MODULE)
+
+    elapsed = datetime.timedelta(seconds=time.time() - start)
+    print("Elapsed: {}".format(elapsed))
+
+
+def __modPathToProblemNum(s: str) -> str:
+    parts = s.split(".")
+    return "".join(c for c in parts[-1] if c in "0123456789")
 
 
 class UTest:
@@ -142,16 +161,6 @@ def draw_tree(root):
     draw(root, 0, 30 * h, 40 * h)
     t.hideturtle()
     turtle.mainloop()
-
-
-def main():
-    # Run a specific problem
-    start = time.time()
-    # Run problem by importing it
-    import problems.p1146
-
-    elapsed = datetime.timedelta(seconds=time.time() - start)
-    print("Elapsed: {}".format(elapsed))
 
 
 if __name__ == "__main__":
