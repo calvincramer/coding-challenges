@@ -12,7 +12,7 @@ def main():
     start = time.time()
 
     # Run problem by importing it
-    PROBLEM_NUM_MODULE = "problems.p2103"
+    PROBLEM_NUM_MODULE = "problems.p1304"
     print(colored(f"{'#' * 20} PROBLEM {__modPathToProblemNum(PROBLEM_NUM_MODULE)} {'#' * 20}", "yellow", attrs=["reverse"]))
     importlib.import_module(PROBLEM_NUM_MODULE)
 
