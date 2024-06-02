@@ -3,18 +3,29 @@
 import time
 import datetime
 import importlib
+from argparse import ArgumentParser
+import sys
 
 from termcolor import colored
 
 
 def main():
+    parser = ArgumentParser()
+    parser.add_argument("-r", required=True, type=str, help="Python module in 'problems' to run", metavar="MODULE")
+    args = parser.parse_args()
+    problem_module = args.r
+    problem_module = f"problems.{problem_module}"
+
     # Run a specific problem
     start = time.time()
 
     # Run problem by importing it
-    PROBLEM_NUM_MODULE = "problems.p3002"
-    print(colored(f"{'#' * 20} PROBLEM {__modPathToProblemNum(PROBLEM_NUM_MODULE)} {'#' * 20}", "yellow", attrs=["reverse"]))
-    importlib.import_module(PROBLEM_NUM_MODULE)
+    print(colored(f"{'#' * 20} PROBLEM {__modPathToProblemNum(problem_module)} {'#' * 20}", "yellow", attrs=["reverse"]))
+    try:
+        importlib.import_module(problem_module)
+    except ModuleNotFoundError:
+        print(f"No module named {problem_module}")
+        sys.exit(1)
 
     elapsed = datetime.timedelta(seconds=time.time() - start)
     print("Elapsed: {}".format(elapsed))
@@ -22,7 +33,9 @@ def main():
 
 def __modPathToProblemNum(s: str) -> str:
     parts = s.split(".")
-    return "".join(c for c in parts[-1] if c in "0123456789")
+    num = "".join(c for c in parts[-1] if c in "0123456789")
+    num = num.lstrip("0")
+    return num
 
 
 class UTest:
