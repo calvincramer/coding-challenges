@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.10
+#!/usr/bin/env python3
 
 import time
 import datetime
@@ -24,7 +24,7 @@ def main():
     try:
         importlib.import_module(problem_module)
     except ModuleNotFoundError:
-        print(f"No module named {problem_module}")
+        print(colored(f"No module named {problem_module}", "red"))
         sys.exit(1)
 
     elapsed = datetime.timedelta(seconds=time.time() - start)
@@ -81,7 +81,9 @@ class UTest:
 
     def test_almost_eq(self, input1: float, input2: float, message=None, eps=0.000001):
         if abs(input1 - input2) > eps:
-            print(colored(f"{self._common_message(message)} FAILED (arg1={input1} and arg2={input2} are not almost equal to {eps} difference)", "red"))
+            print(
+                colored(f"{self._common_message(message)} FAILED (arg1={input1} and arg2={input2} are not almost equal to {eps} difference)", "red")
+            )
         else:
             print(colored(f"{self._common_message(message)} passed", "green"))
         self._ran_a_test_common()
