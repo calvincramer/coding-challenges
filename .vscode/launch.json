@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args": "-r p1706"
+            "args": "-r p0892"
         }
     ]
 }
