@@ -20,7 +20,9 @@ def main():
     start = time.time()
 
     # Run problem by importing it
-    print(colored(f"{'#' * 20} PROBLEM {__modPathToProblemNum(problem_module)} {'#' * 20}", "yellow", attrs=["reverse"]))
+    print(
+        colored(f"{'#' * 20} PROBLEM {__modPathToProblemNum(problem_module)} {'#' * 20}", "yellow", attrs=["reverse"])
+    )
     try:
         importlib.import_module(problem_module)
     except ModuleNotFoundError:
@@ -43,50 +45,77 @@ class UTest:
     Small unit test class for each problem to run a few test cases. Not a replacement for unittest package.
     """
 
-    def __init__(self):
-        self.test_num = 0
+    TEST_NUM = 0
 
-    def _common_message(self, message) -> str:
+    @classmethod
+    def _common_message(cls, message) -> str:
         if message is not None:
-            return f"test{self.test_num} : {message} :"
+            return f"test{cls.TEST_NUM} : {message} :"
         else:
-            return f"test{self.test_num} :"
+            return f"test{cls.TEST_NUM} :"
 
-    def _ran_a_test_common(self):
-        self.test_num += 1
+    @classmethod
+    def _ran_a_test_common(cls):
+        UTest.TEST_NUM += 1
+
+    @classmethod
+    def exp_true(cls, inp, message=None):
+        """Assert input is True"""
+        if inp is not True:
+            print(colored(f"{cls._common_message(message)} FAILED (should have been true)", "red"))
+        else:
+            print(colored(f"{cls._common_message(message)} passed", "green"))
+        cls._ran_a_test_common()
+
+    @classmethod
+    def exp_false(cls, inp, message=None):
+        """Assert input is False"""
+        if inp is not False:
+            print(colored(f"{cls._common_message(message)} FAILED (should have been false)", "red"))
+        else:
+            print(colored(f"{cls._common_message(message)} passed", "green"))
+        cls._ran_a_test_common()
+
+    @classmethod
+    def exp_eq(cls, input1, input2, message=None):
+        """Assert inputs are equal"""
+        if input1 != input2:
+            print(
+                colored(f"{cls._common_message(message)} FAILED (arg1={input1} and arg2={input2} are not equal)", "red")
+            )
+        else:
+            print(colored(f"{cls._common_message(message)} passed", "green"))
+        cls._ran_a_test_common()
+
+    @classmethod
+    def exp_almost_eq(cls, input1: float, input2: float, message=None, eps=0.000001):
+        if abs(input1 - input2) > eps:
+            print(
+                colored(
+                    f"{cls._common_message(message)} FAILED (arg1={input1} and arg2={input2} are not almost equal to {eps} difference)",
+                    "red",
+                )
+            )
+        else:
+            print(colored(f"{cls._common_message(message)} passed", "green"))
+        cls._ran_a_test_common()
+
+    ### Instance methods for backwards compatibility
 
     def test_true(self, inp, message=None):
         """Assert input is True"""
-        if inp is not True:
-            print(colored(f"{self._common_message(message)} FAILED (should have been true)", "red"))
-        else:
-            print(colored(f"{self._common_message(message)} passed", "green"))
-        self._ran_a_test_common()
+        return self.exp_true(inp=inp, message=message)
 
     def test_false(self, inp, message=None):
         """Assert input is False"""
-        if inp is not False:
-            print(colored(f"{self._common_message(message)} FAILED (should have been false)", "red"))
-        else:
-            print(colored(f"{self._common_message(message)} passed", "green"))
-        self._ran_a_test_common()
+        return self.exp_false(inp=inp, message=message)
 
     def test_eq(self, input1, input2, message=None):
         """Assert inputs are equal"""
-        if input1 != input2:
-            print(colored(f"{self._common_message(message)} FAILED (arg1={input1} and arg2={input2} are not equal)", "red"))
-        else:
-            print(colored(f"{self._common_message(message)} passed", "green"))
-        self._ran_a_test_common()
+        return self.exp_eq(input1=input1, input2=input2, message=message)
 
     def test_almost_eq(self, input1: float, input2: float, message=None, eps=0.000001):
-        if abs(input1 - input2) > eps:
-            print(
-                colored(f"{self._common_message(message)} FAILED (arg1={input1} and arg2={input2} are not almost equal to {eps} difference)", "red")
-            )
-        else:
-            print(colored(f"{self._common_message(message)} passed", "green"))
-        self._ran_a_test_common()
+        return self.exp_almost_eq(input1=input1, input2=input2, message=message, eps=eps)
 
 
 class TreeNode:
