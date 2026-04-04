@@ -9,6 +9,17 @@ import sys
 from termcolor import colored
 
 
+def _try_run_module(moduleName: str) -> bool:
+    try:
+        start = time.time()
+        importlib.import_module(moduleName)
+        elapsed = datetime.timedelta(seconds=time.time() - start)
+        print("Elapsed: {}".format(elapsed))
+    except ModuleNotFoundError:
+        return False
+    return True
+
+
 def main():
     parser = ArgumentParser()
     parser.add_argument("-r", required=True, type=str, help="Python module in 'problems' to run", metavar="MODULE")
@@ -16,21 +27,19 @@ def main():
     problem_module = args.r
     problem_module = f"problems.{problem_module}"
 
-    # Run a specific problem
-    start = time.time()
-
     # Run problem by importing it
     print(
         colored(f"{'#' * 20} PROBLEM {__modPathToProblemNum(problem_module)} {'#' * 20}", "yellow", attrs=["reverse"])
     )
-    try:
-        importlib.import_module(problem_module)
-    except ModuleNotFoundError:
-        print(colored(f"No module named {problem_module}", "red"))
-        sys.exit(1)
 
-    elapsed = datetime.timedelta(seconds=time.time() - start)
-    print("Elapsed: {}".format(elapsed))
+    import_successfully = _try_run_module(problem_module)
+
+    # Try again with 'p' before module number
+    if import_successfully == False and len(args.r) > 0 and str(args.r)[0].isdigit():
+        problem_module_try = f"problems.p{args.r}"
+        if _try_run_module(problem_module_try) == False:
+            print(colored(f"No module named {problem_module} nor {problem_module_try}", "red"))
+            sys.exit(1)
 
 
 def __modPathToProblemNum(s: str) -> str:
