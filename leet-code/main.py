@@ -22,24 +22,37 @@ def _try_run_module(moduleName: str) -> bool:
 
 def main():
     parser = ArgumentParser()
-    parser.add_argument("-r", required=True, type=str, help="Python module in 'problems' to run", metavar="MODULE")
+    parser.add_argument("mod", nargs="?", help="Python module in 'problems' to run")
+    parser.add_argument(
+        "-m", required=False, dest="mod", type=str, help="Python module in 'problems' to run", metavar="MODULE"
+    )
     args = parser.parse_args()
-    problem_module = args.r
-    problem_module = f"problems.{problem_module}"
+    mod = str(args.mod)
 
-    # Run problem by importing it
+    # Be relaxed about picking module
+    modules_to_try = [mod]
+    # No 'p' before module number
+    if len(mod) > 0 and mod[0].isdigit():
+        modules_to_try.append(f"p{mod}")
+    # Left-pad zeros
+    if len(mod) < 4 and all(c.isdigit() for c in mod):
+        modules_to_try.append(f"p{mod.zfill(4)}")
+
+    modules_to_try = [f"problems.{m}" for m in modules_to_try]
+
     print(
-        colored(f"{'#' * 20} PROBLEM {__modPathToProblemNum(problem_module)} {'#' * 20}", "yellow", attrs=["reverse"])
+        colored(
+            f"{'#' * 20} PROBLEM {__modPathToProblemNum(modules_to_try[0])} {'#' * 20}", "yellow", attrs=["reverse"]
+        )
     )
 
-    import_successfully = _try_run_module(problem_module)
+    # Run problem by importing it
+    for m in modules_to_try:
+        if _try_run_module(m) == True:
+            return
 
-    # Try again with 'p' before module number
-    if import_successfully == False and len(args.r) > 0 and str(args.r)[0].isdigit():
-        problem_module_try = f"problems.p{args.r}"
-        if _try_run_module(problem_module_try) == False:
-            print(colored(f"No module named {problem_module} nor {problem_module_try}", "red"))
-            sys.exit(1)
+    print(colored(f"No module with names {', '.join(modules_to_try)}", "red"))
+    sys.exit(1)
 
 
 def __modPathToProblemNum(s: str) -> str:
