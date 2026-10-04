@@ -158,7 +158,7 @@ def unsigned_bin_str_to_dec(s_bin: str) -> int:
     """
     if s_bin == "" or s_bin is None:
         return 0
-    if set(s_bin).issubset({0, 1}):
+    if not set(s_bin).issubset({"0", "1"}):
         raise ValueError("input string contains something other than zeros and ones")
     s_bin = s_bin[::-1]  # Reverse string
     base = 1
@@ -179,8 +179,8 @@ def bin_search(arr: list, search_for: object, left: int, right: int) -> int:
     if mid_n == search_for:
         return mid
     elif mid_n > search_for:
-        return bin_search(search_for, left, mid - 1)
-    return bin_search(search_for, mid + 1, right)
+        return bin_search(arr, search_for, left, mid - 1)
+    return bin_search(arr, search_for, mid + 1, right)
 
 
 def tree_string_to_tree(string):
